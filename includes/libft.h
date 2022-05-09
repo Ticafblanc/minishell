@@ -20,6 +20,9 @@
 # include <stdarg.h>
 # include <stdio.h>
 
+	//exit>>
+void		ft_exit_strerror(int errnum, int e);
+void		ft_exit_perror(char *str, int e);
 	//put>>
 void		ft_putchar_fd(char c, int fd);
 int			ft_putchar(char c);
