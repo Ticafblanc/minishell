@@ -51,6 +51,7 @@ int			ft_isalnum(int c);
 int			ft_isascii(int c);
 int			ft_isprint(int c);
 int			ft_check_limit_int(long long stk);
+int			ft_check_extension(char *str, char *extension);
 
 	//change_value
 
