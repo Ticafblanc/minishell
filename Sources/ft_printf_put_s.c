@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include <libft.h>
 
 int	ft_putstr_wid_pre(char *s, struct s_flgs flags, int pre_si, int wid_si)
 {

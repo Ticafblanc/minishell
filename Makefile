@@ -40,7 +40,7 @@ OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 CC = gcc
 
-CC_FLAGS = -Wall -Wextra -Werror -I./includes
+CC_FLAGS = -Wall -Wextra -Werror -I./Includes
 
 CL = rm -rf
 

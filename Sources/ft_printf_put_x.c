@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include <libft.h>
 
 int	ft_puthex_prewid(unsigned int n, struct s_flgs flags, int cap)
 {

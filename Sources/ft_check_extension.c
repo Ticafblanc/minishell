@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <so_long.h>
+#include <libft.h>
 
-/* Check if the map has the right extension */
 int	ft_check_extension(char *str, char *extension)
 {
 	int	len_str;
@@ -27,7 +26,7 @@ int	ft_check_extension(char *str, char *extension)
 		if (extension[--len_ext] == str[--len_str])
 			i++;
 		else
-			return (0);
+			return (-1);
 	}
 	return (1);
 }

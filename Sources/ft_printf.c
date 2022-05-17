@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include <libft.h>
 
 void	flag(const char *str, int *i, struct s_flgs *flags, va_list args)
 {
