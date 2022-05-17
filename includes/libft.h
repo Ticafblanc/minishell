@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <stdarg.h>
 # include <stdio.h>
+# include <errno.h>
 
 	//exit>>
 void		ft_exit_strerror(int errnum, int e);
