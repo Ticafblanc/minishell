@@ -6,7 +6,7 @@
 /*   By: mdoquocb <mdoquocb@student.42quebec>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 05:53:42 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/03/22 09:28:11 by mdoquocb         ###   ########.fr       */
+/*   Updated: 2022/06/09 05:45:57 by mdoquocb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <errno.h>
 
 	//exit>>
-void		ft_exit_strerror(int errnum, int e);
-void		ft_exit_perror(char *str, int e);
+void		ft_exit_strerror(int errnum);
+void		ft_exit_perror(char *str);
 	//put>>
 void		ft_putchar_fd(char c, int fd);
 int			ft_putchar(char c);

@@ -6,14 +6,14 @@
 /*   By: mdoquocb <mdoquocb@student.42quebec>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 06:03:49 by mdoquocb          #+#    #+#             */
-/*   Updated: 2021/10/13 06:03:52 by mdoquocb         ###   ########.fr       */
+/*   Updated: 2022/06/09 05:45:27 by mdoquocb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void	ft_exit_perror(char *str, int e)
+void	ft_exit_perror(char *str)
 {
 	perror(str);
-	exit(e);
+	exit(EXIT_FAILURE);
 }
