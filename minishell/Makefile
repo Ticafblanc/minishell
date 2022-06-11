@@ -132,6 +132,12 @@ test3:
 test4: 
 		@
 
+pull_submodule:
+		@cd ../; git submodule update --init --recursive
+
+pull_update_submodule:
+		@cd ../; git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive
+
 push:
 		@cd ../; git add .
 		@read -p "name of commit: " INP \
