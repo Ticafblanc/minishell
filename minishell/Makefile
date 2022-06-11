@@ -138,6 +138,18 @@ push:
 		&& cd ../; git commit -m "$${INP}"
 		@cd ../; git push
 
+push_mat:
+		@cd Matthis/; git add .
+		@read -p "name of commit: " INP \
+		&& cd Matthis/; git commit -m "$${INP}"
+		@cd Matthis/; git push
+
+push_sih:
+		@cd Siham/; git add .
+		@read -p "name of commit: " INP \
+		&& cd Siham/; git commit -m "$${INP}"
+		@cd Siham/; git push
+
 clean: 
 		@$(CL) $(OBJ)
 		@$(MAKE) clean -C ../libft
