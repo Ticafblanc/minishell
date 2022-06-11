@@ -181,7 +181,7 @@ update_submodule:
 		@cd ../libft; git fetch
 
 push_upgrade_submodule:
-		@git submodule update --remote --merge
+		@cd ../; git submodule update --remote --merge
 
 remove_submodule:
 		@cd ../; git submodule deinit libft
