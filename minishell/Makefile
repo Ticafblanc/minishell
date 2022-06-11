@@ -153,12 +153,20 @@ push:
 		&& cd ../; git commit -m "$${INP}"
 		@cd ../; git push
 
-add_remote:
-		@cd ../; git remote add Matthis https://github.com/Ticafblanc/minishell.git
+add_remote_42:
+		@cd ../; git git@vogsphere.42quebec.com:vogsphere/intra-uuid-ce31cfe3-ce34-4011-892f-c1e9fb9c73c1-4171290-mdoquocb
 
-remove_remote:
+add_remote_matthis:
+		@cd ../; git remote add Matthis git@github.com:Ticafblanc/minishell.git
+
+add_remote_Siham:
+		@cd ../; git remote add Siham ????
+
+remove_remote_Matthis:
 		@git remote rm Mastthis
 
+remove_remote_Siham:
+		@git remote rm Siham
 		
 add_submodule:
 		@cd  ../; git submodule add git@github.com:Ticafblanc/libft.git
