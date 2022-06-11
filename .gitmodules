@@ -1,9 +1,3 @@
 [submodule "libft"]
 	path = libft
 	url = https://github.com/Ticafblanc/libft.git
-[submodule "minishell/Matthis"]
-	path = minishell/Matthis
-	url = https://github.com/Ticafblanc/minishell.git
-[submodule "minishell/Siham"]
-	path = minishell/Siham
-	url = git@github.com:Ticafblanc/minishell.git

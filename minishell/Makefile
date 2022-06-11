@@ -108,6 +108,8 @@ directory:
 		@mkdir -p $(BIN_PATH) > /dev/null 2>&1 || true
 		@echo $(BLUE) Binary $(PROJECT) directory created !!
 
+	#  NORMINETTE  #
+
 norm:
 		@printf "\n${GRN}****************${YEL} NORMINETTE ${GRN}****************${ENDCOL}\n"
 		@printf "\n${GRN}lib$(LIB_NAME):${BLU}\n\n"
@@ -117,6 +119,8 @@ norm:
 		@norminette $(INC_PATH)
 		@norminette $(SRC_PATH)
 		@printf "${NOCOL}"
+
+	#  TESTER  #
 
 all_test: test1 test2 test3 test4
 		
@@ -132,11 +136,16 @@ test3:
 test4: 
 		@
 
-pull_submodule:
-		@cd ../; git submodule update --init --recursive
+	#  GIT  #
 
-pull_update_submodule:
-		@cd ../; git pull "$@" && git submodule sync --recursive && git submodule update --init --recursive
+clone_repo:
+		@git clone --recurse-submodules git@github.com:Ticafblanc/minishell.git
+
+update_repo:
+		@cd ../; git fetch
+
+pull_repo:
+		@cd../; git pull
 
 push:
 		@cd ../; git add .
@@ -144,17 +153,28 @@ push:
 		&& cd ../; git commit -m "$${INP}"
 		@cd ../; git push
 
-push_mat:
-		@cd Matthis/; git add .
-		@read -p "name of commit: " INP \
-		&& cd Matthis/; git commit -m "$${INP}"
-		@cd Matthis/; git push
+add_remote:
+		@cd ../; git remote add Matthis https://github.com/Ticafblanc/minishell.git
 
-push_sih:
-		@cd Siham/; git add .
-		@read -p "name of commit: " INP \
-		&& cd Siham/; git commit -m "$${INP}"
-		@cd Siham/; git push
+remove_remote:
+		@git remote rm Mastthis
+
+		
+add_submodule:
+		@cd  ../; git submodule add git@github.com:Ticafblanc/libft.git
+
+pull_submodule:
+		@cd ../; git submodule update --init --recursive
+
+update_submodule:
+		@cd ../libft; git fetch
+
+push_upgrade_submodule:
+		@git submodule update --remote --merge
+
+remove_submodule:
+		@cd ../; git submodule deinit libft
+		@cd ../; git rm libft
 
 clean: 
 		@$(CL) $(OBJ)
