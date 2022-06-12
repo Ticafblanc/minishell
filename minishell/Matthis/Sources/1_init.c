@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   0_init.c                                           :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <minishell.h>
 
-int	main(int argc, char **argv, char **envp)
+int	init_global(t_global **global, char **argv)
 {
-	t_global	*global;
-	int			flag;
-
-	flag = 0;
-	flag = init_global(&global, argv);
-	if (flag)
-		return (free_and_exit(global, flag));
-	flag =start(global);
-	return (free_and_exit(global, flag));
+	(*global) = (t_global *)malloc(sizeof(t_global));
+	if (!(*global))
+		return (1);
+	
+	if (pthread_mutex_init(&((*global)->print), NULL))
+			return (5);
+	return (init_philo(global));
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   0_start.c                                           :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <minishell.h>
 
-int	main(int argc, char **argv, char **envp)
+void    start(t_global *global)
 {
-	t_global	*global;
-	int			flag;
+    t_philo         **philo;
+    int id;
 
-	flag = 0;
-	flag = init_global(&global, argv);
-	if (flag)
-		return (free_and_exit(global, flag));
-	flag =start(global);
-	return (free_and_exit(global, flag));
+    philo = global->philo;
+    id = 0;
+    global->statut = ALIVE;
+    while (id < global->number_of_philosophers)
+    {
+        pthread_create(&(philo[id]->thread_id), NULL, loop_philo, philo[id]);
+        pthread_detach(global->philo[id]->thread_id);
+        id++;
+    }
+    return ;
 }
+
+
