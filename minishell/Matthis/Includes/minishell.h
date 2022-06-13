@@ -14,9 +14,9 @@
 # define MINISHELL_H
 
 # include <libft.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 	/*define ON/OFF*/
 # define	OFF		0

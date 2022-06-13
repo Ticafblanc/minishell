@@ -14,20 +14,17 @@
 
 int    start_minishell(t_global *global)
 {
-    int             i;
-
-    i = 0;
     while (global->statut == ON)
     {
-        global->command = readline("Mnishell");
-        if (strnstr(global->command, "coucou", 6)
-        {
-            while (global->command[i])
-            {
-                ft_putstr(global->command[i]);
-                i++;
-            }
-        }
+        global->command = readline("Minishell % ");
+        if (global->command && *global->command)
+            add_history(global->command);
+        if (strnstr(global->command, "clear", 6))//a ajouter a parsing
+            rl_clear_history(); 
+        ft_putstr(global->command); //test a suprimer
+        write (1, "\n", 1); // test a supprimer
+        if (strnstr(global->command, "exit", 6))//a ajouter a parsing
+            global->statut = OFF;// a ajouter au parsing
     }
     return (0) ;
 }

@@ -12,7 +12,7 @@
 
 PROJECT = minishell
 
-	#  BINARY  #
+#  BINARY  #
 
 BIN_PATH = Bin/
 
@@ -20,7 +20,7 @@ BIN_NAME = $(PROJECT)
 
 BIN = $(addprefix $(BIN_PATH),$(BIN_NAME))
 
-	#  INCLUDES  #
+#  INCLUDES  #
 
 INC_PATH_MAT = ./Matthis/Includes
 
@@ -28,7 +28,7 @@ INC_PATH_SIH = ./Siham/Includes
 
 INC_FLAGS += -I $(INC_PATH_MAT) -I $(INC_PATH_SIH)
 
-	#  LIB => libft  #
+#  LIB => libft  #
 
 LIB_NAME = ft
 
@@ -44,7 +44,7 @@ INC_FLAGS += -I $(LIB_PATH)$(LIB_INC_PATH)
 
 LIB_FLAGS = -L $(LIB_PATH)$(LIB_BIN_PATH) -l $(LIB_NAME)
 
-	#  SOURCES  #
+#  SOURCES  #
 
 SRC_PATH_MAT = Matthis/Sources/
 
@@ -56,16 +56,16 @@ SRC_NAME_SIH = $(notdir $(wildcard Siham/Sources/*.c))
 
 SRC = $(addprefix $(SRC_PATH_MAT),$(SRC_NAME_MAT)) $(addprefix $(SRC_PATH_SIH),$(SRC_NAME_SIH))
 
-	#  FLAGS  #
+#  FLAGS  #
 
 CC = gcc
 
-CC_FLAGS = -g -Wall -Wextra -Werror 
+CC_FLAGS =  -Wall -Wextra -Werror -lreadline 
 
 CL = rm -rf
 
 
-	#  COLORS STR #
+#  COLORS STR #
 
 GREEN = "\x1b[32m""\x1b[M"
 
@@ -73,7 +73,7 @@ RED= "\x1b[31m""\x1b[M"
 
 BLUE = "\x1b[34m""\x1b[M"
 
-	#  COLORS  #
+#  COLORS  #
 
 ENDCOL = \033[0m
 
@@ -89,10 +89,11 @@ DGRAY = \033[1;30m
 
 BLU = \033[1;34m
 
-	#  COMPILATION  #
+#  COMPILATION  #
 
 all: $(BIN) 
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
+		
 
 $(BIN): libft title directory 
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) $(LIB_FLAGS) -o $(BIN) $(SRC)
@@ -108,7 +109,13 @@ directory:
 		@mkdir -p $(BIN_PATH) > /dev/null 2>&1 || true
 		@echo $(BLUE) Binary $(PROJECT) directory created !!
 
-	#  NORMINETTE  #
+#   LAUNCH	#
+
+run:
+		@./Bin/minishell
+
+
+#  NORMINETTE  #
 
 norm:
 		@printf "\n${GRN}****************${YEL} NORMINETTE ${GRN}****************${ENDCOL}\n"
@@ -120,7 +127,7 @@ norm:
 		@norminette $(SRC_PATH)
 		@printf "${NOCOL}"
 
-	#  TESTER  #
+#  TESTER  #
 
 all_test: test1 test2 test3 test4
 		
@@ -136,7 +143,7 @@ test3:
 test4: 
 		@
 
-	#  GIT  #
+#  GIT  #
 
 clone_repo:
 		@git clone --recurse-submodules git@github.com:Ticafblanc/minishell.git
