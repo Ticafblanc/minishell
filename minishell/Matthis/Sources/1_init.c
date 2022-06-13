@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   0_init.c                                           :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,13 @@
 
 #include <minishell.h>
 
-int	main(void)
+int	init_global(t_global **global, char **environ)
 {
-	extern char	**environ;
-	t_global	*global;
-	int			flag;
-
-	flag = 0;
-	flag = init_global(&global, environ);
-	if (flag)
-		return (0);
-	flag = start_minishell(global);
+	(*global) = (t_global *)malloc(sizeof(t_global));
+	if (!(*global))
+		return (1);
+	(*global)->statut = ON;
+	(*global)->envp	= environ;
+	(*global)->command = NULL;
 	return (0);
 }

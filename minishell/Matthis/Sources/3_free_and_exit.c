@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   0_free_and_exit.c                                  :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,3 @@
 
 #include <minishell.h>
 
-int	main(void)
-{
-	extern char	**environ;
-	t_global	*global;
-	int			flag;
-
-	flag = 0;
-	flag = init_global(&global, environ);
-	if (flag)
-		return (0);
-	flag = start_minishell(global);
-	return (0);
-}

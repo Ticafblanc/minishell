@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   0_start.c                                           :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,24 @@
 
 #include <minishell.h>
 
-int	main(void)
+int    start_minishell(t_global *global)
 {
-	extern char	**environ;
-	t_global	*global;
-	int			flag;
+    int             i;
 
-	flag = 0;
-	flag = init_global(&global, environ);
-	if (flag)
-		return (0);
-	flag = start_minishell(global);
-	return (0);
+    i = 0;
+    while (global->statut == ON)
+    {
+        global->command = readline("Mnishell");
+        if (strnstr(global->command, "coucou", 6)
+        {
+            while (global->command[i])
+            {
+                ft_putstr(global->command[i]);
+                i++;
+            }
+        }
+    }
+    return (0) ;
 }
+
+
