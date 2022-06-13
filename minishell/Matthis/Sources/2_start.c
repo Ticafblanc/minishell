@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_start.c                                           :+:      :+:    :+:   */
+/*   2_start.c                                          :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/11 18:30:06 by mdoquocb         ###   ########.ca       */
+/*   Updated: 2022/06/13 14:57:42 by jrossign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ int    start_minishell(t_global *global)
         write (1, "\n", 1); // test a supprimer
         if (strnstr(global->command, "exit", 6))//a ajouter a parsing
             global->statut = OFF;// a ajouter au parsing
+<<<<<<< HEAD
                                 ///coucouc
+=======
+								 // what up nerd
+>>>>>>> 6821196397b0dc1544f231e84156ab9a87dc5477
     }
     return (0) ;
 }
