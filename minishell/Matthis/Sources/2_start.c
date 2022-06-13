@@ -25,6 +25,7 @@ int    start_minishell(t_global *global)
         write (1, "\n", 1); // test a supprimer
         if (strnstr(global->command, "exit", 6))//a ajouter a parsing
             global->statut = OFF;// a ajouter au parsing
+                                ///coucouc
     }
     return (0) ;
 }
