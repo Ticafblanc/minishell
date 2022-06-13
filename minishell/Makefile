@@ -157,7 +157,7 @@ add_remote_42:
 		@cd ../; git remote add 42 git@vogsphere.42quebec.com:vogsphere/intra-uuid-ce31cfe3-ce34-4011-892f-c1e9fb9c73c1-4171290-mdoquocb
 
 add_remote_matthis:
-		@cd ../; git remote add Matthis git@github.com:Ticafblanc/minishell.git
+		@cd ../; git remote add Matthis https://github.com/Ticafblanc/minishell.git
 
 add_remote_Siham:
 		@cd ../; git remote add Siham ????
