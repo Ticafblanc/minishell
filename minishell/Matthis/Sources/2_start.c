@@ -20,7 +20,7 @@ int    start_minishell(t_global *global)
     while (global->statut == ON)
     {
         global->command = readline("Mnishell");
-        if (strnstr(global->command, "coucou", 6)
+        if (strnstr(global->command, "cou", 6)
         {
             while (global->command[i])
             {
