@@ -14,38 +14,29 @@
 # define MINISHELL_H
 
 # include <libft.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 	/*define ON/OFF*/
-# define	ON		0
-# define	OFF		1
-
-	/*define satut*/
-# define	ALIVE		0
-# define	THINK		1
-# define	OWN_FORK	2
-# define	RIGHT_FORK	3
-# define	EAT			4
-# define	SLEEP		5
-# define	DEAD		6
-# define	DONE		7
-
-# define	ON		0
-# define	OFF		1
-
+# define	OFF		0
+# define	ON		1
 
 typedef struct s_global
 {
 	int				statut;
+	char			**envp;
+	char			*command;
 
 }				t_global;
 
 
 
 	//1_init.c
-
+int	init_global(t_global **global, char **environ);
 
 	//2_start.c
-
+int    start_minishell(t_global *global);
 	//3_free_and_exit.c
 
 

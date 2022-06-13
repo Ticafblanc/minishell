@@ -12,21 +12,24 @@
 
 #include <minishell.h>
 
-void    start(t_global *global)
+int    start_minishell(t_global *global)
 {
-    t_philo         **philo;
-    int id;
+    int             i;
 
-    philo = global->philo;
-    id = 0;
-    global->statut = ALIVE;
-    while (id < global->number_of_philosophers)
+    i = 0;
+    while (global->statut == ON)
     {
-        pthread_create(&(philo[id]->thread_id), NULL, loop_philo, philo[id]);
-        pthread_detach(global->philo[id]->thread_id);
-        id++;
+        global->command = readline("Mnishell");
+        if (strnstr(global->command, "coucou", 6)
+        {
+            while (global->command[i])
+            {
+                ft_putstr(global->command[i]);
+                i++;
+            }
+        }
     }
-    return ;
+    return (0) ;
 }
 
 

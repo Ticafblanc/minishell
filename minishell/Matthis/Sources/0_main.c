@@ -10,17 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <minishell.h>
 
-int	main(int argc, char **argv, char **envp)
+int	main(void)
 {
+	extern char	**environ;
 	t_global	*global;
 	int			flag;
 
 	flag = 0;
-	flag = init_global(&global, argv);
+	flag = init_global(&global, environ);
 	if (flag)
-		return (free_and_exit(global, flag));
-	flag =start(global);
-	return (free_and_exit(global, flag));
+		return (0);
+	flag = start_minishell(global);
+	return (0);
 }

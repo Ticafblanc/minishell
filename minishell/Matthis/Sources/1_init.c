@@ -12,13 +12,13 @@
 
 #include <minishell.h>
 
-int	init_global(t_global **global, char **argv)
+int	init_global(t_global **global, char **environ)
 {
 	(*global) = (t_global *)malloc(sizeof(t_global));
 	if (!(*global))
 		return (1);
-	
-	if (pthread_mutex_init(&((*global)->print), NULL))
-			return (5);
-	return (init_philo(global));
+	(*global)->statut = ON;
+	(*global)->envp	= environ;
+	(*global)->command = NULL;
+	return (0);
 }
