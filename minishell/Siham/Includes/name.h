@@ -10,35 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include <libft.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-	/*define ON/OFF*/
-# define	OFF		0
-# define	ON		1
-
-typedef struct s_global
-{
-	int				statut;
-	char			**envp;
-	char			*command;
-
-}				t_global;
-
-
-
-	//1_init.c
-int	init_global(t_global **global, char **environ);
-
-	//2_start.c
-int    start_minishell(t_global *global);
-	//3_free_and_exit.c
-
+#ifndef 
+# define 
 
 	
 

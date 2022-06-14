@@ -12,16 +12,3 @@
 
 #include <minishell.h>
 
-int	main(void)
-{
-	extern char	**environ;
-	t_global	*global;
-	int			flag;
-
-	flag = 0;
-	flag = init_global(&global, environ);
-	if (flag)
-		return (0);
-	flag = start_minishell(global);
-	return (0);
-}
