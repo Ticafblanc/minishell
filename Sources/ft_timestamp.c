@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_pp.c                                       :+:      :+:    :+:   */
+/*   ft_timestamp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/14 13:14:14 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/03/03 10:18:30 by mdoquocb         ###   ########.fr       */
+/*   Created: 2022/05/01 12:20:06 by mdoquocb          #+#    #+#             */
+/*   Updated: 2022/05/07 14:15:32 by mdoquocb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void	ft_free_pp(void **argv)
+long long	timestamp(void)
 {
-	int	i;
+	struct timeval	t;
 
-	i = 0;
-	while (argv[i])
-	{
-		free(argv[i]);
-		i++;
-	}
-	free(argv);
-	return ;
+	gettimeofday(&t, NULL);
+	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 }

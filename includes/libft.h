@@ -6,7 +6,7 @@
 /*   By: mdoquocb <mdoquocb@student.42quebec>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 05:53:42 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/09 05:45:57 by mdoquocb         ###   ########.fr       */
+/*   Updated: 2022/06/11 11:39:50 by mdoquocb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdarg.h>
 # include <stdio.h>
 # include <errno.h>
+# include <sys/time.h>
 
 	//exit>>
 void		ft_exit_strerror(int errnum);
@@ -53,6 +54,7 @@ int			ft_isascii(int c);
 int			ft_isprint(int c);
 int			ft_check_limit_int(long long stk);
 int			ft_check_extension(char *str, char *extension);
+long long	timestamp(void);
 
 	//change_value
 
@@ -72,7 +74,7 @@ char		*ft_strtrim(char const *s1, char const *set);
 char		**ft_split(char const *s, char c);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char		*ft_itoa(int n);
-void		ft_free_pp(char **argv);
+void		ft_free_pp(void **argv);
 
 	//str>>
 
