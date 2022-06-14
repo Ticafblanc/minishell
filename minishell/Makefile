@@ -113,19 +113,20 @@ all: $(BIN)
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
 		
 
-$(BIN): title libft directory 
+$(BIN): title libft readline directory 
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) $(LIB_FLAGS) -o $(BIN) $(SRC)
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
 title: 
 		@echo $(GREEN)******************$(PROJECT)******************
+		@printf "\n${BLU} ==>Compilation in progress please wait ==>${ENDCOL}\n\n"
 
 libft: 
-		@$(MAKE) -C ../libft
+		@$(MAKE) -C ../libft > /dev/null 2>&1 || true
 
 readline:
-		@cd ../readline; ./configure 
-		@$(MAKE) -C ../readline 
+		@cd ../readline; ./configure > /dev/null 2>&1 || true
+		@$(MAKE) -C ../readline > /dev/null 2>&1 || true
 
 directory: 	
 		@mkdir -p $(BIN_PATH) > /dev/null 2>&1 || true
