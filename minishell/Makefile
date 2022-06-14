@@ -12,7 +12,7 @@
 
 PROJECT = minishell
 
-	#  BINARY  #
+#  BINARY  #
 
 BIN_PATH = Bin/
 
@@ -20,15 +20,15 @@ BIN_NAME = $(PROJECT)
 
 BIN = $(addprefix $(BIN_PATH),$(BIN_NAME))
 
-	#  INCLUDES  #
+#  INCLUDES  #
 
 INC_PATH_MAT = ./Matthis/Includes
 
 INC_PATH_SIH = ./Siham/Includes
 
-INC_FLAGS += -I $(INC_PATH_MAT) -I $(INC_PATH_SIH)
+INC_FLAGS = -I $(INC_PATH_MAT) -I $(INC_PATH_SIH)
 
-	#  LIB => libft  #
+#  LIB => libft  #
 
 LIB_NAME = ft
 
@@ -44,7 +44,23 @@ INC_FLAGS += -I $(LIB_PATH)$(LIB_INC_PATH)
 
 LIB_FLAGS = -L $(LIB_PATH)$(LIB_BIN_PATH) -l $(LIB_NAME)
 
-	#  SOURCES  #
+#  LIB => readline  #
+
+LIB_NAME_1 = readline
+
+LIB_NAME_2 = history
+
+LIB_PATH_1 = ../readline
+
+LIB_1 = $(addprefix $(LIB_PATH_1),$(LIB_NAME_1))
+
+LIB_2 = $(addprefix $(LIB_PATH_1),$(LIB_NAME_2))
+
+INC_FLAGS += -I $(LIB_PATH_1)
+
+LIB_FLAGS += -DREADLINE_LIBRARY -L $(LIB_PATH_1) -l $(LIB_NAME_1) -l $(LIB_NAME_2) -l curses
+
+#  SOURCES  #
 
 SRC_PATH_MAT = Matthis/Sources/
 
@@ -56,16 +72,18 @@ SRC_NAME_SIH = $(notdir $(wildcard Siham/Sources/*.c))
 
 SRC = $(addprefix $(SRC_PATH_MAT),$(SRC_NAME_MAT)) $(addprefix $(SRC_PATH_SIH),$(SRC_NAME_SIH))
 
-	#  FLAGS  #
+#  FLAGS  #
 
 CC = gcc
 
-CC_FLAGS = -g -Wall -Wextra -Werror 
-
+CC_FLAGS =  -Wall -Wextra -Werror
 CL = rm -rf
 
+LEAK = leaks -atExit --
 
-	#  COLORS STR #
+LEAKS = valgrind --leak-check=full --track-fds=yes --trace-children=yes -s -q
+
+#  COLORS STR #
 
 GREEN = "\x1b[32m""\x1b[M"
 
@@ -73,7 +91,7 @@ RED= "\x1b[31m""\x1b[M"
 
 BLUE = "\x1b[34m""\x1b[M"
 
-	#  COLORS  #
+#  COLORS  #
 
 ENDCOL = \033[0m
 
@@ -89,26 +107,38 @@ DGRAY = \033[1;30m
 
 BLU = \033[1;34m
 
-	#  COMPILATION  #
+#  COMPILATION  #
 
 all: $(BIN) 
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
+		
 
-$(BIN): libft title directory 
+$(BIN): title libft  directory 
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) $(LIB_FLAGS) -o $(BIN) $(SRC)
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
 title: 
 		@echo $(GREEN)******************$(PROJECT)******************
+		@printf "\n${BLU} ==>Compilation in progress please wait ==>${ENDCOL}\n\n"
 
 libft: 
-		@$(MAKE) -C ../libft
+		@$(MAKE) -C ../libft > /dev/null 2>&1 || true
+
+readline:
+		@cd ../readline; ./configure > /dev/null 2>&1 || true
+		@$(MAKE) -C ../readline > /dev/null 2>&1 || true
 
 directory: 	
 		@mkdir -p $(BIN_PATH) > /dev/null 2>&1 || true
 		@echo $(BLUE) Binary $(PROJECT) directory created !!
 
-	#  NORMINETTE  #
+#   LAUNCH	#
+
+run:
+		@./Bin/minishell
+
+
+#  NORMINETTE  #
 
 norm:
 		@printf "\n${GRN}****************${YEL} NORMINETTE ${GRN}****************${ENDCOL}\n"
@@ -120,7 +150,7 @@ norm:
 		@norminette $(SRC_PATH)
 		@printf "${NOCOL}"
 
-	#  TESTER  #
+#  TESTER  #
 
 all_test: test1 test2 test3 test4
 		
@@ -136,7 +166,7 @@ test3:
 test4: 
 		@
 
-	#  GIT  #
+#  GIT  #
 
 clone_repo:
 		@git clone --recurse-submodules git@github.com:Ticafblanc/minishell.git
@@ -145,7 +175,7 @@ update_repo:
 		@cd ../; git fetch
 
 pull_repo:
-		@cd../; git pull
+		@cd ../; git pull
 
 push:
 		@cd ../; git add .
@@ -160,7 +190,7 @@ add_remote_matthis:
 		@cd ../; git remote add Matthis https://github.com/Ticafblanc/minishell.git
 
 add_remote_Siham:
-		@cd ../; git remote add Siham ????
+		@cd ../; git remote add Siham https://github.com/Siham42/Minishell.git
 
 remove_remote_42:
 		@git remote rm 42
@@ -189,17 +219,17 @@ remove_submodule:
 
 clean: 
 		@$(CL) $(OBJ)
-		@$(MAKE) clean -C ../libft
 		@echo $(RED) Object $(notdir $(OBJ)) is delete !
 
 fclean: clean 
 		@$(CL) $(BIN)
-		@$(MAKE) fclean -C ../libft
 		@echo $(RED) Binary $(notdir $(BIN)) is delete !
 
 finish: 
 		@$(CL) $(BIN_PATH)
-		@$(MAKE) finish -C ../libft
+		@$(MAKE) finish -C ../libft > /dev/null 2>&1 || true
+		@$(MAKE) clean -C ../readline > /dev/null 2>&1 || true
+		@$(MAKE) distclean -C ../readline > /dev/null 2>&1 || true
 		@echo $(RED) All $(PROJECT) is delete !
 
 re:	fclean all
