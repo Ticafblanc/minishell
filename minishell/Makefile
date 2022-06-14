@@ -26,7 +26,7 @@ INC_PATH_MAT = ./Matthis/Includes
 
 INC_PATH_SIH = ./Siham/Includes
 
-INC_FLAGS += -I $(INC_PATH_MAT) -I $(INC_PATH_SIH)
+INC_FLAGS = -I $(INC_PATH_MAT) -I $(INC_PATH_SIH)
 
 #  LIB => libft  #
 
@@ -44,6 +44,22 @@ INC_FLAGS += -I $(LIB_PATH)$(LIB_INC_PATH)
 
 LIB_FLAGS = -L $(LIB_PATH)$(LIB_BIN_PATH) -l $(LIB_NAME)
 
+#  LIB => readline  #
+
+LIB_NAME_1 = readline
+
+LIB_NAME_2 = history
+
+LIB_PATH_1 = ../readline
+
+LIB_1 = $(addprefix $(LIB_PATH_1),$(LIB_NAME_1))
+
+LIB_2 = $(addprefix $(LIB_PATH_1),$(LIB_NAME_2))
+
+INC_FLAGS += -I $(LIB_PATH_1)
+
+LIB_FLAGS += -DREADLINE_LIBRARY -L $(LIB_PATH_1) -l $(LIB_NAME_1) -l $(LIB_NAME_2) -l curses
+
 #  SOURCES  #
 
 SRC_PATH_MAT = Matthis/Sources/
@@ -60,10 +76,12 @@ SRC = $(addprefix $(SRC_PATH_MAT),$(SRC_NAME_MAT)) $(addprefix $(SRC_PATH_SIH),$
 
 CC = gcc
 
-CC_FLAGS =  -Wall -Wextra -Werror -lreadline 
-
+CC_FLAGS =  -Wall -Wextra -Werror
 CL = rm -rf
 
+LEAK = leaks -atExit --
+
+LEAKS = valgrind --leak-check=full --track-fds=yes --trace-children=yes -s -q
 
 #  COLORS STR #
 
@@ -95,7 +113,7 @@ all: $(BIN)
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
 		
 
-$(BIN): libft title directory 
+$(BIN): title libft directory 
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) $(LIB_FLAGS) -o $(BIN) $(SRC)
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
@@ -104,6 +122,10 @@ title:
 
 libft: 
 		@$(MAKE) -C ../libft
+
+readline:
+		@cd ../readline; ./configure 
+		@$(MAKE) -C ../readline 
 
 directory: 	
 		@mkdir -p $(BIN_PATH) > /dev/null 2>&1 || true
@@ -152,7 +174,7 @@ update_repo:
 		@cd ../; git fetch
 
 pull_repo:
-		@cd../; git pull
+		@cd ../; git pull
 
 push:
 		@cd ../; git add .
@@ -196,17 +218,17 @@ remove_submodule:
 
 clean: 
 		@$(CL) $(OBJ)
-		@$(MAKE) clean -C ../libft
 		@echo $(RED) Object $(notdir $(OBJ)) is delete !
 
 fclean: clean 
 		@$(CL) $(BIN)
-		@$(MAKE) fclean -C ../libft
 		@echo $(RED) Binary $(notdir $(BIN)) is delete !
 
 finish: 
 		@$(CL) $(BIN_PATH)
-		@$(MAKE) finish -C ../libft
+		@$(MAKE) finish -C ../libft > /dev/null 2>&1 || true
+		@$(MAKE) clean -C ../readline > /dev/null 2>&1 || true
+		@$(MAKE) distclean -C ../readline > /dev/null 2>&1 || true
 		@echo $(RED) All $(PROJECT) is delete !
 
 re:	fclean all
