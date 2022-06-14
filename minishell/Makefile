@@ -167,7 +167,7 @@ add_remote_matthis:
 		@cd ../; git remote add Matthis https://github.com/Ticafblanc/minishell.git
 
 add_remote_Siham:
-		@cd ../; git remote add Siham ????
+		@cd ../; git remote add Siham https://github.com/Siham42/Minishell.git
 
 remove_remote_42:
 		@git remote rm 42
