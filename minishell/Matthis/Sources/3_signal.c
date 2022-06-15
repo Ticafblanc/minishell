@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2_start.c                                          :+:      :+:    :+:   */
+/*   3_signal.c                                         :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,31 +12,10 @@
 
 #include <minishell.h>
 
-//signal(SIGQUIT, SIG_IGN);
-int    start_minishell(t_global *global)
+void	monitor_sigint(int signum)
 {
-    pid_t     i;
-
-    i = 0;
-    signal(SIGINT, monitor_sigint);
-    while (global->statut == ON)
-    {
-        signal(SIGINT, monitor_sigint);
-        signal(SIGQUIT, SIG_IGN);
-        global->command = readline("Minishell % ");
-        if (strnstr(global->command, "test", 4))
-        {
-            i = fork();
-            if (i ==0)
-            {
-                while (1)
-                    printf("coucou");
-            }
-        }
-        if (ft_strnstr(global->command, "exit", 6))
-            global->statut = OFF;
-    }
-    return (0) ;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+    signum = 0;
 }
-
-

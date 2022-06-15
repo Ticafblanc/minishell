@@ -17,6 +17,11 @@
 # include <libft.h>
 # include "../readline/readline.h"
 # include "../readline/history.h"
+# include <sys/ioctl.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <dirent.h>
+# include <fcntl.h>
 
 
 
@@ -35,11 +40,15 @@ typedef struct s_global
 
 
 	//1_init.c
-int	init_global(t_global **global, char **environ);
+int		init_global(t_global **global, char **environ);
 
 	//2_start.c
 int    start_minishell(t_global *global);
-	//3_free_and_exit.c
+
+	//3_signal.c
+void	monitor_sigint(int signum);
+	//_free_and_exit.c
+
 
 
 	
