@@ -14,14 +14,9 @@
 
 int	main(void)
 {
-	extern char	**environ;
-	t_global	*global;
-	int			flag;
+	t_global	global;
 
-	flag = 0;
-	flag = init_global(&global, environ);
-	if (flag)
-		return (0);
-	flag = start_minishell(global);
-	return (0);
+	init_global(&global);
+	start_minishell(&global);
+	return (free_and_exit(EXIT_SUCCESS, &global));
 }

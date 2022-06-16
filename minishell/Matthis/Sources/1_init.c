@@ -12,13 +12,13 @@
 
 #include <minishell.h>
 
-int	init_global(t_global **global, char **environ)
+int	init_global(t_global *global, char **environ)
 {
-	(*global) = (t_global *)malloc(sizeof(t_global));
-	if (!(*global))
-		return (1);
+	extern char	**environ;
+
 	(*global)->statut = ON;
 	(*global)->envp	= environ;
 	(*global)->command = NULL;
+	
 	return (0);
 }

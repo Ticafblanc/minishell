@@ -23,11 +23,15 @@
 # include <dirent.h>
 # include <fcntl.h>
 
+# define 	READ_END 	0
+# define 	WRITE_END 	1
 
-
-	/*define ON/OFF*/
-# define	OFF		0
-# define	ON		1
+enum	e_statut
+{
+	 ON = 2,
+	 ERR = 3,
+	
+};
 
 typedef struct s_global
 {
@@ -40,7 +44,7 @@ typedef struct s_global
 
 
 	//1_init.c
-int		init_global(t_global **global, char **environ);
+int		init_global(t_global **global);
 
 	//2_start.c
 int    start_minishell(t_global *global);

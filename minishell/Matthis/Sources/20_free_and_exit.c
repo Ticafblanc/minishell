@@ -12,3 +12,9 @@
 
 #include <minishell.h>
 
+int free_and_exit(int statut, t_global *global)
+{
+
+    return (EXIT_SUCCESS);
+}
+
