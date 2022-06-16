@@ -52,6 +52,7 @@ int    start_minishell(t_global *global);
 	//3_signal.c
 void	monitor_sigint(int signum);
 	//_free_and_exit.c
+int free_and_exit(int statut, t_global *global)
 
 
 

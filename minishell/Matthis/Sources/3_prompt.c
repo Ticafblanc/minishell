@@ -13,26 +13,16 @@
 #include <minishell.h>
 
 //signal(SIGQUIT, SIG_IGN);
-int    start_minishell(t_global *global)
+void    prompt_minishell(t_global *global)
 {
     pid_t     i;
 
     i = 0;
-    signal(SIGINT, monitor_sigint);
+    signal(SIGABRT, monitor_sigint);
+    signal(SIGQUIT, SIG_IGN);
     while (global->statut == ON)
     {
-        signal(SIGINT, monitor_sigint);
-        signal(SIGQUIT, SIG_IGN);
         global->command = readline("Minishell % ");
-        if (strnstr(global->command, "test", 4))
-        {
-            i = fork();
-            if (i ==0)
-            {
-                while (1)
-                    printf("coucou");
-            }
-        }
         if (ft_strnstr(global->command, "exit", 6))
             global->statut = OFF;
     }

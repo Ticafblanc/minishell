@@ -14,7 +14,10 @@
 
 int free_and_exit(int statut, t_global *global)
 {
-
+    if (statut == EXIT_SUCCESS)
+    {
+        global->statut == EXIT_SUCCESS;
+    }
     return (EXIT_SUCCESS);
 }
 

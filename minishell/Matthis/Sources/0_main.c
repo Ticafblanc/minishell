@@ -14,9 +14,7 @@
 
 int	main(void)
 {
-	t_global	global;
-
-	init_global(&global);
-	start_minishell(&global);
-	return (free_and_exit(EXIT_SUCCESS, &global));
+	init_minishell();
+	start_minishell();
+	return (free_and_exit(EXIT_SUCCESS));
 }
