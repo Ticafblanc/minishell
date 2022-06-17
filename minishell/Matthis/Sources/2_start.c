@@ -12,14 +12,15 @@
 
 #include <minishell.h>
 
-//signal(SIGQUIT, SIG_IGN);
-int    start_minishell(t_global *global)
+extern t_global g_global;
+
+void    start_minishell(void)
 {
-    signal(SIGABRT, monitor_sigint);
-    signal(SIGQUIT, SIG_IGN);
-    while (global->statut == ON)
+    while (g_global.statut == ON)
     {
-        prompt_minishell(global)
+        signal(SIGINT, monitor_sigint);
+        signal(SIGQUIT, SIG_IGN);
+        prompt_minishell();
     }
 }
 

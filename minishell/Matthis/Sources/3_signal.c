@@ -12,10 +12,18 @@
 
 #include <minishell.h>
 
-void	monitor_sigint(int signum)
+extern t_global g_global;
+
+void	monitor_sigint(int sig_num)
 {
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-    signum = 0;
+	if (sig_num == SIGINT)
+	{
+		//g_global.statut = EXIT_FAILURE;
+		//ioctl(STDIN_FILENO, TIOCSTI, "\b");
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		//rl_replace_line("", 0);
+		rl_on_new_line();
+    	//sig_num = 0;
+	}
+	//g_global.statut = EXIT_FAILURE;
 }

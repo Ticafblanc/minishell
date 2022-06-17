@@ -12,21 +12,36 @@
 
 #include <minishell.h>
 
-//signal(SIGQUIT, SIG_IGN);
-void    prompt_minishell(t_global *global)
+extern t_global g_global;
+
+static int  check_empty_line(char *command)
 {
-    pid_t     i;
+    int i;
 
     i = 0;
-    signal(SIGABRT, monitor_sigint);
-    signal(SIGQUIT, SIG_IGN);
-    while (global->statut == ON)
+    if (!command)
     {
-        global->command = readline("Minishell % ");
-        if (ft_strnstr(global->command, "exit", 6))
-            global->statut = OFF;
+        g_global.statut = EXIT_SUCCESS;
+        return (0);
     }
-    return (0) ;
+    while (command[i])
+    {
+        if ((command[i] < 9 || command[i] > 13) && command[i] != 32)
+            return (1);
+        else
+            i++;
+    }
+    return (0);
 }
+
+void    prompt_minishell(void)
+{
+    g_global.command = readline("Minishell % ");
+    if (check_empty_line(g_global.command))
+        add_history(g_global.command);
+    if (ft_strnstr(g_global.command, "exit", 6))// a ajouter au parsinng 
+            g_global.statut = EXIT_SUCCESS;// a ajouter au parsinng
+}
+
 
 

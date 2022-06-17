@@ -12,11 +12,15 @@
 
 #include <minishell.h>
 
-int free_and_exit(int statut, t_global *global)
+extern t_global g_global;
+
+int free_and_exit(int exit_code)
 {
-    if (statut == EXIT_SUCCESS)
+    if (exit_code == EXIT_SUCCESS)
     {
-        global->statut == EXIT_SUCCESS;
+        ft_free_pp((void **)g_global.envp);
+        printf("exit\n");
+        g_global.statut = EXIT_SUCCESS;
     }
     return (EXIT_SUCCESS);
 }

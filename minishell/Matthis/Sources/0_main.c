@@ -12,9 +12,11 @@
 
 #include <minishell.h>
 
+t_global g_global;
+
 int	main(void)
 {
 	init_minishell();
 	start_minishell();
-	return (free_and_exit(EXIT_SUCCESS));
+	exit(free_and_exit(EXIT_SUCCESS));
 }

@@ -17,7 +17,7 @@
 # include <libft.h>
 # include "../readline/readline.h"
 # include "../readline/history.h"
-# include <sys/ioctl.h>
+# include "../sys/ioctl.h"
 # include <signal.h>
 # include <sys/wait.h>
 # include <dirent.h>
@@ -41,22 +41,19 @@ typedef struct s_global
 
 }				t_global;
 
-
-
 	//1_init.c
-int		init_global(t_global **global);
+void	init_minishell(void);
 
 	//2_start.c
-int    start_minishell(t_global *global);
+void	start_minishell(void);
 
 	//3_signal.c
 void	monitor_sigint(int signum);
+
+	//4_prompt.c
+void    prompt_minishell(void);
+
 	//_free_and_exit.c
-int free_and_exit(int statut, t_global *global)
-
-
-
-	
-
+int 	free_and_exit(int exit_code);
 
 #endif
