@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-extern t_global g_global;
+extern t_global	g_global;
 
 void	monitor_sigint(int sig_num)
 {
@@ -23,7 +23,7 @@ void	monitor_sigint(int sig_num)
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		//rl_replace_line("", 0);
 		rl_on_new_line();
-    	//sig_num = 0;
+		//sig_num = 0;
 	}
 	//g_global.statut = EXIT_FAILURE;
 }

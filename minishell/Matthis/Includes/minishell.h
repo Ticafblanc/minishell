@@ -23,14 +23,13 @@
 # include <dirent.h>
 # include <fcntl.h>
 
-# define 	READ_END 	0
-# define 	WRITE_END 	1
+# define READ_END 	0
+# define WRITE_END 	1
 
 enum	e_statut
 {
-	 ON = 2,
-	 ERR = 3,
-	
+	ON = 2,
+	ERR = 3,
 };
 
 typedef struct s_global
@@ -51,9 +50,9 @@ void	start_minishell(void);
 void	monitor_sigint(int signum);
 
 	//4_prompt.c
-void    prompt_minishell(void);
+void	prompt_minishell(void);
 
 	//_free_and_exit.c
-int 	free_and_exit(int exit_code);
+int		free_and_exit(int exit_code);
 
 #endif

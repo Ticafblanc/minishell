@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-t_global g_global;
+t_global	g_global;
 
 int	main(void)
 {

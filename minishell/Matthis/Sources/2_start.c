@@ -12,16 +12,21 @@
 
 #include <minishell.h>
 
-extern t_global g_global;
+extern t_global	g_global;
 
-void    start_minishell(void)
+static void	reset_command(void)
 {
-    while (g_global.statut == ON)
-    {
-        signal(SIGINT, monitor_sigint);
-        signal(SIGQUIT, SIG_IGN);
-        prompt_minishell();
-    }
+	free(g_global.command);
+	g_global.command = NULL;
 }
 
-
+void	start_minishell(void)
+{
+	while (g_global.statut == ON)
+	{
+		signal(SIGINT, monitor_sigint);
+		signal(SIGQUIT, SIG_IGN);
+		prompt_minishell();
+		reset_command();
+	}
+}

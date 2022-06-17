@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_free_and_exit.c                                  :+:      :+:    :+:   */
+/*   20_free_and_exit.c                                 :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,16 +12,15 @@
 
 #include <minishell.h>
 
-extern t_global g_global;
+extern t_global	g_global;
 
-int free_and_exit(int exit_code)
+int	free_and_exit(int exit_code)
 {
-    if (exit_code == EXIT_SUCCESS)
-    {
-        ft_free_pp((void **)g_global.envp);
-        printf("exit\n");
-        g_global.statut = EXIT_SUCCESS;
-    }
-    return (EXIT_SUCCESS);
+	if (exit_code == EXIT_SUCCESS)
+	{
+		ft_free_pp((void **)g_global.envp);
+		printf("exit\n");
+		g_global.statut = EXIT_SUCCESS;
+	}
+	return (EXIT_SUCCESS);
 }
-

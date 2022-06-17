@@ -13,10 +13,11 @@
 #include <minishell.h>
 
 extern t_global	g_global;
-extern char	**environ;
 
 void	init_minishell(void)
 {
+	extern char		**environ;
+
 	g_global.statut = ON;
 	g_global.envp = ft_dup_cpp(environ);
 	g_global.command = NULL;
