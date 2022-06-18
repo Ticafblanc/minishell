@@ -55,8 +55,9 @@ typedef struct s_global
 
 typedef struct s_command
 {
-	char	**full_cmd;
-	char	*full_path;
+	char	*to_do;
+	char	**cmd;
+	char	*path;
 	int		infile;
 	int		outfile;
 }			t_command;

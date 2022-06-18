@@ -43,7 +43,7 @@ char	*find_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	ft_execve(char *argv, char **envp)
+void	ft_execve(char *argv)
 {
 	char	**cmd;
 	char	*path;
@@ -59,7 +59,7 @@ void	ft_execve(char *argv, char **envp)
 	ft_exit_perror("command not found", 127);
 }
 
-static void	child_process(char *argv, char **envp)
+void	child_process(char *argv, char **envp)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -84,13 +84,4 @@ static void	child_process(char *argv, char **envp)
 		close(fd[FD_WRITE]);
 		ft_execve(argv, envp);
 	}
-}
-
-void    execute_command(char *command)
-{
-    while (*g_global.command)
-    {
-        find_command();
-        child_process();
-    }
 }

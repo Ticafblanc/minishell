@@ -27,7 +27,7 @@ void	start_minishell(void)
 		signal(SIGINT, monitor_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		prompt_minishell();
-		execute_command();
+		execute_command(g_global.command);
 		reset_command();
 	}
 }

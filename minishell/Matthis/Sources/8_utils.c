@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   6_execute.c                                        :+:      :+:    :+:   */
+/*   8_utils.c                                          :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/06/11 18:30:06 by mdoquocb         ###   ########.ca       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-extern t_global	g_global;
-
-void    execute_command(void)
+int	check_invisible_characters(char c)
 {
-    
+	if (c == 32 || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }
