@@ -113,7 +113,7 @@ all: $(BIN)
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
 		
 
-$(BIN): title libft  directory 
+$(BIN): title libft readline directory 
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) $(LIB_FLAGS) -o $(BIN) $(SRC)
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
