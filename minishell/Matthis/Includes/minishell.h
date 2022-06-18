@@ -30,51 +30,58 @@ enum	e_statut
 {
 	ON = 2,
 	MEMO = 3,
+	FORK = 4,
+	INFILE = 5,
+	OUTFILE = 6,
+	PIPE_R = 7
+
 };
 
-enum	e_command
+enum	e_flag_end
 {
 	PIPE = 2, // cree un pipe de sortie
 	OR = 3, // continue si ko
 	AND = 4, //continue si ok
-	S_BRACE = 5,// debut de parentese
-	I_BRACE = 6,//mileu ...
-	E_BRACE = 7,//fin ...
-
+	APPEND_FILE = 5, //ajoute a un fichier existant le cre au besoin
+	REPLACE_FILE = 6, //remplace le contenue du fichier et le remplace au besoin
+	END_ERR = 7, //flag non pris en charge
 };
 
 typedef struct s_global
 {
-	int				statut;
-	char			**envp;
-	char			*command;
-	int				*flag_command[4];// [0] input [1] output [2] option [3] braces
-
-
+	int			statut;
+	char		**envp;
+	char		*command;
 }				t_global;
 
 typedef struct s_command
 {
-	char	*to_do;
-	char	**cmd;
-	char	*path;
-	int		infile;
-	int		outfile;
+	int			flag_start;// flag de but de command
+	int			flag_end; //flag de fin de command
+	char		*to_do; //command a traiter	
+	char		**cmd;
+	char		*path;
+	int			infile;
+	int			outfile;
 }			t_command;
 
-	//1_init.c
+	//0-0_init.c
 void	init_minishell(void);
 
-	//2_start.c
+	//0-1_start.c
 void	start_minishell(void);
+void	execute_command(char *command);
 
-	//3_signal.c
+	//0-1-0_signal.c
 void	monitor_sigint(int signum);
 
-	//4_prompt.c
-void	prompt_minishell(void);
+	//0-1-1_prompt.c
+int		prompt_minishell(void);
+int		check_add_history(char *command);
 
-	//_free_and_exit.c
+void	dispatch_execute(t_command *cmd);
+int		pass_invisible_characters(char *command);
+	//0-2_free_and_exit.c
 int		free_and_exit(int exit_code);
 
 #endif

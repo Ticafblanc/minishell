@@ -1,47 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0-1-1_prompt.c                                     :+:      :+:    :+:   */
+/*   0-1-2-4_execute_utils.c                            :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/06/11 18:30:06 by mdoquocb         ###   ########.ca       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-extern t_global	g_global;
-
-int	check_add_history(char *command)
+int	pass_invisible_characters(char *command)
 {
 	int	i;
 
 	i = 0;
 	while (command[i])
 	{
-		if (check_invisible_characters(command[i]) == 1)
-			i++;
-		else
-			break;
+		if (check_invisible_characters(command[i]) == 0)
+			return (i);
+		i++;
 	}
-	if (command[i] == '\0')
-		return (0);
-	add_history(command);
-	return (1);
+	return (0);
 }
-		
 
-int	prompt_minishell(void)
-{
-	g_global.command = readline("Minishell % ");
-	if (!g_global.command)
-	{
-		g_global.statut = EXIT_SUCCESS;
-		return (0);
-	}
-	else if (g_global.command[0] != '\0' && check_add_history(g_global.command) == 1)
-		return (1);
-	return (2);
-}
+// void	check_output_character(char *command)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (command[i] && command[i] != '|'
+//             || (command[i] != '&' && command [i + 1] != '&')
+//             || command[i] != '(' || command[i] != '>')
+//             i++;
+// 	return (i);
+// }
+
+// void	add_file_name(char *command)
+// {
+// 	int 	i;
+	
+// 	i = 0;
+// 	while (check_invisible_characters(command[i]))
+// 			i++;
+// 	while (!check_invisible_characters(command[i]))
+// 			i++;
+// 	return (i);
+// }

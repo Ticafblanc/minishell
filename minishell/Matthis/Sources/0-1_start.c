@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2_start.c                                          :+:      :+:    :+:   */
+/*   0-1_start.c                                        :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,18 +16,30 @@ extern t_global	g_global;
 
 static void	reset_command(void)
 {
+	if (!g_global.command)
+		return ;
 	free(g_global.command);
 	g_global.command = NULL;
 }
 
 void	start_minishell(void)
 {
+	pid_t	pid;
+	int		statut;
+
 	while (g_global.statut == ON)
 	{
 		signal(SIGINT, monitor_sigint);
 		signal(SIGQUIT, SIG_IGN);
-		prompt_minishell();
-		execute_command(g_global.command);
+		if (prompt_minishell() == 1)
+		{
+			pid = fork();
+			if (pid == -1)
+				free_and_exit(FORK);
+			if (!pid)
+				execute_command(g_global.command);
+			waitpid(pid, &statut, 0);
+		}
 		reset_command();
 	}
 }

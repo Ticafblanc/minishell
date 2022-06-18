@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3_signal.c                                         :+:      :+:    :+:   */
+/*   0-1-_signal.c                                      :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,12 +18,11 @@ void	monitor_sigint(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-		//g_global.statut = EXIT_FAILURE;
-		//ioctl(STDIN_FILENO, TIOCSTI, "\b");
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		ft_putchar_fd('\n', 0);
+		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		//check_add_history(g_global.command);
 		//rl_replace_line("", 0);
 		rl_on_new_line();
-		//sig_num = 0;
 	}
-	//g_global.statut = EXIT_FAILURE;
 }
+  

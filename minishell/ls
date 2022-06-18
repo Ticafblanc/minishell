@@ -113,7 +113,7 @@ all: $(BIN)
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
 		
 
-$(BIN): title libft  directory 
+$(BIN): title libft readline directory 
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) $(LIB_FLAGS) -o $(BIN) $(SRC)
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
@@ -235,3 +235,11 @@ finish:
 re:	fclean all
 
 .PHONY :	all clean fclean finish re directory title
+total 32
+drwxr-xr-x   7 mdoquocb  2021_quebec   238 18 jui 12:23 .
+drwxr-xr-x  10 mdoquocb  2021_quebec   340 18 jui 09:27 ..
+drwxr-xr-x   3 mdoquocb  2021_quebec   102 18 jui 04:57 Bin
+-rw-r--r--   1 mdoquocb  2021_quebec  5181 18 jui 04:57 Makefile
+drwxr-xr-x   4 mdoquocb  2021_quebec   136 13 jui 09:26 Matthis
+drwxr-xr-x   4 mdoquocb  2021_quebec   136 14 jui 09:27 Siham
+-rw-r--r--   1 mdoquocb  2021_quebec  5181 18 jui 12:23 ls

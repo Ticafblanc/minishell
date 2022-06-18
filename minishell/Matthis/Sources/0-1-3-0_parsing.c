@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   6_execute.c                                        :+:      :+:    :+:   */
+/*   5_parsing.c                                        :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,27 +14,10 @@
 
 extern t_global	g_global;
 
-static void	find_command(void)
-{
-    int i;
 
-    i = 0;
-	while (*g_global.command
-            && check_invisible_characters(*g_global.command))
-            *g_global.command++;
-    while (g_global.command[i] && g_global.command[i] != '|'
-            || (g_global.command[i] != '&' && g_global.command [i + 1] != '&')
-            || g_global.command[i] != '(')
-            i++;
-    g_global.
 
-}
 
-void    execute_command(char *command)
-{
-    while (*g_global.command)
-    {
-        find_command();
-        child_process();
-    }
-}
+
+
+// if (ft_strnstr(g_global.command, "exit", 6)) // a ajouter au parsinng 
+		// g_global.statut = EXIT_SUCCESS; // a ajouter au parsinng
