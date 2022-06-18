@@ -134,7 +134,7 @@ directory:
 
 #   LAUNCH	#
 
-run:
+run: all
 		@./Bin/minishell
 
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_init.c                                           :+:      :+:    :+:   */
+/*   8_utils.c                                          :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,9 @@
 
 #include <minishell.h>
 
-extern t_global	g_global;
-
-void	init_minishell(void)
+int	check_invisible_characters(char c)
 {
-	extern char		**environ;
-
-	g_global.statut = ON;
-	g_global.envp = ft_dup_cpp(environ);
-	g_global.command = NULL;
+	if (c == 32 || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }

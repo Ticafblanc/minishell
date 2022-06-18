@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_init.c                                           :+:      :+:    :+:   */
+/*   20_free_and_exit.c                                 :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,11 +14,13 @@
 
 extern t_global	g_global;
 
-void	init_minishell(void)
+int	free_and_exit(int exit_code)
 {
-	extern char		**environ;
-
-	g_global.statut = ON;
-	g_global.envp = ft_dup_cpp(environ);
-	g_global.command = NULL;
+	if (exit_code == EXIT_SUCCESS)
+	{
+		ft_free_pp((void **)g_global.envp);
+		printf("exit\n");
+		g_global.statut = EXIT_SUCCESS;
+	}
+	return (EXIT_SUCCESS);
 }

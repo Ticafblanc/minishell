@@ -12,16 +12,11 @@
 
 #include <minishell.h>
 
+t_global	g_global;
+
 int	main(void)
 {
-	extern char	**environ;
-	t_global	*global;
-	int			flag;
-
-	flag = 0;
-	flag = init_global(&global, environ);
-	if (flag)
-		return (0);
-	flag = start_minishell(global);
-	return (0);
+	init_minishell();
+	start_minishell();
+	exit(free_and_exit(EXIT_SUCCESS));
 }

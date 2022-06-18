@@ -12,31 +12,22 @@
 
 #include <minishell.h>
 
-//signal(SIGQUIT, SIG_IGN);
-int    start_minishell(t_global *global)
-{
-    pid_t     i;
+extern t_global	g_global;
 
-    i = 0;
-    signal(SIGINT, monitor_sigint);
-    while (global->statut == ON)
-    {
-        signal(SIGINT, monitor_sigint);
-        signal(SIGQUIT, SIG_IGN);
-        global->command = readline("Minishell % ");
-        if (strnstr(global->command, "test", 4))
-        {
-            i = fork();
-            if (i ==0)
-            {
-                while (1)
-                    printf("coucou");
-            }
-        }
-        if (ft_strnstr(global->command, "exit", 6))
-            global->statut = OFF;
-    }
-    return (0) ;
+static void	reset_command(void)
+{
+	free(g_global.command);
+	g_global.command = NULL;
 }
 
-
+void	start_minishell(void)
+{
+	while (g_global.statut == ON)
+	{
+		signal(SIGINT, monitor_sigint);
+		signal(SIGQUIT, SIG_IGN);
+		prompt_minishell();
+		execute_command(g_global.command);
+		reset_command();
+	}
+}
