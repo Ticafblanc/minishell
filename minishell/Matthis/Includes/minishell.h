@@ -29,7 +29,18 @@
 enum	e_statut
 {
 	ON = 2,
-	ERR = 3,
+	MEMO = 3,
+};
+
+enum	e_command
+{
+	PIPE = 2, // cree un pipe de sortie
+	OR = 3, // continue si ko
+	AND = 4, //continue si ok
+	S_BRACE = 5,// debut de parentese
+	I_BRACE = 6,//mileu ...
+	E_BRACE = 7,//fin ...
+
 };
 
 typedef struct s_global
@@ -37,8 +48,18 @@ typedef struct s_global
 	int				statut;
 	char			**envp;
 	char			*command;
+	int				*flag_command[4];// [0] input [1] output [2] option [3] braces
+
 
 }				t_global;
+
+typedef struct s_command
+{
+	char	**full_cmd;
+	char	*full_path;
+	int		infile;
+	int		outfile;
+}			t_command;
 
 	//1_init.c
 void	init_minishell(void);

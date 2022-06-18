@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   4_prompt.c                                         :+:      :+:    :+:   */
+/*   6_execute.c                                        :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,14 +14,7 @@
 
 extern t_global	g_global;
 
-void	prompt_minishell(void)
+void    execute_command(void)
 {
-	g_global.command = readline("Minishell % ");
-	if (!g_global.command)
-	{
-		g_global.statut = EXIT_SUCCESS;
-		return ;
-	}
-	if (g_global.command[0] != '\0')
-		add_history(g_global.command);
+    
 }
