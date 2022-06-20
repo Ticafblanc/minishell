@@ -45,8 +45,6 @@ enum	e_flag_end
 	PIPE = 2, // cree un pipe de sortie
 	OR = 3, // continue si ko
 	AND = 4, //continue si ok
-	APPEND_FILE = 5, //ajoute a un fichier existant le cre au besoin
-	REPLACE_FILE = 6, //remplace le contenue du fichier et le remplace au besoin
 	END_ERR = 7, //flag non pris en charge
 };
 
@@ -68,23 +66,44 @@ typedef struct s_command
 	int			outfile;
 }			t_command;
 
-	//0-0_init.c
-void	init_minishell(void);
+	//0_init.c
+void	init_minishell(void);// init variable g_global
 
-	//0-1_start.c
-void	start_minishell(void);
-void	execute_command(char *command);
+	//1_start.c
+void	start_minishell(void);// lance le temibnal et gere le signaux du terminal ctrl c et ctrl \
+								// demarre un processus d'execution apres reception d'une commande non vide 
 
-	//0-1-0_signal.c
-void	handle_prompt(int signum);
+	//1-1_prompt.c
+int		prompt_minishell(void);//commnande readline gere l'historique et les signaux ctr d (\0)
 
-	//0-1-1_prompt.c
-int		prompt_minishell(void);
-int		check_add_history(char *command);
+	//1-2-0_execute.c
+char	*execute_command(char *command, char end);// init la struct de gestion d'une commande 
+										//gere les signaux ctrl c et ctrl \
+										// recherche une command a executer (une seul)
+										// l'envoie dans le parsing pour triage et lance 
+										// le dispatch d'execution 
 
-void	dispatch_execute(t_command *cmd);
+	//1-2-1_parsing.c
+// parsing de la strinf cmd->to_do
+
+	//1-2-2_dispatch_execute.c
+void	dispatch_execute(t_command *cmd);// open les fichier necessaire selction 
+										// et lance l'execution du bon process
+
+	//1-2-2_execute_builtins.c
 int		pass_invisible_characters(char *command);
-	//0-2_free_and_exit.c
-int		free_and_exit(int exit_code);
+
+	//1-2-3_execute_builtins.c
+//execute bultin passer ne parametre
+
+	//1-2-4_execute_execve.c  
+//execute commande passer ne parametre
+
+	//2_signal.c
+void	handle_prompt(int signum);// gestion de ctrl c dans le prompt
+void	handle_execute(int sig_num);//gestion de ctrl c dans le process
+
+	//3_free_and_exit.c
+int		free_and_exit(int exit_code);//gestion de srotie de process et message d'erreur
 
 #endif

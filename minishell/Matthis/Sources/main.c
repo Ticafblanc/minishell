@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0-0_init.c                                         :+:      :+:    :+:   */
+/*   0_main.c                                           :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,15 +12,13 @@
 
 #include <minishell.h>
 
-extern t_global	g_global;
+t_global	g_global;
 
-void	init_minishell(void)
+int	main(void)
 {
-	extern char		**environ;
-
-	g_global.statut = ON;
-	g_global.envp = ft_dup_cpp(environ);
-	if (!g_global.envp)
-		free_and_exit(MEMO);
-	g_global.command = NULL;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	init_minishell();
+	start_minishell();
+	exit(free_and_exit(EXIT_SUCCESS));
 }

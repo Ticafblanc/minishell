@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0-1-2-1_dispatch_execute.c                         :+:      :+:    :+:   */
+/*   1-2-2_dispatch_execute.c                           :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -118,21 +118,21 @@ extern t_global	g_global;
 // 	return (i);
 // }
 
-void	dispatch_execute(t_command *cmd)
-{
-	//int	i;
+// void	dispatch_execute(t_command *cmd)
+// {
+// 	//int	i;
 	
-	//i = 0;
-	cmd->to_do = NULL;
-	printf("command a executer : %s\n", g_global.command);
-	//while (*cmd->to_do)
-	//{
-	//	if (*cmd->to_do == '<')
-		//	cmd->to_do += open_infile(cmd)
-		//	child_process(argv[i++], envp);
-		//dup2(save.outfile, STDOUT_FILENO);
-		//close(save.outfile);
-		//ft_execve(argv[argc - 2], envp);
+// 	//i = 0;
+// 	//cmd->to_do = NULL;
+// 	//printf("command a executer : %s\n", g_global.command);
+// 	//while (*cmd->to_do)
+// 	//{
+// 	//	if (*cmd->to_do == '<')
+// 		//	cmd->to_do += open_infile(cmd)
+// 		//	child_process(argv[i++], envp);
+// 		//dup2(save.outfile, STDOUT_FILENO);
+// 		//close(save.outfile);
+// 		//ft_execve(argv[argc - 2], envp);
 	
-}
+// }
 

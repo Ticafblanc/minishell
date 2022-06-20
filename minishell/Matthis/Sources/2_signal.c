@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0-1-1_prompt.c                                     :+:      :+:    :+:   */
+/*   2_signal.c                                         :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,34 +14,24 @@
 
 extern t_global	g_global;
 
-int	check_add_history(char *command)
+void	handle_prompt(int sig_num)
 {
-	int	i;
-
-	i = 0;
-	while (command[i])
+	if (sig_num == SIGINT)
 	{
-		if (check_invisible_characters(command[i]) == 1)
-			i++;
-		else
-			break;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
 	}
-	if (command[i] == '\0')
-		return (0);
-	add_history(command);
-	return (1);
 }
-		
 
-int	prompt_minishell(void)
+void	handle_execute(int sig_num)
 {
-	g_global.command = readline("Minishell % ");
-	if (!g_global.command)
+	if (sig_num == SIGINT)
 	{
-		g_global.statut = EXIT_SUCCESS;
-		return (0);
+		exit(EXIT_SUCCESS);
+		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		//rl_replace_line("", 0);
+		//rl_on_new_line();
 	}
-	else if (check_add_history(g_global.command) == 1)
-		return (1);
-	return (2);
 }
+  

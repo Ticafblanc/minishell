@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   5_parsing.c                                        :+:      :+:    :+:   */
+/*   1-2-3_execute_builtins.c                           :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,10 +14,6 @@
 
 extern t_global	g_global;
 
+	
 
 
-
-
-
-// if (ft_strnstr(g_global.command, "exit", 6)) // a ajouter au parsinng 
-		// g_global.statut = EXIT_SUCCESS; // a ajouter au parsinng

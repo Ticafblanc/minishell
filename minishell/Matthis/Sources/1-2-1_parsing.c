@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0-1_start.c                                        :+:      :+:    :+:   */
+/*   1-2-1_parsing.c                                    :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,33 +13,29 @@
 #include <minishell.h>
 
 extern t_global	g_global;
+//if (ft_strncmp(end, ">>", 2) == 0)
+       // return (APPEND_FILE);
+	//if (ft_strncmp(end, ">", 1) == 0)
+       // return (REPLACE_FILE);
+// static int	add_outfile_name(char *command, int flag_end)
+// {
+// 	int 	i;
+	
+// 	if (flag_end == APPEND_FILE)
+// 		i = 2;
+// 	if (flag_end == REPLACE_FILE)
+// 		i = 1;
+// 	while (check_invisible_characters(command[i]))
+// 			i++;
+// 	while (!check_invisible_characters(command[i]))
+// 			i++;
+// 	return (i + 1);
+// }
 
-static void	reset_command(void)
-{
-	if (!g_global.command)
-		return ;
-	free(g_global.command);
-	g_global.command = NULL;
-}
+// if (cmd->flag_end == APPEND_FILE
+	// 	|| cmd->flag_end == REPLACE_FILE)
+	// 	i += add_outfile_name(command + i);	
 
-void	start_minishell(void)
-{
-	pid_t	pid;
-	int		statut;
 
-	while (g_global.statut == ON)
-	{
-		signal(SIGINT, handle_prompt);
-		signal(SIGQUIT, SIG_IGN);
-		if (prompt_minishell() == 1)
-		{
-			pid = fork();
-			if (pid == -1)
-				free_and_exit(FORK);
-			if (!pid)
-				execute_command(g_global.command);
-			waitpid(pid, &statut, 0);
-		}
-		reset_command();
-	}
-}
+// if (ft_strnstr(g_global.command, "exit", 6)) // a ajouter au parsinng 
+		// g_global.statut = EXIT_SUCCESS; // a ajouter au parsinng
