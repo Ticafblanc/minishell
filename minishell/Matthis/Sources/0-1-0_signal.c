@@ -14,15 +14,24 @@
 
 extern t_global	g_global;
 
-void	monitor_sigint(int sig_num)
+void	handle_prompt(int sig_num)
 {
 	if (sig_num == SIGINT)
 	{
-		ft_putchar_fd('\n', 0);
-		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		//check_add_history(g_global.command);
-		//rl_replace_line("", 0);
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		rl_replace_line("", 0);
 		rl_on_new_line();
+	}
+}
+
+void	handle_execute(int sig_num)
+{
+	if (sig_num == SIGINT)
+	{
+		exit(EXIT_SUCCESS);
+		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		//rl_replace_line("", 0);
+		//rl_on_new_line();
 	}
 }
   

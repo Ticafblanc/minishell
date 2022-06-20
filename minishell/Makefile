@@ -56,9 +56,12 @@ LIB_1 = $(addprefix $(LIB_PATH_1),$(LIB_NAME_1))
 
 LIB_2 = $(addprefix $(LIB_PATH_1),$(LIB_NAME_2))
 
+#INC_FLAGS += -I ~/.brew/opt/readline/include
 INC_FLAGS += -I $(LIB_PATH_1)
 
-LIB_FLAGS += -DREADLINE_LIBRARY -L $(LIB_PATH_1) -l $(LIB_NAME_1) -l $(LIB_NAME_2) -l curses
+#LIB_FLAGS += -L ~/.brew/opt/readline/lib -lreadline -lncurses
+#LIB_FLAGS += -L../readline -lreadline -lncurses
+LIB_FLAGS += -DREADLINE_LIBRARY -L $(LIB_PATH_1) -l $(LIB_NAME_1) -l $(LIB_NAME_2) -l curses #
 
 #  SOURCES  #
 
@@ -72,11 +75,21 @@ SRC_NAME_SIH = $(notdir $(wildcard Siham/Sources/*.c))
 
 SRC = $(addprefix $(SRC_PATH_MAT),$(SRC_NAME_MAT)) $(addprefix $(SRC_PATH_SIH),$(SRC_NAME_SIH))
 
+#  OBJECTS  #
+
+OBJ_PATH = $(BIN_PATH)Objects/
+
+OBJ_NAME = $(SRC_NAME_MAT:.c=.o)
+
+OBJ_NAME += $(SRC_NAME_SIH:.c=.o)
+
+OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
+
 #  FLAGS  #
 
 CC = gcc
 
-CC_FLAGS =  -Wall -Wextra -Werror
+CC_FLAGS =  -g -Wall -Wextra -Werror 
 CL = rm -rf
 
 LEAK = leaks -atExit --
@@ -112,9 +125,16 @@ BLU = \033[1;34m
 all: $(BIN) 
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
 		
+$(OBJ_PATH)%.o:$(SRC_PATH_MAT)%.c
+		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
+		@echo $(BLUE) $(notdir $@) is created !!
 
-$(BIN): title libft  directory 
-		@$(CC) $(CC_FLAGS) $(INC_FLAGS) $(LIB_FLAGS) -o $(BIN) $(SRC)
+$(OBJ_PATH)%.o:$(SRC_PATH_SIH)%.c
+		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
+		@echo $(BLUE) $(notdir $@) is created !!
+
+$(BIN): title libft readline directory $(OBJ) 
+		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
 title: 
@@ -129,7 +149,7 @@ readline:
 		@$(MAKE) -C ../readline > /dev/null 2>&1 || true
 
 directory: 	
-		@mkdir -p $(BIN_PATH) > /dev/null 2>&1 || true
+		@mkdir -p $(OBJ_PATH) > /dev/null 2>&1 || true
 		@echo $(BLUE) Binary $(PROJECT) directory created !!
 
 #   LAUNCH	#

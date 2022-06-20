@@ -120,9 +120,9 @@ extern t_global	g_global;
 
 void	dispatch_execute(t_command *cmd)
 {
-	int	i;
+	//int	i;
 	
-	i = 0;
+	//i = 0;
 	cmd->to_do = NULL;
 	printf("command a executer : %s\n", g_global.command);
 	//while (*cmd->to_do)

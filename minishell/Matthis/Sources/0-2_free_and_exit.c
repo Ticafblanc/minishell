@@ -19,7 +19,7 @@ int	free_and_exit(int exit_code)
 	if (exit_code == EXIT_SUCCESS)
 	{
 		ft_free_pp((void **)g_global.envp);
-		printf("exit\n");
+		printf("exit");
 		g_global.statut = EXIT_SUCCESS;
 	}
 	return (EXIT_SUCCESS);

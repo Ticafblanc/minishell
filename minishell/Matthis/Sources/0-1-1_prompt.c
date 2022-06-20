@@ -41,7 +41,7 @@ int	prompt_minishell(void)
 		g_global.statut = EXIT_SUCCESS;
 		return (0);
 	}
-	else if (g_global.command[0] != '\0' && check_add_history(g_global.command) == 1)
+	else if (check_add_history(g_global.command) == 1)
 		return (1);
 	return (2);
 }

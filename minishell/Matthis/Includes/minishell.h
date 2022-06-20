@@ -17,7 +17,10 @@
 # include <libft.h>
 # include "../readline/readline.h"
 # include "../readline/history.h"
-# include "../sys/ioctl.h"
+//# include "../sys/ioctl.h"
+//# include <readline/readline.h>
+//# include <readline/history.h>
+# include <sys/ioctl.h>
 # include <signal.h>
 # include <sys/wait.h>
 # include <dirent.h>
@@ -73,7 +76,7 @@ void	start_minishell(void);
 void	execute_command(char *command);
 
 	//0-1-0_signal.c
-void	monitor_sigint(int signum);
+void	handle_prompt(int signum);
 
 	//0-1-1_prompt.c
 int		prompt_minishell(void);

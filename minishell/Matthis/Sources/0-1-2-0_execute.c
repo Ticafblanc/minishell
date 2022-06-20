@@ -95,7 +95,7 @@ void	execute_command(char *command)
 	cmd.flag_end = STDOUT_FILENO;
 	cmd.infile = 0;
 	cmd.outfile = 1;
-	signal(SIGINT, monitor_sigint);
+	signal(SIGINT, handle_prompt);
 	signal(SIGQUIT, SIG_DFL);
 	while (*command)
 	{

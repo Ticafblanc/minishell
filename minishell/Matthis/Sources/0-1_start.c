@@ -29,7 +29,7 @@ void	start_minishell(void)
 
 	while (g_global.statut == ON)
 	{
-		signal(SIGINT, monitor_sigint);
+		signal(SIGINT, handle_prompt);
 		signal(SIGQUIT, SIG_IGN);
 		if (prompt_minishell() == 1)
 		{
