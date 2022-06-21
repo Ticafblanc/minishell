@@ -38,10 +38,19 @@ static int	check_output_character(char *command, t_command *cmd, char end)
 			return (i);
 		}	
 		if (command[i] == '(')
+		{
+			cmd->flag_end = BRACE_IN;
 			return (i);
+		}
+		if (command[i] == ')' && cmd->flag_end == BRACE_IN)
+		{
+			cmd->flag_end = BRACE_OUT;
+			return (i);
+		}	
 		else
             i++;
 	}
+	cmd->flag_end = END;
 	return (i);
 }
 
@@ -50,20 +59,27 @@ static char	*find_command(char *command, t_command *cmd, char end)
 	int i;
 
 	i = check_output_character(command, cmd, end);
-    if (command[i] == '(' && i == 0)
+    if (cmd->flag_end == BRACE_IN && i == 0)
+	{
 		command = execute_command(command + 1, ')');
+		return (command);
+	}
+	//  if (cmd->flag_end == OR || i == 0)// gestion de sbrace ouverte a finir en recursion
+	// {
+	// 	command = execute_command(command + 1, ')');
+	// 	return (command);
+	// }
 	else if (i > 0)
 	{
 		cmd->to_do = ft_substr(command, 0, i);
 		if (!cmd->to_do)
 			free_and_exit(MEMO);
 	}
-	printf("\n ==>cmd a executer : %s\n", cmd->to_do); //test du presorte commande
 	if (cmd->flag_end == AND || cmd->flag_end == OR)
-		command += i + 2;
+		return (command += i + 2);
 	if (cmd->flag_end == PIPE)
-		command += ++i;
-	return (command);
+		return (command += ++i);
+	return (command + i);
 }
 
 char	*execute_command(char *command, char end)
@@ -80,13 +96,17 @@ char	*execute_command(char *command, char end)
 	{
 		while (check_invisible_characters(*command))
 			command++;
-		printf("\n !!!!command a executer : %s\n", command);
 		command = find_command(command, &cmd, end);
-		printf("\n command a executer : %s!!!!!!\n", command);
-		//parse_command(cmd);
-		//dispatch_execute(&cmd);
+		if (cmd.to_do)
+		{
+			printf("\n ==>cmd a executer : %s\n", cmd.to_do); //test du presorte commande
+			//parse_command(&cmd);
+			//dispatch_execute(&cmd);
+			free(cmd.to_do);
+			cmd.to_do = NULL;
+		}
 	}
 	if (end == '\0')
 		exit(EXIT_SUCCESS);
-	return (command);
+	return (command + 1);
 }

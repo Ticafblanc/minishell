@@ -26,7 +26,7 @@ static int	check_add_history(char *command)
 		else
 			break;
 	}
-	if (command[i] == '\0')
+	if (command[i] == '\0')   
 		return (0);
 	add_history(command);
 	return (1);

@@ -14,9 +14,9 @@
 
 extern t_global	g_global;
 
-////int	check_limiter(int fd, char *limiter)
-//{
-//	char	*line;
+// //int	check_limiter(int fd, char *limiter)
+// {
+// 	char	*line;
 
 // 	line = get_next_line(STDIN_FILENO);
 // 	while (line)
@@ -89,50 +89,50 @@ extern t_global	g_global;
 // 	return (i);
 // }
 
-// int	open_infile(t_command *cmd)
-// {
-// 	int		i;
-// 	char	*infile;
+// // int	open_infile(t_command *cmd)
+// // {
+// // 	int		i;
+// // 	char	*infile;
 
-// 	i = 0;
-// 	if (ft_strncmp(cmd->to_do, "<<", 2) == 0)
-// 	{
-// 		here_doc(cmd);
-// 		i += 2;
-// 		return (i);
-// 	}
-// 	else if (ft_strncmp(cmd->to_do, "<", 1) == 0)
-// 	{
-// 		cmd->to_do++;
-// 		i +=1
-// 	}
-// 	infile = ft_substr(cmd->to_do, 0, add_file_name(cmd->to_do));
-// 	if (!intfile)
-// 		free_and_exit(MEMO);
-// 	cmd->infile = open(infile, O_RDONLY, 0777);
-// 	free(infile);
-// 	if (cmd->infile == -1)
-// 		free_and_exit(INFILE);
-// 	dup2(save->infile, STDIN_FILENO);
-// 	close(save->infile);
+// // 	i = 0;
+// // 	if (ft_strncmp(cmd->to_do, "<<", 2) == 0)
+// // 	{
+// // 		here_doc(cmd);
+// // 		i += 2;
+// // 		return (i);
+// // 	}
+// // 	else if (ft_strncmp(cmd->to_do, "<", 1) == 0)
+// // 	{
+// // 		cmd->to_do++;
+// // 		i +=1
+// // 	}
+// // 	infile = ft_substr(cmd->to_do, 0, add_file_name(cmd->to_do));
+// // 	if (!intfile)
+// // 		free_and_exit(MEMO);
+// // 	cmd->infile = open(infile, O_RDONLY, 0777);
+// // 	free(infile);
+// // 	if (cmd->infile == -1)
+// // 		free_and_exit(INFILE);
+// // 	dup2(save->infile, STDIN_FILENO);
+// // 	close(save->infile);
 // 	return (i);
 // }
 
 // void	dispatch_execute(t_command *cmd)
 // {
-// 	//int	i;
+// 	int	i;
 	
-// 	//i = 0;
-// 	//cmd->to_do = NULL;
-// 	//printf("command a executer : %s\n", g_global.command);
-// 	//while (*cmd->to_do)
-// 	//{
-// 	//	if (*cmd->to_do == '<')
-// 		//	cmd->to_do += open_infile(cmd)
-// 		//	child_process(argv[i++], envp);
-// 		//dup2(save.outfile, STDOUT_FILENO);
-// 		//close(save.outfile);
-// 		//ft_execve(argv[argc - 2], envp);
+// 	i = 0;
+// 	cmd->to_do = NULL;
+// 	printf("command a executer : %s\n", g_global.command);
+// 	while (*cmd->to_do)
+// 	{
+// 		if (*cmd->to_do == '<')
+// 			cmd->to_do += open_infile(cmd)
+// 			child_process(argv[i++], envp);
+// 		dup2(save.outfile, STDOUT_FILENO);
+// 		close(save.outfile);
+// 		ft_execve(argv[argc - 2], envp);
 	
 // }
 

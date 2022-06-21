@@ -45,6 +45,9 @@ enum	e_flag_end
 	PIPE = 2, // cree un pipe de sortie
 	OR = 3, // continue si ko
 	AND = 4, //continue si ok
+	BRACE_IN = 5,
+	BRACE_OUT = 6,
+	END = 7,
 	END_ERR = 7, //flag non pris en charge
 };
 
