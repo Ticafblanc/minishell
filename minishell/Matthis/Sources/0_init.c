@@ -12,15 +12,12 @@
 
 #include <minishell.h>
 
-extern t_global	g_global;
+char	**g_envp;
 
-void	init_minishell(void)
+int	init_minishell(char **envp)
 {
-	extern char		**environ;
-
-	g_global.statut = ON;
-	g_global.envp = ft_dup_cpp(environ);
-	if (!g_global.envp)
+	g_envp = ft_dup_cpp(envp);
+	if (!g_envp)
 		free_and_exit(MEMO);
-	g_global.command = NULL;
+	return (ON);
 }

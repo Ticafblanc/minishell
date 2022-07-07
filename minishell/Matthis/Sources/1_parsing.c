@@ -12,30 +12,52 @@
 
 #include <minishell.h>
 
-extern t_global	g_global;
-//if (ft_strncmp(end, ">>", 2) == 0)
-       // return (APPEND_FILE);
-	//if (ft_strncmp(end, ">", 1) == 0)
-       // return (REPLACE_FILE);
-// static int	add_outfile_name(char *command, int flag_end)
-// {
-// 	int 	i;
-	
-// 	if (flag_end == APPEND_FILE)
-// 		i = 2;
-// 	if (flag_end == REPLACE_FILE)
-// 		i = 1;
-// 	while (check_invisible_characters(command[i]))
-// 			i++;
-// 	while (!check_invisible_characters(command[i]))
-// 			i++;
-// 	return (i + 1);
-// }
+extern char	**g_envp;
 
-// if (cmd->flag_end == APPEND_FILE
-	// 	|| cmd->flag_end == REPLACE_FILE)
-	// 	i += add_outfile_name(command + i);	
+static t_cmd	*ft_mlstnew()
+{
+	t_cmd	*cmd;
 
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (cmd = NULL);
+	cmd->next = cmd;
+	return (cmd);
+}
 
-// if (ft_strnstr(g_global.command, "exit", 6)) // a ajouter au parsinng 
-		// g_global.statut = EXIT_SUCCESS; // a ajouter au parsinng
+static t_cmd	ft_mlstadd(t_cmd **cmd, t_cmd *new)
+{
+	t_cmd	*l_cmd;
+
+	if (!new)
+		return (new);
+	if (!*cmd)
+	{
+		*cmd = new;
+		return (*cmd);
+	}
+	else
+	{
+		l_cmd = ft_lstlast(*cmd);
+		l_cmd->next = new;
+		return (new);
+	}
+}
+
+void	parsing(char *command)
+{
+	t_cmd	*cmd;
+	t_cmd	*tmp;
+	int		i;
+
+	while (*command)
+	{
+		if (!(tmp = ft_mlstadd(&cmd, ft_mlstnew())))
+			free_and_error(MEMO, cmd);
+		while (!ft_find_control_operator(*command, cmd))
+		{
+			ft_find_metacharacter(&command, cmd);
+
+		}
+	}
+}

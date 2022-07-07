@@ -29,7 +29,7 @@
 # define READ_END 	0
 # define WRITE_END 	1
 
-enum	e_statut
+enum	e_status
 {
 	ON = 2,
 	MEMO = 3,
@@ -40,47 +40,33 @@ enum	e_statut
 
 };
 
-enum	e_flag_end
+enum	e_control_operator
 {
 	PIPE = 2, // cree un pipe de sortie
 	OR = 3, // continue si ko
 	AND = 4, //continue si ok
-	BRACE_IN = 5,
+	BRACE_IN = 5,// 
 	BRACE_OUT = 6,
 	END = 7,
-	END_ERR = 7, //flag non pris en charge
 };
 
-typedef struct s_global
+typedef struct	s_cmd
 {
-	int			statut;
-	char		**envp;
-	char		*command;
-}				t_global;
-
-typedef struct s_command
-{
-	int			flag_start;// flag de but de command
-	int			flag_end; //flag de fin de command
-	char		*to_do; //command a traiter	
-	char		**cmd;
-	char		*path;
-	int			infile;
-	int			outfile;
-}			t_command;
+	int				flag_start;// flag de but de command
+	int				flag_end; //flag de fin de command
+	char			*to_do; //command a traiter	
+	char			**cmd;
+	char			*path;
+	int				infile;
+	int				outfile;
+	struct s_cmd	*next;
+}				t_cmd;
 
 	//0_init.c
 void	init_minishell(void);// init variable g_global
 
-	//1_start.c
-void	start_minishell(void);// lance le temibnal et gere le signaux du terminal ctrl c et ctrl \
-								// demarre un processus d'execution apres reception d'une commande non vide 
-
-	//1-1_prompt.c
-int		prompt_minishell(void);//commnande readline gere l'historique et les signaux ctr d (\0)
-
 	//1-2-0_execute.c
-char	*execute_command(char *command, char end);// init la struct de gestion d'une commande 
+char	*execute(char *command);// init la struct de gestion d'une commande 
 										//gere les signaux ctrl c et ctrl \
 										// recherche une command a executer (une seul)
 										// l'envoie dans le parsing pour triage et lance 

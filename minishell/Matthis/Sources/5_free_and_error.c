@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   5_free_and_error.c                                 :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,39 +12,15 @@
 
 #include <minishell.h>
 
-static void	reset_command(char **command)
-{
-	if (!*command)
-		return ;
-	free(*command);
-	*command = NULL;
-}
+extern t_global	g_global;
 
-int	main(int argc, char **argv, char **envp)
+int	free_and_exit(int exit_code)
 {
-	pid_t	pid;
-	int		status;
-	char	*command;
-
-	if (argc > 1)
-		free_and_exit(command ...);
-	else if (argc == 1)
+	if (exit_code == EXIT_SUCCESS)
 	{
-		status = init_minishell(envp);
-		while (status == ON)
-		{
-			signal(SIGINT, handle_prompt);
-			signal(SIGQUIT, SIG_IGN);
-			command = readline("Minishell-1.0 % ");
-			if (!*command)
-				free_and_exit(EXIT_SUCCESS);
-			else if (command[0] != '\0')
-			{
-				add_history(command);
-				parsing(command);
-			}   
-			reset_command(&command);
-		}
+		ft_free_pp((void **)g_global.envp);
+		printf("exit");
+		g_global.statut = EXIT_SUCCESS;
 	}
-	exit(EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
