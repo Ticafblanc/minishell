@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <dirent.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # define READ_END 	0
 # define WRITE_END 	1
@@ -36,25 +37,41 @@ enum	e_status
 	FORK = 4,
 	INFILE = 5,
 	OUTFILE = 6,
-	PIPE_R = 7
+	PIPE_R = 7,
+	TOKEN = 8, //syntax error near unexpected token
+	QUOTE = 9,// '' or "" not close
+	MAIN = 10,
+	SUB = 11,
 
+};
+
+enum	e_bultins
+{
+	ECHO = 1,
+	CD = 2,
+	PWD = 3,
+	EXPORT = 4,
+	UNSET = 5,
+	ENV = 6,
+	EXIT = 7,
 };
 
 enum	e_control_operator
 {
+	END = 1,//\0
 	PIPE = 2, // cree un pipe de sortie
 	OR = 3, // continue si ko
 	AND = 4, //continue si ok
-	BRACE_IN = 5,// 
-	BRACE_OUT = 6,
-	END = 7,
+	BRACE = 5,// 
+	NEWLINE = 6,
 };
 
 typedef struct	s_cmd
 {
-	int				flag_start;// flag de but de command
-	int				flag_end; //flag de fin de command
-	char			*to_do; //command a traiter	
+	int				ctrl_op;
+	pid_t			pid;
+	int				status;//return stat waitpid...
+	int				bultin;
 	char			**cmd;
 	char			*path;
 	int				infile;
@@ -63,7 +80,7 @@ typedef struct	s_cmd
 }				t_cmd;
 
 	//0_init.c
-void	init_minishell(void);// init variable g_global
+int	init_minishell(char **envp);// init variable g_global
 
 	//1-2-0_execute.c
 char	*execute(char *command);// init la struct de gestion d'une commande 

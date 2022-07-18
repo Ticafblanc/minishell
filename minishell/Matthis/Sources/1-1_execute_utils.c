@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-extern t_global	g_global;
+extern char **g_envp;
 
 // //int	check_limiter(int fd, char *limiter)
 // {
