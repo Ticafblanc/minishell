@@ -63,10 +63,10 @@ static int	tok_operator(char command, int *i, t_cmd **tmp_cmd)
 	flag = 0;
 	if (command[i] == '|')
 		flag = parsing_pipe(command, i, tmp_cmd);
-	else if (command[i] == '&' || command[i] == '\n')
+	else if (command[i] == '&')
 		flag = parsing_and(command, i, tmp_cmd);
-	// else if (command[i] == '(' || command[i] == ')')
-	// 	flag = parsing_brace(command, i, tmp_cmd);
+	else if (command[i] == '(' || command[i] == ')')
+	 	flag = parsing_brace(command, i, tmp_cmd);
 	else if (command[i] == '<')
 		flag = parsing_infile(command, i, tmp_cmd);
 	else if (command[i] == '>')
@@ -86,18 +86,12 @@ int	parsing_last (char *command, t_cmd *cmd)
 	int	i;
 
 	i = 0;
-	ft_strtok(command, '\0');
-	while (command[i])
-	{
-		while (check_invisible_characters(command[i]))
-			i++;
-		while (!check_invisible_characters(command[i]))
-			i++;
-		
-	}
+	cmd->cmd = ft_split_invisible_character(command);
+	find_path(cmd)
+	find_quote(cmd->cmd);
 }
 
-int	parsing_tok(char *command, t_cmd **cmd)
+int	parsing(char *command, t_cmd **cmd)
 {
 	t_cmd	*tmp_cmd;
 	int		i;

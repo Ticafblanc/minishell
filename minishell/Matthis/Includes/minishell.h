@@ -33,7 +33,7 @@
 enum	e_status
 {
 	ON = 2,
-	MEMO = 3,
+	MEMO = 3,//cat: stdout: No space left on device
 	FORK = 4,
 	INFILE = 5,
 	OUTFILE = 6,
@@ -72,6 +72,7 @@ typedef struct	s_cmd
 	pid_t			pid;
 	int				status;//return stat waitpid...
 	int				bultin;
+	char			*sub;
 	char			**cmd;
 	char			*path;
 	int				infile;

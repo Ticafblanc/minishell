@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1-2-4_execute_execve.c                             :+:      :+:    :+:   */
+/*   1-2-1_parsing.c                                    :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,47 +12,61 @@
 
 #include <minishell.h>
 
-extern t_global	g_global;
+extern char	**g_envp;
 
-void	ft_execve(char *argv)
+char	*find_path(char *cmd)
 {
-	char	**cmd;
+	char	**paths;
 	char	*path;
+	int		i;
 
-	cmd = ft_split(argv, ' ');
-	if (*cmd[0] == '/' || *cmd[0] == '.' || *cmd[0] == '~')
-		path = cmd[0];
-	else
-		path = find_path(cmd[0], envp);
-	execve(path, cmd, envp);
-	ft_free_pp(cmd);
-	free(path);
-	ft_exit_perror("command not found", 127);
+
+	i = 0;
+	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	cmd = ft_strjoin("/", cmd);
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], cmd);
+		if (access(path, X_OK) == 0)
+		{
+			free(cmd);
+			ft_free_pp(paths);
+			return (path);
+		}
+		free(path);
+		i++;
+	}
+	free(cmd);
+	ft_free_pp(paths);
+	return (NULL);
 }
 
-void	child_process(char *argv, char **envp)
+
+
+void	here_doc(char *limiter, int argc)
 {
 	pid_t	pid;
 	int		fd[2];
-	int		status;
+
 
 	if (pipe(fd) == -1)
-		ft_exit_perror("Pipe child_process", EXIT_FAILURE);
+		ft_exit_perror("Pipe here_doc", EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
-		ft_exit_perror("Fork child_process", EXIT_FAILURE);
-	if (pid > 0)
+		ft_exit_perror("Fork here_doc", EXIT_FAILURE);
+	if (pid == 0)
 	{
-		close(fd[FD_WRITE]);
-		dup2(fd[FD_READ], STDIN_FILENO);
 		close(fd[FD_READ]);
-		waitpid(pid, &status, WNOHANG);
+		if (check_limiter(fd[FD_WRITE], limiter) == 1)
+			exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		close(fd[FD_READ]);
-		dup2(fd[FD_WRITE], STDOUT_FILENO);
 		close(fd[FD_WRITE]);
-		ft_execve(argv, envp);
+		dup2(fd[FD_READ], STDIN_FILENO);
+		wait(NULL);
 	}
 }

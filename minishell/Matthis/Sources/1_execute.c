@@ -88,11 +88,11 @@ static int	exec_sub(t_cmd *cmd)
 	}
 }
 
-int	*exec(char *command, int status)//change statu pour fork ou pas
+int	*exec(char *command)//change statu pour fork ou pas
 {
 	t_cmd	*cmd;
 
-	if (parsing_tok(command, cmd))
+	if (parsing(command, cmd))
 		return (EXIT_FAILURE);
 	while (cmd->next != NULL)
 	{
@@ -100,7 +100,7 @@ int	*exec(char *command, int status)//change statu pour fork ou pas
 			break;
 		cmd = cmd->next;
 	}
-	exec_last(cmd, status);
+	exec_last(cmd);
 	wait_and_free(cmd);
 	return (EXIT_SUCCESS);
 }
