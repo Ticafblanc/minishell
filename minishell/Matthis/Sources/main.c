@@ -20,34 +20,45 @@ static void	reset_command(char **command)
 	*command = NULL;
 }
 
+int	prompt(char *prompt, int *status)
+{
+	signal(SIGINT, handle_prompt);
+	signal(SIGQUIT, SIG_IGN);
+	command = readline(prompt);
+	if (!*command)
+		free_and_exit(EXIT_SUCCESS);
+	else if (command[0] != '\0')
+	{
+		add_history(command);
+		status = execute(command, status);
+	}
+	reset_command(&command);
+	return (status);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	pid_t	pid;
 	int		status;
 	char	*command;
 	
-
-	if (argc == 3 && ft_strncmp(argv[1], "-c", 2) == 0)
-			free_and_exit(exec(argv[2]));
-	else if (argc == 1)
+	pid = fork();
+	if (pid < 0)
+		exit(ECHILD);
+	if (!pid)
 	{
 		status = init_minishell(envp);
-		while (status == ON)
+		if (argc == 1 && !status)
 		{
-			signal(SIGINT, handle_prompt);
-			signal(SIGQUIT, SIG_IGN);
-			command = readline(prompt);
-			if (!*command)
-				free_and_exit(EXIT_SUCCESS);
-			else if (command[0] != '\0')
+			while (argc)
 			{
-				add_history(command);
-				exec(command, MAIN);
-			}   
-			reset_command(&command);
+				prompt("minishell %", &status);// voir si util p[ar la suite le status
+			}
 		}
+		if (argc > 2 && ft_strncmp(argv[1], "-c", 2) == 0 && && !status)
+			free_and_exit(execute(argv[2], &status));
+		free_and_exit(status);
 	}
-	else
-		exit(EXIT_FAILURE);
-	exit(EXIT_SUCCESS);
+	waitpid(pid, &status, 0);
+	exit(status);
 }

@@ -26,6 +26,7 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <stdbool.h>
+# include <errno.h>
 
 # define READ_END 	0
 # define WRITE_END 	1
@@ -42,6 +43,7 @@ enum	e_status
 	QUOTE = 9,// '' or "" not close
 	MAIN = 10,
 	SUB = 11,
+	ARG = 12
 
 };
 
@@ -70,7 +72,6 @@ typedef struct	s_cmd
 {
 	int				ctrl_op;
 	pid_t			pid;
-	int				status;//return stat waitpid...
 	int				bultin;
 	char			*sub;
 	char			**cmd;
@@ -80,22 +81,21 @@ typedef struct	s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+	//main.c
+int		prompt(char *prompt, int status);
 	//0_init.c
-int	init_minishell(char **envp);// init variable g_global
+int		init_minishell(char **envp);// init variable g_global
 
-	//1-2-0_execute.c
-char	*execute(char *command);// init la struct de gestion d'une commande 
-										//gere les signaux ctrl c et ctrl \
-										// recherche une command a executer (une seul)
-										// l'envoie dans le parsing pour triage et lance 
-										// le dispatch d'execution 
+	//1_execute.c
+void	execute(char *command, int status);
 
 	//1-2-1_parsing.c
+int		parsing(char *command, t_cmd *cmd, int *status);
 // parsing de la strinf cmd->to_do
 
 	//1-2-2_dispatch_execute.c
 void	dispatch_execute(t_command *cmd);// open les fichier necessaire selction 
-										// et lance l'execution du bon process
+// prepare la list de commande a traiter
 
 	//1-2-2_execute_builtins.c
 int		pass_invisible_characters(char *command);
@@ -111,6 +111,6 @@ void	handle_prompt(int signum);// gestion de ctrl c dans le prompt
 void	handle_execute(int sig_num);//gestion de ctrl c dans le process
 
 	//3_free_and_exit.c
-int		free_and_exit(int exit_code);//gestion de srotie de process et message d'erreur
+int		free_and_exit(int status);//gestion de srotie de process et message d'erreur
 
 #endif

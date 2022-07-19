@@ -14,14 +14,16 @@
 
 extern char	**g_envp;
 
-int     parsing_pipe(char *command, int *i, t_cmd *cmd)
+int     parsing_pipe(char **command, t_cmd *cmd, int *nb_word, int *trig)
 {
+    perror("bash: syntax error near unexpected token `|'");
     if (ft_strncmp(command + *i, "||", 2))
     {
 		cmd->ctrl_op = OR;
         parsing_last(ft_strtok(NULL, '|'), cmd);
         *i += ft_str_len(cmd) + 2;
     }
+
      else
     {
         cmd->ctrl_op = PIPE;
@@ -39,7 +41,7 @@ int     parsing_pipe(char *command, int *i, t_cmd *cmd)
     return(0);
 }
 
-int     parsing_and(char *command, int *i, t_cmd *cmd)
+int     parsing_and(char *command, int *i, t_cmd *cmd, int *nb_word, int *trig)
 {
     if (ft_strncmp(command + *i, "&&", 2))
     {
