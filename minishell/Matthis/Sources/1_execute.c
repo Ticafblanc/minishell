@@ -53,7 +53,7 @@ static int	exec_last(t_cmd *cmd, int status)
 	return (0);
 }
 
-static int	exec_sub(t_cmd *cmd)
+static int	exec_sub(t_cmd *cmd, int status)
 {
 	
 	int		status;
@@ -88,20 +88,49 @@ static int	exec_sub(t_cmd *cmd)
 	}
 }
 
-int	*exec(char *command)//change statu pour fork ou pas
+static int	parsing(char *command, t_cmd *cmd, int *status)
+{
+	int	nb_word;
+	int	trig;
+
+	nb_word = 0;
+	trig = 0;
+	while (*command != '\0')
+	{
+		if (*command == 34 || *command == 39)
+			*status = pass_quote(&command, cmd, *command);
+		else if (*command == '|' || *command == '&' || *command == '(' || *command == ')')
+			*status = parsing_op(&command, &cmd, &nb_word, &trig);
+		else if (*command == '<' || *command == '>')
+			*status = parsing_file(&command, cmd, &nb_word, &trig);
+		else if (check_invisible_characters(*command))
+			parsing_invisble(&command, &trig);
+		else
+			*status = add_word(&command, cmd, &nb_word, &trig);
+		if (*status)
+			return (-1);
+	}
+	return (0);
+}
+
+int	execute(char *command, int *status)
 {
 	t_cmd	*cmd;
 
-	if (parsing(command, cmd))
-		return (EXIT_FAILURE);
+	if (!(cmd = ft_mlstadd(*cmd)))
+		return (-1);
+	if (parsing(command, cmd, status))
+	{
+		free_cmd(cmd);
+		return (status);
+	}
 	while (cmd->next != NULL)
 	{
-		if (exec_sub(cmd))// prevoir gestion des flag ctrl op pour continuer
-			break;
+		status = exec_sub(cmd, status);//prevoir gestion des et et des ou
 		cmd = cmd->next;
 	}
-	exec_last(cmd);
+	status = exec_last(cmd, status);
 	wait_and_free(cmd);
-	return (EXIT_SUCCESS);
+	return (status);
 }
 

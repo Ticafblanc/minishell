@@ -18,6 +18,9 @@ int	init_minishell(char **envp)
 {
 	g_envp = ft_dup_cpp(envp);
 	if (!g_envp)
-		free_and_exit(MEMO);
-	return (ON);
+	{
+		perror("bash :");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
