@@ -12,10 +12,20 @@
 
 #include <minishell.h>
 
-extern char	**g_envp;
-
-int	free_and_exit(int status)// fermeture global
+void	perror_minishell(int *status, char *command)
 {
-	ft_free_pp((void **)g_envp);
-	exit (status);
+	if (*status)
+	{
+		if (*status == NCMD)
+		{
+			dprintf(2,"minishell: %s: command not found: ", command);
+			*status = 127;
+		}
+		else 
+		{
+			dprintf(2,"minishell: syntax error near unexpected token `%c'", status);
+			*status = 258;
+		}
+	}
+	return ;
 }

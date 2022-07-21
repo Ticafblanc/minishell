@@ -12,7 +12,6 @@
 
 #include <minishell.h>
 
-extern char **g_envp;
 
 // //int	check_limiter(int fd, char *limiter)
 // {

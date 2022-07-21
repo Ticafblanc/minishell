@@ -31,20 +31,12 @@
 # define READ_END 	0
 # define WRITE_END 	1
 
+extern int	errno;
+
 enum	e_status
 {
-	ON = 2,
-	MEMO = 3,//cat: stdout: No space left on device
-	FORK = 4,
-	INFILE = 5,
-	OUTFILE = 6,
-	PIPE_R = 7,
-	TOKEN = 8, //syntax error near unexpected token
-	QUOTE = 9,// '' or "" not close
-	MAIN = 10,
-	SUB = 11,
-	ARG = 12
-
+	NCMD = 127,
+	TOKENERR = 130,
 };
 
 enum	e_bultins
@@ -64,8 +56,7 @@ enum	e_control_operator
 	PIPE = 2, // cree un pipe de sortie
 	OR = 3, // continue si ko
 	AND = 4, //continue si ok
-	BRACE = 5,// 
-	NEWLINE = 6,
+	BRACE = 5,
 };
 
 typedef struct	s_cmd
@@ -81,24 +72,14 @@ typedef struct	s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
-	//main.c
-int		prompt(char *prompt, int status);
-	//0_init.c
-int		init_minishell(char **envp);// init variable g_global
-
-	//1_execute.c
-void	execute(char *command, int status);
-
-	//1-2-1_parsing.c
-int		parsing(char *command, t_cmd *cmd, int *status);
-// parsing de la strinf cmd->to_do
-
+t_cmd	*ft_mlstadd(t_cmd *cmd, int *status);
+void	perror_minishell(int *status, char *command);
 	//1-2-2_dispatch_execute.c
-void	dispatch_execute(t_command *cmd);// open les fichier necessaire selction 
+//void	dispatch_execute(t_command *cmd); open les fichier necessaire selction 
 // prepare la list de commande a traiter
 
 	//1-2-2_execute_builtins.c
-int		pass_invisible_characters(char *command);
+//int		//pass_invisible_characters(char *command);
 
 	//1-2-3_execute_builtins.c
 //execute bultin passer ne parametre
@@ -108,7 +89,7 @@ int		pass_invisible_characters(char *command);
 
 	//2_signal.c
 void	handle_prompt(int signum);// gestion de ctrl c dans le prompt
-void	handle_execute(int sig_num);//gestion de ctrl c dans le process
+//void	handle_execute(int sig_num);//gestion de ctrl c dans le process
 
 	//3_free_and_exit.c
 int		free_and_exit(int status);//gestion de srotie de process et message d'erreur

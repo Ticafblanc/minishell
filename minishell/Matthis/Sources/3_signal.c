@@ -12,8 +12,6 @@
 
 #include <minishell.h>
 
-extern t_global	g_global;
-
 void	handle_prompt(int sig_num)
 {
 	if (sig_num == SIGINT)
@@ -22,16 +20,16 @@ void	handle_prompt(int sig_num)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
-}
+}// prevoir switch pour sig action
 
-void	handle_execute(int sig_num)
-{
-	if (sig_num == SIGINT)
-	{
-		exit(EXIT_SUCCESS);
-		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
-		//rl_replace_line("", 0);
-		//rl_on_new_line();
-	}
-}
+// void	handle_execute(int sig_num)
+// {
+// 	if (sig_num == SIGINT)
+// 	{
+// 		exit(EXIT_SUCCESS);
+// 		//ioctl(STDIN_FILENO, TIOCSTI, "\n");
+// 		//rl_replace_line("", 0);
+// 		//rl_on_new_line();
+// 	}
+// }
   

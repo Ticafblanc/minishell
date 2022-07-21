@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_main.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,82 +12,119 @@
 
 #include <minishell.h>
 
-static void	reset_command(char **command)
+// static int	exec_cmd(t_cmd *cmd, int status)
+// {
+	
+// 	int		status;
+
+// 	if (cmd->ctrl_op == PIPE)
+// 	{
+// 		cmd->pid = fork;
+// 		if (!cmd->pid)
+// 			execve(cmd->cmd[0], cmd->cmd, g_envp);
+// 		//interprete retour command pour || et && page 42 stau de sortie
+// 										//voir gesion du sigpipe
+// 	}
+// 	else if (cmd->ctrl_op == AND)
+// 	{
+// 		if (cmd->bultin)
+// 			exec_bultin(cmd->bultin);
+// 		cmd->pid = fork;
+// 		if (!cmd->pid)
+// 			execve(cmd->cmd[0], cmd->cmd, g_envp);
+// 		waitpid(cmd->pid, &cmd->status, 0);//interprete retour command pour || et && page 42 stau de sortie
+// 										//voir gesion du sigpipe
+// 	}
+// 	else if (cmd->ctrl_op == OR)
+// 	{
+// 		if (cmd->bultin)
+// 			exec_bultin(cmd->bultin);
+// 		cmd->pid = fork;
+// 		if (!cmd->pid)
+// 			execve(cmd->cmd[0], cmd->cmd, g_envp);
+// 		waitpid(cmd->pid, &cmd->status, 0);//interprete retour command pour || et && page 42 stau de sortie
+// 										//voir gesion du sigpipe
+// 	}
+// }
+static int	exec_cmd(t_cmd *cmd, int *status, char **envp)
 {
-	if (!*command)
-		return ;
-	free(*command);
-	*command = NULL;
+	if (cmd && envp)
+		printf("coucou");
+	return(*status);
 }
 
-int	prompt(char *prompt, int *status)
+static int	parsing(char *command, t_cmd *cmd, int *status)
 {
-	signal(SIGINT, handle_prompt);
-	signal(SIGQUIT, SIG_IGN);
-	command = readline(prompt);
-	if (!*command)
-		free_and_exit(EXIT_SUCCESS);
-	else if (command[0] != '\0')
+	//int	nb_word;
+//int	trig;
+
+	//nb_word = 0;
+	//trig = 0;
+	cmd = ft_mlstadd(cmd, status);
+	while (*command != '\0')
 	{
-		add_history(command);
-		status = execute(command, status);
+		if (*status)
+			return (-1);
+		else if (*command == 34 || *command == 39)
+		 	*status = pass_quote(&command, cmd, *command);
+		// else if (*command == '|' || *command == '&' || *command == '(' || *command == ')')
+		// 	*status = parsing_op(&command, &cmd, &nb_word, &trig);
+		// else if (*command == '<' || *command == '>')
+		// 	*status = parsing_file(&command, cmd, &nb_word, &trig);
+		// else if (check_invisible_characters(*command))
+		// 	parsing_invisble(&command, &trig);
+		// else
+		// 	add_word(&command, cmd, &nb_word, &trig);
+
 	}
-	reset_command(&command);
-	return (status);
+	return (0);
+}
+
+static int	execute(char *command, int *status, char **envp)
+{
+	t_cmd	*cmd;
+
+	*status = 0;
+	cmd = NULL;
+	add_history(command);
+	if (!parsing(command, cmd, status))
+	{
+		while (cmd)
+		{
+			exec_cmd(cmd, status, envp);
+			cmd = cmd->next;
+		}
+		//wait_and_free(cmd);// voir si necessaire
+	}
+	perror_minishell(status, command);
+	//free_cmd(cmd);
+	return (*status);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	pid_t	pid;
 	int		status;
 	char	*command;
 	
-<<<<<<< HEAD
-
-	if (argc == 3 && ft_strncmp(argv[1], "-c", 2) == 0)
+	status = 0;
+	if (argc == 1)
 	{
-		pid = fork();
-		if (pid < 0)
-			free_and_exit(FORK);
-		else if (!pid)
-			exec(argv[2]);
-		waitid(pid, &status, 0);//voir si retour satus code est coerrect
-	}		
-	else if (argc == 1)
-=======
-	pid = fork();
-	if (pid < 0)
-		exit(ECHILD);
-	if (!pid)
->>>>>>> origin/school
-	{
-		status = init_minishell(envp);
-		if (argc == 1 && !status)
+		while (argc)
 		{
-<<<<<<< HEAD
 			signal(SIGINT, handle_prompt);
 			signal(SIGQUIT, SIG_IGN);
 			command = readline("minishell %");
-			if (!*command)
-				free_and_exit(EXIT_SUCCESS);
+			if (!command)
+				exit(EXIT_SUCCESS);
 			else if (command[0] != '\0')
-=======
-			while (argc)
->>>>>>> origin/school
-			{
-				prompt("minishell %", &status);// voir si util p[ar la suite le status
-			}
+				execute(command, &status, envp);
+			free(command);
 		}
-		if (argc > 2 && ft_strncmp(argv[1], "-c", 2) == 0 && && !status)
-			free_and_exit(execute(argv[2], &status));
-		free_and_exit(status);
 	}
-<<<<<<< HEAD
-	else
-		exit(EXIT_FAILURE);//print erreru argument
-	exit(status);//voir satuts code
-=======
-	waitpid(pid, &status, 0);
-	exit(status);
->>>>>>> origin/school
+	else if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)
+		exit(execute(argv[2], &status, envp));// exit
+	dprintf(2, "minshell: %s: invalid option\n"
+	"Usage: minishell [option] [command]\n"
+	"Shell option :\n\t-c command\n", argv[1]);
+	exit(2);
 }
