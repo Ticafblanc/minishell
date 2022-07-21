@@ -28,7 +28,14 @@ int	main(int argc, char **argv, char **envp)
 	
 
 	if (argc == 3 && ft_strncmp(argv[1], "-c", 2) == 0)
-			free_and_exit(exec(argv[2]));
+	{
+		pid = fork();
+		if (pid < 0)
+			free_and_exit(FORK);
+		else if (!pid)
+			exec(argv[2]);
+		waitid(pid, &status, 0);//voir si retour satus code est coerrect
+	}		
 	else if (argc == 1)
 	{
 		status = init_minishell(envp);
@@ -36,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			signal(SIGINT, handle_prompt);
 			signal(SIGQUIT, SIG_IGN);
-			command = readline(prompt);
+			command = readline("minishell %");
 			if (!*command)
 				free_and_exit(EXIT_SUCCESS);
 			else if (command[0] != '\0')
@@ -48,6 +55,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	else
-		exit(EXIT_FAILURE);
-	exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);//print erreru argument
+	exit(status);//voir satuts code
 }
