@@ -61,7 +61,7 @@ INC_FLAGS += -DREADLINE_LIBRARY -I $(LIB_PATH_1)
 
 #LIB_FLAGS += -L ~/.brew/opt/readline/lib -lreadline -lncurses
 #LIB_FLAGS += -L../readline -lreadline -lncurses
-LIB_FLAGS += -L $(LIB_PATH_1) -l $(LIB_NAME_1) -l $(LIB_NAME_2) -l curses #
+LIB_FLAGS += -L $(LIB_PATH_1) -l $(LIB_NAME_1) -l $(LIB_NAME_2) -l curses 
 
 #  SOURCES  #
 
@@ -133,7 +133,7 @@ $(OBJ_PATH)%.o:$(SRC_PATH_SIH)%.c
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
 		@echo $(BLUE) $(notdir $@) is created !!
 
-$(BIN): title libft  directory $(OBJ) #realine#
+$(BIN): title libft directory $(OBJ) #realine#
 		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 

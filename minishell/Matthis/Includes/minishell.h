@@ -35,7 +35,7 @@ extern int	errno;
 
 enum	e_status
 {
-	NCMD = 127,
+	NCMD = -1,
 	TOKENERR = 130,
 };
 
@@ -52,11 +52,17 @@ enum	e_bultins
 
 enum	e_control_operator
 {
-	END = 1,//\0
-	PIPE = 2, // cree un pipe de sortie
-	OR = 3, // continue si ko
-	AND = 4, //continue si ok
-	BRACE = 5,
+	END = 0,//\0
+	PIPE = 1, // cree un pipe de sortie
+	OR = 2, // continue si ko
+	AND = 3, //continue si ok
+	BRACE = 4,
+	WORD = 5,
+	R_IN = 6,
+	R_OUT = 7,
+	A_R_OUT = 8,
+	HERE_DOC = 9,
+	FILE = 10,
 };
 
 typedef struct	s_cmd
@@ -72,8 +78,11 @@ typedef struct	s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+void	parsing_invisble(char **command, int *trig);
+int		add_word(char **command, t_cmd *cmd, int *nb_word, int *trig);
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status);
 void	perror_minishell(int *status, char *command);
+
 	//1-2-2_dispatch_execute.c
 //void	dispatch_execute(t_command *cmd); open les fichier necessaire selction 
 // prepare la list de commande a traiter

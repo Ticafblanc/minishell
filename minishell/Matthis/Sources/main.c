@@ -48,36 +48,39 @@
 // }
 static int	exec_cmd(t_cmd *cmd, int *status, char **envp)
 {
-	if (cmd && envp)
-		printf("coucou");
+	while (*cmd->cmd && **envp)
+	{
+		printf("cmd->cmd = %s\n", *cmd->cmd);
+		printf("infile = %d\n", cmd->infile);
+		printf("outfile = %d\n\n", cmd->outfile);
+		cmd->cmd++;
+	}
 	return(*status);
 }
 
-static int	parsing(char *command, t_cmd *cmd, int *status)
+static t_cmd	*parsing(char *command, int *status)
 {
-	//int	nb_word;
-//int	trig;
+	t_cmd	*cmd = NULL;
+	int		nb_word;
+	int	trig;
 
-	//nb_word = 0;
-	//trig = 0;
+	nb_word = 0;
+	trig = 0;
 	cmd = ft_mlstadd(cmd, status);
-	while (*command != '\0')
+	while (cmd && *command != '\0')
 	{
-		if (*status)
-			return (-1);
-		else if (*command == 34 || *command == 39)
-		 	*status = pass_quote(&command, cmd, *command);
-		// else if (*command == '|' || *command == '&' || *command == '(' || *command == ')')
-		// 	*status = parsing_op(&command, &cmd, &nb_word, &trig);
-		// else if (*command == '<' || *command == '>')
-		// 	*status = parsing_file(&command, cmd, &nb_word, &trig);
-		// else if (check_invisible_characters(*command))
-		// 	parsing_invisble(&command, &trig);
-		// else
-		// 	add_word(&command, cmd, &nb_word, &trig);
+		printf("pars ->%c\n", *command);
+		if (*command == '|' || *command == '&' || *command == '('
+			|| *command == ')' || *command == '<' || *command == '>'
+			|| check_invisible_characters(*command))
+		 	*status = parsing_met(&command, &cmd, &nb_word, &trig);
+		else if (!trig)
+			*status = add_word(&command, cmd, &nb_word, &trig);
+		else
+			command++;
 
 	}
-	return (0);
+	return (cmd);
 }
 
 static int	execute(char *command, int *status, char **envp)
@@ -85,18 +88,17 @@ static int	execute(char *command, int *status, char **envp)
 	t_cmd	*cmd;
 
 	*status = 0;
-	cmd = NULL;
 	add_history(command);
-	if (!parsing(command, cmd, status))
+	cmd = parsing(command, status);
+	if (!status)
 	{
 		while (cmd)
 		{
 			exec_cmd(cmd, status, envp);
 			cmd = cmd->next;
 		}
-		//wait_and_free(cmd);// voir si necessaire
 	}
-	perror_minishell(status, command);
+	//wait_and_free(cmd);// voir si necessaire
 	//free_cmd(cmd);
 	return (*status);
 }
