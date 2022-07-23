@@ -62,7 +62,6 @@ enum	e_control_operator
 	R_OUT = 7,
 	A_R_OUT = 8,
 	HERE_DOC = 9,
-	FILE = 10,
 };
 
 typedef struct	s_cmd
@@ -78,10 +77,17 @@ typedef struct	s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
-void	parsing_invisble(char **command, int *trig);
+int		parsing_invisible_characters(char **command, int *trig);
+int		parsing_met(char **command, t_cmd **cmd, int *nb_word, int *trig);
 int		add_word(char **command, t_cmd *cmd, int *nb_word, int *trig);
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status);
-void	perror_minishell(int *status, char *command);
+int		perror_minishell(int status, char *command);
+int		parsing_here_doc(char **command, t_cmd *cmd, int *trig);
+int		parsing_app_redir_out(char **command, t_cmd *cmd, int *trig);
+int		parsing_redir_out(char **command, t_cmd *cmd, int *trig);
+int		parsing_redir_in(char **command, t_cmd *cmd, int *trig);
+int		check_limiter(int fd, char *limiter);
+char	check_metacharacter(char c);
 
 	//1-2-2_dispatch_execute.c
 //void	dispatch_execute(t_command *cmd); open les fichier necessaire selction 

@@ -12,31 +12,54 @@
 
 #include <minishell.h>
 
-int	parsing_met(char **command, t_cmd *cmd, int *nb_word, int *trig)
+char	check_metacharacter(char c)
 {
-	char	tok;
+	if (c == '|' || c == '&' || c == '('
+		|| c == ')' || c == '<' || c == '>'
+		|| check_invisible_characters(c))
+		return (c);
+	return (0);
+}
+
+int	parsing_invisible_characters(char **command, int *trig)
+{
+	**command = '\0';
+	// if (*trig == 0)
+	// 	free(*command);
+	// else
+	(*trig) = 0;
+	(*command)++;
+	return (0);
+}
+
+int	parsing_met(char **command, t_cmd **cmd, int *nb_word, int *trig)
+{
 	int		status;
 
+
+	if (*nb_word)
+		status = 130;
 	// if (*command[0] == '|' && *command[1] == '|')
 	// 	status = parsing_or(cmd);
-	// else if (**command =='|')
-	// 	status =parsing_pipe(cmd);
+	if (**command =='|')
+	 	status = parsing_pipe(cmd);
 	// else if (*command[0] == '&' && *command[1] == '&')
-	// 	status =parsing_and(cmd);
+	// 	status = parsing_and(cmd);
 	// else if (tok == '(')
-	// 	status =parsing_brace(cmd);
-	// else if (*command[0] == '<' && *command[1] == '<')
-	// 	status =parsing_here_doc(cmd);
-	// else if (*command[0] == '>' && *command[1] == '>')
-	// 	status =parsing_app_redir_out;
-	// else if (*command[0] == '>')
-	// 	status =parsing_redir_out;
-	if (*command[0] == '<')
-		status =parsing_redir_in(char **command, t_cmd *cmd, char *command);
+	// 	status =  parsing_brace(cmd);
+	if (command[0][0] == '<' && command[0][1] == '<')
+		status = parsing_here_doc(command, *cmd, trig);
+	else if (command[0][0] == '>' && command[0][1] == '>')
+		status = parsing_app_redir_out(command, *cmd, trig);
+	else if (*command[0] == '>')
+		status = parsing_redir_out(command, *cmd, trig);
+	else if (**command == '<')
+		status = parsing_redir_in(command, *cmd, trig);
+	else if (check_invisible_characters(**command))
+		status = parsing_invisible_characters(command, trig);
 	else
 		*command[1] = '\0';
-	status = perror_minishell(130, *command)
-	return(EXIT_SUCCESS);
+	return(perror_minishell(status, *command));
 }
 
 int	add_word(char **command, t_cmd *cmd, int *nb_word, int *trig)
@@ -45,7 +68,8 @@ int	add_word(char **command, t_cmd *cmd, int *nb_word, int *trig)
 
 	cmd->cmd[*nb_word] = *command;
 	c = 0;
-	if ((*command == 34 || *command == 39))
+	(*trig) = WORD;
+	if ((**command == 34 || **command == 39))
 	{
 		c = **command;
 		while (**command != '\0')
@@ -58,9 +82,9 @@ int	add_word(char **command, t_cmd *cmd, int *nb_word, int *trig)
 				break;
 			}
 		}
+		return(perror_minishell((int)c, *command));
 	}
 	(*nb_word)++;
-	(*trig) = WORD;
 	(*command)++;
 	return ((int)c);
 }
@@ -86,6 +110,6 @@ t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 		free(new);
 	}
 	*status = errno;
-	perror("minishell:")
+	perror("minishell:");
 	return (NULL);
 }

@@ -58,39 +58,38 @@ static int	exec_cmd(t_cmd *cmd, int *status, char **envp)
 	return(*status);
 }
 
-static t_cmd	*parsing(char *command, int *status)
+static void	parsing(char *command, int *status, t_cmd **cmd)
 {
-	t_cmd	*cmd = NULL;
 	int		nb_word;
 	int	trig;
 
 	nb_word = 0;
 	trig = 0;
-	cmd = ft_mlstadd(cmd, status);
-	while (cmd && *command != '\0')
+	*status = 0;
+	(*cmd) = ft_mlstadd((*cmd), status);
+	while (!(*status) && *command != '\0')
 	{
-		printf("pars ->%c\n", *command);
-		if (*command == '|' || *command == '&' || *command == '('
-			|| *command == ')' || *command == '<' || *command == '>'
-			|| check_invisible_characters(*command))
-		 	*status = parsing_met(&command, &cmd, &nb_word, &trig);
+		//printf("pars ->%c\n", *command);
+		if (check_metacharacter(*command))
+		 	*status = parsing_met(&command, cmd, &nb_word, &trig);
 		else if (!trig)
-			*status = add_word(&command, cmd, &nb_word, &trig);
+			*status = add_word(&command, *cmd, &nb_word, &trig);
 		else
 			command++;
 
 	}
-	return (cmd);
+	return ;
 }
 
 static int	execute(char *command, int *status, char **envp)
 {
-	t_cmd	*cmd;
+	t_cmd	*cmd = NULL;
 
 	*status = 0;
 	add_history(command);
-	cmd = parsing(command, status);
-	if (!status)
+	parsing(command, status, &cmd);
+	printf("2status ->%d\n", *status);
+	if (!(*status))
 	{
 		while (cmd)
 		{
@@ -120,7 +119,8 @@ int	main(int argc, char **argv, char **envp)
 				exit(EXIT_SUCCESS);
 			else if (command[0] != '\0')
 				execute(command, &status, envp);
-			free(command);
+			else
+				free(command);
 		}
 	}
 	else if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)
