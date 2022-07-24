@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1-2-1_parsing.c                                    :+:      :+:    :+:   */
+/*   1-2_parsing_here_doc.c                             :+:      :+:    :+:   */
 /*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
 /*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,3 +34,49 @@ int	check_limiter(int fd, char *limiter)
 	return (0);
 }
 
+int	parsing_here_doc(char **command, t_cmd *cmd, int *trig)
+{
+	int		status;
+	char	*file;
+	char	c;
+	pid_t	pid;
+	int		fd[2];
+
+	status = parsing_invisible_characters(command, trig);
+	status = parsing_invisible_characters(command, trig);
+	c = find_next_word(command, &file);
+	printf("caractre->%s\ncommand -> %s\n", file, *command);
+	if (file && *file)
+	{
+		if (pipe(fd) != -1)
+		{
+			cmd->infile = fd[READ_END];
+			pid = fork();
+			if (pid != -1)
+			{
+				if (pid == 0)
+				{
+					close(fd[READ_END]);
+					if (check_limiter(fd[WRITE_END], file))
+						exit(EXIT_SUCCESS);
+					exit(EXIT_FAILURE);
+				}
+				else
+				{
+					close(fd[WRITE_END]);
+					cmd->infile = fd[READ_END];
+					wait(&status);
+					return (status);
+				}
+			}
+			close(fd[0]);
+			close(fd[1]);
+		}
+		perror("minishell:");
+		**command = c;
+		return (1);
+	}
+	**command = c;
+	command[0][1] = '\0';
+	return (130);
+}

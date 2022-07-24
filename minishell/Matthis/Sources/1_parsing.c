@@ -36,13 +36,12 @@ int	parsing_met(char **command, t_cmd **cmd, int *nb_word, int *trig)
 {
 	int		status;
 
-
-	if (*nb_word)
-		status = 130;
+	
+	status = 130;
 	// if (*command[0] == '|' && *command[1] == '|')
 	// 	status = parsing_or(cmd);
-	if (**command =='|')
-	 	status = parsing_pipe(cmd);
+	if (**command == '|')
+		status = parsing_pipe(command, cmd, nb_word, trig);
 	// else if (*command[0] == '&' && *command[1] == '&')
 	// 	status = parsing_and(cmd);
 	// else if (tok == '(')

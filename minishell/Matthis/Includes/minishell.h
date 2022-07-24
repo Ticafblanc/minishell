@@ -69,7 +69,6 @@ typedef struct	s_cmd
 	int				ctrl_op;
 	pid_t			pid;
 	int				bultin;
-	char			*sub;
 	char			**cmd;
 	char			*path;
 	int				infile;
@@ -77,18 +76,30 @@ typedef struct	s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+	//1_parsing.c
+
+char	check_metacharacter(char c);
 int		parsing_invisible_characters(char **command, int *trig);
 int		parsing_met(char **command, t_cmd **cmd, int *nb_word, int *trig);
 int		add_word(char **command, t_cmd *cmd, int *nb_word, int *trig);
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status);
-int		perror_minishell(int status, char *command);
-int		parsing_here_doc(char **command, t_cmd *cmd, int *trig);
+
+	//1-1_parsing_file.c
+
+char	find_next_word(char **command, char **file);
 int		parsing_app_redir_out(char **command, t_cmd *cmd, int *trig);
 int		parsing_redir_out(char **command, t_cmd *cmd, int *trig);
 int		parsing_redir_in(char **command, t_cmd *cmd, int *trig);
-int		check_limiter(int fd, char *limiter);
-char	check_metacharacter(char c);
 
+	//1-2_parsing_here_doc.c
+	
+int		check_limiter(int fd, char *limiter);
+int		parsing_here_doc(char **command, t_cmd *cmd, int *trig);
+
+	//1-3_parsing_sub.c
+int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word, int *trig);
+
+int		perror_minishell(int status, char *command);
 	//1-2-2_dispatch_execute.c
 //void	dispatch_execute(t_command *cmd); open les fichier necessaire selction 
 // prepare la list de commande a traiter
