@@ -12,22 +12,6 @@
 
 #include <minishell.h>
 
-int	perror_minishell(int status, char *command)
-{
-	//printf("status ->%c\n", (char)status);
-	if (status > 2)
-	{
-		if (status == NCMD)
-			dprintf(2,"minishell: %s: command not found ", command);
-		else if (status == 34 || status == 39)
-			dprintf(2,"minishell: syntax error `%c' not close\n", (char)status);
-		else 
-			dprintf(2,"minishell: syntax error near unexpected token `%s'\n", command);
-		return (status + 128);
-	}
-	return (status);
-}
-
 // static int	exec_cmd(t_cmd *cmd, int status)
 // {
 	
@@ -64,15 +48,23 @@ int	perror_minishell(int status, char *command)
 // }
 static int	exec_cmd(t_cmd *cmd, int *status, char **envp)
 {
+	int i;
+	int i2;
+
+	i = 0;
 	while (cmd)
 	{
+		i2 = 0;
 		while (*cmd->cmd && **envp)
 		{
-			printf("cmd->cmd = %s\n", *cmd->cmd);
+			printf("\ncmd = %d\n", i);
+			printf("cmd->cmd[%d] = %s\n", i2, *cmd->cmd);
 			printf("infile = %d\n", cmd->infile);
 			printf("outfile = %d\n\n", cmd->outfile);
 			cmd->cmd++;
+			i2++;
 		}
+		i++;
 		cmd = cmd->next;
 	}
 	return(*status);
@@ -81,46 +73,51 @@ static int	exec_cmd(t_cmd *cmd, int *status, char **envp)
 static void	parsing(char *command, int *status, t_cmd **cmd)
 {
 	int		nb_word;
-	int		trig;
 	t_cmd	*t_cmd;
 
 	nb_word = 0;
-	trig = 0;
-	*status = 0;
 	(*cmd) = ft_mlstadd((*cmd), status);
+	//printf("status in parsing = %d\n", *status);
 	t_cmd = *cmd;
 	while (!(*status) && *command != '\0')
 	{
-		//printf("pars ->%c\n", *command);
-		if (check_metacharacter(*command))
-		 	*status = parsing_met(&command, &t_cmd, &nb_word, &trig);
-		else if (!trig)
-			*status = add_word(&command, t_cmd, &nb_word, &trig);
-		else
-			command++;
-
+		while (check_metacharacter(&command, R_INVISIBLE))
+		(*cmd)->cmd[nb_word++] = command;
+		while (!pass_quote(&command, status) && *command != '\0'
+				&& !check_metacharacter(&command, N_METACHARACTER))
+		// if ((*command == '<' && *command == *command + 1))
+		// 	*status = parsing_redir(&command, *cmd, HERE_DOC);
+		// else if ((*command == '>' && *command == *command + 1))
+		// 	*status = parsing_redir(&command, *cmd, APPEND);
+		// else if (*command == '<')
+		// 	*status = parsing_redir(&command, *cmd, INFILE);
+		// else if (*command == '>')
+		// 	*status = parsing_redir(&command, *cmd, OUTFILE);
+		if (!(*status) && *command != '\0')
+			*status = parsing_ctrl_op(&command, &t_cmd, &nb_word);
 	}
-	return ;
 }
 
 static int	execute(char *command, int *status, char **envp)
 {
 	t_cmd	*cmd = NULL;
 
-	*status = 0;
 	add_history(command);
+	*status = 0;
 	parsing(command, status, &cmd);
-	printf("2status ->%d\n", *status);
-	if (!(*status))
+	//printf("status de sortie de parsing ->%d\n", *status);
+	if (*status == 0)
 	{
+		//printf("status de sortie de parsing@ ->%d\n", *status);
+		//printf("cmd -> %s\n", cmd->cmd[0]);
 		while (cmd)
 		{
 			exec_cmd(cmd, status, envp);
-			cmd = cmd->next;
+			//printf("status de sortie de command ->%d\n", *status);
 		}
 	}
-	//wait_and_free(cmd);// voir si necessaire
-	//free_cmd(cmd);
+	free_cmd(cmd);
+	//wait et free a gere
 	return (*status);
 }
 
@@ -146,9 +143,24 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	else if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)
-		exit(execute(argv[2], &status, envp));// exit
+		exit(execute(argv[2], &status, envp));
 	dprintf(2, "minshell: %s: invalid option\n"
 	"Usage: minishell [option] [command]\n"
 	"Shell option :\n\t-c command\n", argv[1]);
 	exit(2);
 }
+
+
+
+
+
+
+
+
+//printf("cmd -> %s\n", t_cmd->cmd[nb_word]);
+		// if (check_metacharacter(*command))
+		//  	*status = parsing_met(&command, &t_cmd, &nb_word, &trig);
+		// else if (!trig || *command == 34 || *command == 39)
+		// 	*status = add_word(&command, t_cmd, &nb_word, &trig);
+		// else
+		// 	command++;

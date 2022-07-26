@@ -12,89 +12,133 @@
 
 #include <minishell.h>
 
-char	find_next_word(char **command, char **file)
-{
-	char c;
+// int	check_limiter(int fd[2], char *limiter)
+// {
+// 	char	*line;
 
-	while (**command != '\0' && check_invisible_characters(**command))
-		(*command)++;
-	*file = (*command);
-	while (**command != '\0' && !check_metacharacter(**command))
-		(*command)++;
-	c = **command;
-	**command = '\0';
-	return (c);
-}
+// 	close(fd[READ_END]);
+// 	line = readline(">");
+// 	while (line)
+// 	{
+// 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+// 		{
+// 			close(fd);
+// 			free(line);
+// 			exit(EXIT_SUCCESS);
+// 		}
+// 		ft_putstr_fd(line, fd);
+// 		free(line);
+// 		line = readline(">");
+// 	}
+// 	close(fd);
+// 	free(line);
+// 	exit(EXIT_SUCCESS);
+// }
 
-int	parsing_app_redir_out(char **command, t_cmd *cmd, int *trig)
-{
-	char	*file;
-	char	c;
+// int	parsing_here_doc(char *limiter)
+// {
+// 	pid_t	pid;
+// 	int		fd[2];
 
-	parsing_invisible_characters(command, trig);
-	parsing_invisible_characters(command, trig);
-	c = find_next_word(command, &file);
-	printf("app_file->%s\n", file);
-	if (file && *file)
-	{
-		cmd->outfile = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		if (cmd->outfile == -1)
-		{
-			dprintf(2,"minishell: %s: %s \n", file, strerror(errno));
-			return (1);
-		}
-		**command = c;
-		return (0);
-	}
-	**command = c;
-	command[0][1] = '\0';
-	return(130);
-}
+// 	if (pipe(fd) != -1)
+// 	{
+// 		pid = fork();
+// 		if (pid != -1)
+// 		{
+// 			if (pid == 0)
+// 				check_limiter(fd, limiter);
+// 			close(fd[WRITE_END]);
+// 			wait(NULL);
+// 			return (fd[READ_END]);
+// 		}
+// 		close(fd[0]);
+// 		close(fd[1]);
+// 	}
+// 	return (-1);
+// }
 
-int	parsing_redir_out(char **command, t_cmd *cmd, int *trig)
-{
-	char	*file;
-	char	c;
+// int	parsing_redir(char **command, t_cmd *cmd, int king)
+// {
+// 	char	*file;
+// 	char	c;
+// 	char	m;
+// 	int		r;
 
-	parsing_invisible_characters(command, trig);
-	c = find_next_word(command, &file);
-	printf("outfile->%s\n", file);
-	if (file && *file)
-	{
-		cmd->outfile = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		if (cmd->outfile == -1)
-		{
-			dprintf(2,"minishell: %s: %s \n", file, strerror(errno));
-			return (1);
-		}
-		**command = c;
-		return (0);
-	}
-	**command = c;
-	command[0][1] = '\0';
-	return(130);
-}
+// 	c = **command;
+// 	r = 1;
+// 	parsing_invisible_characters(command);
+// 	if (**command == c && (**command == '<' || **command == '>'))
+// 		r = parsing_invisible_characters(command);
+// 	m = find_next_word(command, &file);
+// 	printf("infile->%s\ncommand -> %s\n", file, *command);
+// 	if (c > 0)
+// 	{
+// 		if (c == '<' && r == 1)
+// 			cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
+// 		else if (c == '>' && r == 1)
+// 			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_TRUNC, 0777);
+// 		else if (c == '>' && r == 0)
+// 			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_APPEND, 0777);
+// 		else
+// 			cmd->infile = parsing_here_doc(remove_quote(file));
+// 		if (cmd->infile == -1 || cmd->outfile == -1)
+// 			return (perror_minishell(errno, file));
+// 		**command = m;
+// 		return (0);
+// 	}
+// 	return (130);
+// }
 
-int	parsing_redir_in(char **command, t_cmd *cmd, int *trig)
-{
-	char	*file;
-	char	c;
 
-	parsing_invisible_characters(command, trig);
-	c = find_next_word(command, &file);
-	printf("infile->%s\ncommand -> %s\n", file, *command);
-	if (file && *file)
-	{
-		cmd->infile = open(file, O_RDONLY, 0777);
-		if (cmd->infile == -1)
-		{
-			dprintf(2,"minishell: %s: %s \n", file, strerror(errno));
-			return (1);
-		}
-		**command = c;
-		return (0);
-	}
-	**command = c;
-	command[0][1] = '\0';
-	return (130);
-}
+
+
+
+
+// // int	parsing_app_redir_out(char **command, t_cmd *cmd, int *trig)
+// // {
+// // 	char	*file;
+// // 	char	c;
+
+// // 	parsing_invisible_characters(command, trig);
+// // 	parsing_invisible_characters(command, trig);
+// // 	c = find_next_word(command, &file);
+// // 	printf("app_file->%s\n", file);
+// // 	if (file && *file)
+// // 	{
+// // 		cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_APPEND, 0777);
+// // 		if (cmd->outfile == -1)
+// // 		{
+// // 			dprintf(2,"minishell: %s: %s \n", file, strerror(errno));
+// // 			return (1);
+// // 		}
+// // 		**command = c;
+// // 		return (0);
+// // 	}
+// // 	**command = c;
+// // 	command[0][1] = '\0';
+// // 	return(130);
+// // }
+
+// // int	parsing_redir_out(char **command, t_cmd *cmd, int *trig)
+// // {
+// // 	char	*file;
+// // 	char	c;
+
+// // 	parsing_invisible_characters(command, trig);
+// // 	c = find_next_word(command, &file);
+// // 	printf("outfile->%s\n", file);
+// // 	if (file && *file)
+// // 	{
+// // 		cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_TRUNC, 0777);
+// // 		if (cmd->outfile == -1)
+// // 		{
+// // 			dprintf(2,"minishell: %s: %s \n", file, strerror(errno));
+// // 			return (1);
+// // 		}
+// // 		**command = c;
+// // 		return (0);
+// // 	}
+// // 	**command = c;
+// // 	command[0][1] = '\0';
+// // 	return(130);
+// // }

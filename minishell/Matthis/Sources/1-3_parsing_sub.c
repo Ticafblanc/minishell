@@ -12,28 +12,90 @@
 
 #include <minishell.h>
 
-int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word, int *trig)
-{
-	char	*temp;
-	int		status;
+// int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word, int *trig)
+// {
+// 	int		status;
 
-	status = 0;
-	parsing_invisible_characters(command, trig);
-	(*cmd)->ctrl_op = PIPE;
-	temp = ft_rev_split((const char **)(*cmd)->cmd, 32);
-	printf("temp = %s\n", temp);
-	// ft_free_pp((void **)(*cmd)->cmd + 4);
-	// free((*cmd)->cmd[0]);
-	// (*cmd)->cmd[0] = ft_strdup("minishell");
-	// free((*cmd)->cmd[1]);
-	// (*cmd)->cmd[1] = ft_strdup("-c");
-	// free((*cmd)->cmd[2]);
-	// (*cmd)->cmd[2] = temp;
-	// free((*cmd)->cmd[3]);
-	// (*cmd)->cmd[3] = NULL;
-	// (*cmd)->path = ft_strdup("/Bin/minishell");
-	(*cmd) = ft_mlstadd((*cmd), &status);
-	(*nb_word) = 0;
-	(*trig) = 0;
-	return (status);
-}
+// 	if ((*cmd)->cmd && (*cmd)->cmd[0])
+// 	{
+// 		if (command[0][0] == '&')
+// 			(*cmd)->ctrl_op = AND;
+// 		else
+// 			(*cmd)->ctrl_op = OR;
+// 		status = 0;
+// 		parsing_invisible_characters(command, trig);
+// 		parsing_invisible_characters(command, trig);
+// 		(*cmd) = ft_mlstadd((*cmd), &status);
+// 		(*nb_word) = 0;
+// 		return(0);
+// 	}
+// 	command[0][1] = '\0';
+// 	return (130);
+// }
+
+// int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word, int *trig)
+// {
+// 	char	*temp;
+// 	int		status;
+
+// 	if ((*cmd)->cmd && (*cmd)->cmd[0])
+// 	{
+// 		status = 0;
+// 		(*cmd)->ctrl_op = PIPE;
+// 		parsing_invisible_characters(command, trig);
+// 		temp = ft_rev_split((const char **)(*cmd)->cmd, 32);
+// 		(*cmd)->cmd[0] = ft_strdup("minishell");
+// 		(*cmd)->cmd[1] = ft_strdup("-c");
+// 		(*cmd)->cmd[2] = temp;
+// 		(*cmd)->cmd[3] = NULL;
+// 		(*cmd)->path = ft_strdup("/Bin/minishell");
+// 		(*cmd) = ft_mlstadd((*cmd), &status);
+// 		(*nb_word) = 0;
+// 		return(0);
+// 	}
+// 	command[0][1] = '\0';
+// 	return (130);
+// }
+
+// // int	parsing_brace(char **command, t_cmd **cmd, int *nb_word, int *trig)
+// // {
+// // 	int		status;
+// // 	int		i;
+// // 	char	c;
+// // 	char	*temp;
+
+// // 	i = 0;
+// // 	if (!(*cmd)->cmd[0])
+// // 	{
+// // 		status = 0;
+// // 		(*cmd)->ctrl_op = BRACE;
+// // 		i++;
+// // 		parsing_invisible_characters(command, trig);
+// // 		(*cmd)->cmd[0] = ft_strdup("minishell");
+// // 		(*cmd)->cmd[1] = ft_strdup("-c");
+// // 		(*cmd)->cmd[2] = *command;
+// // 		(*cmd)->cmd[3] = NULL;
+// // 		while (*command != '\0' && i > 0)
+// // 		{
+// // 			c = find_next_word(command, &temp)
+// // 			if (!check_metacharacter(*temp))
+
+// // 			else if (c == '(')
+// // 				i++;
+// // 			else if (c == ')')
+// // 				i--;
+// // 			if (i == 0)
+// // 				**command = '\0';
+// // 		}
+// // 		(*cmd)->path = ft_strdup("/Bin/minishell");
+// // 		(*cmd) = ft_mlstadd((*cmd), &status);
+// // 		(*nb_word) = 0;
+// // 		return(0);
+// // 	}
+// // 	*command++;
+// // 	while (command[0][i] != '\0' && check_invisible_characters(command[0][i]))
+// // 		i++;
+// // 	while (command[0][i] != '\0' && !check_metacharacter(command[0][i]))
+// // 		i++;
+// // 	command[0][i] == '\0'
+// // 	return (130);

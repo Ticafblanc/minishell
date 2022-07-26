@@ -12,80 +12,73 @@
 
 #include <minishell.h>
 
-char	check_metacharacter(char c)
+char	check_metacharacter(char **command, int king)
 {
-	if (c == '|' || c == '&' || c == '('
-		|| c == ')' || c == '<' || c == '>'
-		|| check_invisible_characters(c))
-		return (c);
-	return (0);
+    char i;
+
+    i = 0;
+    if (((king == R_INVISIBLE || king == INVISIBLE)
+        && (**command == 32
+        || (**command >= 9 && **command <= 13)))
+	    || ((king == METACHARACTER || king == R_METACHARACTER)
+        && (**command == '|' || **command == '&'
+        || **command == '(' || **command == ')' 
+        || **command == '<' || **command == '>'
+		|| **command == 32 
+        || (**command >= 9 && **command <= 13))))
+    {
+		i = **command;
+        if (king == R_INVISIBLE || king == R_METACHARACTER)
+        {
+            **command = '\0';
+	        (*command)++;
+        } 
+    }
+	if (king == N_METACHARACTER)
+		(*command)++;
+	return (i);
 }
 
-int	parsing_invisible_characters(char **command, int *trig)
+int	parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word)
 {
-	**command = '\0';
-	// if (*trig == 0)
-	// 	free(*command);
-	// else
-	(*trig) = 0;
-	(*command)++;
-	return (0);
-}
+	if (*nb_word)
 
-int	parsing_met(char **command, t_cmd **cmd, int *nb_word, int *trig)
-{
-	int		status;
-
+	if (*cmd)
+	if (**command == '\0')
+		return (0);
+	if (check_metacharacter(command, R_INVISIBLE))
+		return(0);
+	// if (command[0][0] == '|' && command[0][1] == '|')
+	// 	return (parsing_and_or(command, cmd, nb_word, trig));
+	// else if (**command == '|')
+	// 	return (parsing_pipe(command, cmd, nb_word, trig));
+	// else if (command[0][0] == '&' && command[0][1] == '&')
+	// 	return (parsing_and_or(command, cmd, nb_word, trig));
+	// // else if (command[0][0] == '(')
+	// // 	return (parsing_brace(command, cmd, nb_word, trig));
 	
-	status = 130;
-	// if (*command[0] == '|' && *command[1] == '|')
-	// 	status = parsing_or(cmd);
-	if (**command == '|')
-		status = parsing_pipe(command, cmd, nb_word, trig);
-	// else if (*command[0] == '&' && *command[1] == '&')
-	// 	status = parsing_and(cmd);
-	// else if (tok == '(')
-	// 	status =  parsing_brace(cmd);
-	if (command[0][0] == '<' && command[0][1] == '<')
-		status = parsing_here_doc(command, *cmd, trig);
-	else if (command[0][0] == '>' && command[0][1] == '>')
-		status = parsing_app_redir_out(command, *cmd, trig);
-	else if (*command[0] == '>')
-		status = parsing_redir_out(command, *cmd, trig);
-	else if (**command == '<')
-		status = parsing_redir_in(command, *cmd, trig);
-	else if (check_invisible_characters(**command))
-		status = parsing_invisible_characters(command, trig);
-	else
-		*command[1] = '\0';
-	return(perror_minishell(status, *command));
+	return (perror_minishell(TOKENERR, *command));
 }
 
-int	add_word(char **command, t_cmd *cmd, int *nb_word, int *trig)
+int pass_quote(char **command, int *status)
 {
-	char	c;
+    int i;
 
-	cmd->cmd[*nb_word] = *command;
-	c = 0;
-	(*trig) = WORD;
-	if ((**command == 34 || **command == 39))
+    i =  0;
+    if ((**command == 34 || **command == 39))
 	{
-		c = **command;
-		while (**command != '\0')
+		while (command[0][i++] != '\0')
 		{
-			(*command)++;
-			if (**command == c)
+			if (command[0][i] == '\0')
+				return (*status = perror_minishell(QNC, *command));
+			if (**command == command[0][i])
 			{
-				(*command)++;
-				c = 0;
+				command += ++i;
 				break;
 			}
 		}
-		return(perror_minishell((int)c, *command));
 	}
-	(*nb_word)++;
-	(*command)++;
-	return ((int)c);
+    return(0);
 }
 
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
@@ -112,3 +105,41 @@ t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 	perror("minishell:");
 	return (NULL);
 }
+
+
+
+
+
+
+
+
+
+
+
+// int	add_word(char **command, t_cmd *cmd, int *nb_word, int *trig)
+// {
+// 	char	c;
+
+// 	c = 0;
+// 	if (!(*trig))
+// 	{
+// 		cmd->cmd[*nb_word] = *command;
+// 		(*trig) = WORD;
+// 	}
+// 	if ((**command == 34 || **command == 39))
+// 	{
+// 		c = **command;
+// 		while (**command != '\0')
+// 		{
+// 			(*command)++;
+// 			if (**command == c)
+// 			{
+// 				c = 0;
+// 				break;
+// 			}
+// 		}
+// 	}
+// 	(*nb_word)++;
+// 	(*command)++;
+// 	return(perror_minishell((int)c, *command));
+// }

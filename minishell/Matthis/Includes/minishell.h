@@ -35,19 +35,22 @@ extern int	errno;
 
 enum	e_status
 {
-	NCMD = -1,
-	TOKENERR = 130,
+	NCMD = 1,
+	TOKENERR = 258,
+	QNC = 258,
 };
 
-enum	e_bultins
+enum	e_king
 {
-	ECHO = 1,
-	CD = 2,
-	PWD = 3,
-	EXPORT = 4,
-	UNSET = 5,
-	ENV = 6,
-	EXIT = 7,
+	INVISIBLE = 1,
+	METACHARACTER = 2,
+	R_INVISIBLE = 3,
+	R_METACHARACTER = 4,
+	N_METACHARACTER = 9,
+	INFILE = 5,
+	HERE_DOC = 6,
+	OUTFILE = 7,
+	APPEND = 8,
 };
 
 enum	e_control_operator
@@ -58,17 +61,12 @@ enum	e_control_operator
 	AND = 3, //continue si ok
 	BRACE = 4,
 	WORD = 5,
-	R_IN = 6,
-	R_OUT = 7,
-	A_R_OUT = 8,
-	HERE_DOC = 9,
 };
 
 typedef struct	s_cmd
 {
 	int				ctrl_op;
 	pid_t			pid;
-	int				bultin;
 	char			**cmd;
 	char			*path;
 	int				infile;
@@ -78,46 +76,34 @@ typedef struct	s_cmd
 
 	//1_parsing.c
 
-char	check_metacharacter(char c);
-int		parsing_invisible_characters(char **command, int *trig);
-int		parsing_met(char **command, t_cmd **cmd, int *nb_word, int *trig);
-int		add_word(char **command, t_cmd *cmd, int *nb_word, int *trig);
+char	check_metacharacter(char **command, int king);
+int		parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word);
+int 	pass_quote(char **command, int *status);
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status);
 
 	//1-1_parsing_file.c
 
-char	find_next_word(char **command, char **file);
-int		parsing_app_redir_out(char **command, t_cmd *cmd, int *trig);
-int		parsing_redir_out(char **command, t_cmd *cmd, int *trig);
-int		parsing_redir_in(char **command, t_cmd *cmd, int *trig);
+int		parsing_redir(char **command, t_cmd *cmd, int king);
 
 	//1-2_parsing_here_doc.c
 	
-int		check_limiter(int fd, char *limiter);
-int		parsing_here_doc(char **command, t_cmd *cmd, int *trig);
+int		check_limiter(int fd[2], char *limiter);
+// int		parsing_here_doc(char *limiter);
 
 	//1-3_parsing_sub.c
-int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word, int *trig);
+int		parsing_and_or(char **command, t_cmd **cmd, int *nb_word);
+int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word);
 
+	//4_utils.c
+
+char 	*remove_quote(char *command);
+int		pass_quote(char **command, int *status);
+void    free_cmd(t_cmd *cmd);
 int		perror_minishell(int status, char *command);
-	//1-2-2_dispatch_execute.c
-//void	dispatch_execute(t_command *cmd); open les fichier necessaire selction 
-// prepare la list de commande a traiter
-
-	//1-2-2_execute_builtins.c
-//int		//pass_invisible_characters(char *command);
-
-	//1-2-3_execute_builtins.c
-//execute bultin passer ne parametre
-
-	//1-2-4_execute_execve.c  
-//execute commande passer ne parametre
 
 	//2_signal.c
 void	handle_prompt(int signum);// gestion de ctrl c dans le prompt
 //void	handle_execute(int sig_num);//gestion de ctrl c dans le process
 
-	//3_free_and_exit.c
-int		free_and_exit(int status);//gestion de srotie de process et message d'erreur
 
 #endif
