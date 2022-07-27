@@ -34,29 +34,25 @@ char	check_metacharacter(char **command, int king)
 	        (*command)++;
         } 
     }
-	if (king == N_METACHARACTER)
+	else if (king == METACHARACTER)
 		(*command)++;
 	return (i);
 }
 
 int	parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word)
 {
-	if (*nb_word)
-
-	if (*cmd)
-	if (**command == '\0')
-		return (0);
 	if (check_metacharacter(command, R_INVISIBLE))
 		return(0);
-	// if (command[0][0] == '|' && command[0][1] == '|')
-	// 	return (parsing_and_or(command, cmd, nb_word, trig));
-	// else if (**command == '|')
-	// 	return (parsing_pipe(command, cmd, nb_word, trig));
-	// else if (command[0][0] == '&' && command[0][1] == '&')
-	// 	return (parsing_and_or(command, cmd, nb_word, trig));
+	if (command[0][0] == '|' && command[0][1] == '|')
+		return (parsing_and_or(command, cmd, nb_word));
+	else if (**command == '|')
+		return (parsing_pipe(command, cmd, nb_word));
+	else if (command[0][0] == '&' && command[0][1] == '&')
+		return (parsing_and_or(command, cmd, nb_word));
 	// // else if (command[0][0] == '(')
 	// // 	return (parsing_brace(command, cmd, nb_word, trig));
-	
+	else
+		command[0][1] = '\0';
 	return (perror_minishell(TOKENERR, *command));
 }
 
@@ -67,13 +63,14 @@ int pass_quote(char **command, int *status)
     i =  0;
     if ((**command == 34 || **command == 39))
 	{
+		printf("\n\npass quote = %s\n\n", *command);
 		while (command[0][i++] != '\0')
 		{
 			if (command[0][i] == '\0')
 				return (*status = perror_minishell(QNC, *command));
 			if (**command == command[0][i])
 			{
-				command += ++i;
+				*command += ++i;
 				break;
 			}
 		}

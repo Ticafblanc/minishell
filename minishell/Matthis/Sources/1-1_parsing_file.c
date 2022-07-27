@@ -11,7 +11,14 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-
+if ((*command == '<' && *command == *command + 1))
+		// 	*status = parsing_redir(&command, *cmd, HERE_DOC);
+		// else if ((*command == '>' && *command == *command + 1))
+		// 	*status = parsing_redir(&command, *cmd, APPEND);
+		// else if (*command == '<')
+		// 	*status = parsing_redir(&command, *cmd, INFILE);
+		// else if (*command == '>')
+		// 	*status = parsing_redir(&command, *cmd, OUTFILE);
 // int	check_limiter(int fd[2], char *limiter)
 // {
 // 	char	*line;
@@ -57,37 +64,39 @@
 // 	return (-1);
 // }
 
-// int	parsing_redir(char **command, t_cmd *cmd, int king)
-// {
-// 	char	*file;
-// 	char	c;
-// 	char	m;
-// 	int		r;
+int	parsing_redir(char **command, t_cmd *cmd, int *status)
+{
+    int     king;
+	char	*file;
+	char	c;
+	char	m;
+	int		r;
 
-// 	c = **command;
-// 	r = 1;
-// 	parsing_invisible_characters(command);
-// 	if (**command == c && (**command == '<' || **command == '>'))
-// 		r = parsing_invisible_characters(command);
-// 	m = find_next_word(command, &file);
-// 	printf("infile->%s\ncommand -> %s\n", file, *command);
-// 	if (c > 0)
-// 	{
-// 		if (c == '<' && r == 1)
-// 			cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
-// 		else if (c == '>' && r == 1)
-// 			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_TRUNC, 0777);
-// 		else if (c == '>' && r == 0)
-// 			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_APPEND, 0777);
-// 		else
-// 			cmd->infile = parsing_here_doc(remove_quote(file));
-// 		if (cmd->infile == -1 || cmd->outfile == -1)
-// 			return (perror_minishell(errno, file));
-// 		**command = m;
-// 		return (0);
-// 	}
-// 	return (130);
-// }
+    file = find_arg(command, &king)
+	c = **command;
+	r = 1;
+	parsing_invisible_characters(command);
+	if (**command == c && (**command == '<' || **command == '>'))
+		r = parsing_invisible_characters(command);
+	m = find_next_word(command, &file);
+	printf("infile->%s\ncommand -> %s\n", file, *command);
+	if (c > 0)
+	{
+		if (c == '<' && r == 1)
+			cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
+		else if (c == '>' && r == 1)
+			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		else if (c == '>' && r == 0)
+			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_APPEND, 0777);
+		else
+			cmd->infile = parsing_here_doc(remove_quote(file));
+		if (cmd->infile == -1 || cmd->outfile == -1)
+			return (perror_minishell(errno, file));
+		**command = m;
+		return (0);
+	}
+	return (130);
+}
 
 
 

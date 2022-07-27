@@ -37,7 +37,7 @@ enum	e_status
 {
 	NCMD = 1,
 	TOKENERR = 258,
-	QNC = 258,
+	QNC = 259,
 };
 
 enum	e_king
@@ -46,7 +46,6 @@ enum	e_king
 	METACHARACTER = 2,
 	R_INVISIBLE = 3,
 	R_METACHARACTER = 4,
-	N_METACHARACTER = 9,
 	INFILE = 5,
 	HERE_DOC = 6,
 	OUTFILE = 7,

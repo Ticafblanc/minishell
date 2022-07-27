@@ -12,50 +12,51 @@
 
 #include <minishell.h>
 
-// int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word, int *trig)
-// {
-// 	int		status;
+int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
+{
+	int		status;
 
-// 	if ((*cmd)->cmd && (*cmd)->cmd[0])
-// 	{
-// 		if (command[0][0] == '&')
-// 			(*cmd)->ctrl_op = AND;
-// 		else
-// 			(*cmd)->ctrl_op = OR;
-// 		status = 0;
-// 		parsing_invisible_characters(command, trig);
-// 		parsing_invisible_characters(command, trig);
-// 		(*cmd) = ft_mlstadd((*cmd), &status);
-// 		(*nb_word) = 0;
-// 		return(0);
-// 	}
-// 	command[0][1] = '\0';
-// 	return (130);
-// }
+	if (**(*cmd)->cmd != **command)
+	{
+		(*cmd)->cmd[*nb_word] = NULL;
+		if (command[0][0] == '&')
+			(*cmd)->ctrl_op = AND;
+		else
+			(*cmd)->ctrl_op = OR;
+		status = 0;
+		check_metacharacter(command, R_METACHARACTER);
+		check_metacharacter(command, R_METACHARACTER);
+		(*cmd) = ft_mlstadd((*cmd), &status);
+		(*nb_word) = 0;
+		return(0);
+	}
+	command[0][2] = '\0';
+	return (perror_minishell(TOKENERR, *command));
+}
 
-// int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word, int *trig)
-// {
-// 	char	*temp;
-// 	int		status;
+int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
+{
+	char	*temp;
+	int		status;
 
-// 	if ((*cmd)->cmd && (*cmd)->cmd[0])
-// 	{
-// 		status = 0;
-// 		(*cmd)->ctrl_op = PIPE;
-// 		parsing_invisible_characters(command, trig);
-// 		temp = ft_rev_split((const char **)(*cmd)->cmd, 32);
-// 		(*cmd)->cmd[0] = ft_strdup("minishell");
-// 		(*cmd)->cmd[1] = ft_strdup("-c");
-// 		(*cmd)->cmd[2] = temp;
-// 		(*cmd)->cmd[3] = NULL;
-// 		(*cmd)->path = ft_strdup("/Bin/minishell");
-// 		(*cmd) = ft_mlstadd((*cmd), &status);
-// 		(*nb_word) = 0;
-// 		return(0);
-// 	}
-// 	command[0][1] = '\0';
-// 	return (130);
-// }
+	if (**(*cmd)->cmd != **command)
+	{
+		status = 0;
+		(*cmd)->ctrl_op = PIPE;
+		check_metacharacter(command, R_METACHARACTER);
+		temp = ft_rev_split((const char **)(*cmd)->cmd, 32);
+		(*cmd)->cmd[0] = ft_strdup("minishell");
+		(*cmd)->cmd[1] = ft_strdup("-c");
+		(*cmd)->cmd[2] = temp;
+		(*cmd)->cmd[3] = NULL;
+		(*cmd)->path = ft_strdup("/Bin/minishell");
+		(*cmd) = ft_mlstadd((*cmd), &status);
+		(*nb_word) = 0;
+		return(0);
+	}
+	command[0][1] = '\0';
+	return (perror_minishell(TOKENERR, *command));
+}
 
 // // int	parsing_brace(char **command, t_cmd **cmd, int *nb_word, int *trig)
 // // {

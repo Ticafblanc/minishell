@@ -76,24 +76,16 @@ static void	parsing(char *command, int *status, t_cmd **cmd)
 	t_cmd	*t_cmd;
 
 	nb_word = 0;
-	(*cmd) = ft_mlstadd((*cmd), status);
+	t_cmd = (*cmd) = ft_mlstadd((*cmd), status);
 	//printf("status in parsing = %d\n", *status);
 	t_cmd = *cmd;
 	while (!(*status) && *command != '\0')
 	{
-		while (check_metacharacter(&command, R_INVISIBLE))
-		(*cmd)->cmd[nb_word++] = command;
-		while (!pass_quote(&command, status) && *command != '\0'
-				&& !check_metacharacter(&command, N_METACHARACTER))
-		// if ((*command == '<' && *command == *command + 1))
-		// 	*status = parsing_redir(&command, *cmd, HERE_DOC);
-		// else if ((*command == '>' && *command == *command + 1))
-		// 	*status = parsing_redir(&command, *cmd, APPEND);
-		// else if (*command == '<')
-		// 	*status = parsing_redir(&command, *cmd, INFILE);
-		// else if (*command == '>')
-		// 	*status = parsing_redir(&command, *cmd, OUTFILE);
-		if (!(*status) && *command != '\0')
+		while (check_metacharacter(&command, R_INVISIBLE));
+		t_cmd->cmd[nb_word++] = command;
+		while (*command != '\0' && !pass_quote(&command, status)
+			&& !check_metacharacter(&command, METACHARACTER));	
+		if (*command != '\0' && !parsing_redir(command, *cmd, status) && !(*status))
 			*status = parsing_ctrl_op(&command, &t_cmd, &nb_word);
 	}
 }
@@ -105,7 +97,7 @@ static int	execute(char *command, int *status, char **envp)
 	add_history(command);
 	*status = 0;
 	parsing(command, status, &cmd);
-	//printf("status de sortie de parsing ->%d\n", *status);
+	printf("status de sortie de parsing ->%d\n", *status);
 	if (*status == 0)
 	{
 		//printf("status de sortie de parsing@ ->%d\n", *status);
@@ -113,7 +105,8 @@ static int	execute(char *command, int *status, char **envp)
 		while (cmd)
 		{
 			exec_cmd(cmd, status, envp);
-			//printf("status de sortie de command ->%d\n", *status);
+			cmd = cmd->next;
+			printf("status de sortie de command ->%d\n", *status);
 		}
 	}
 	free_cmd(cmd);
