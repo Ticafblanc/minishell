@@ -94,7 +94,7 @@ CL = rm -rf
 
 LEAK = leaks -atExit --
 
-LEAKS = valgrind --leak-check=full --track-fds=yes --trace-children=yes -s -q
+LEAKS = valgrind --leak-check=full --track-fds=yes #--trace-children=yes -s -q
 
 #  COLORS STR #
 
@@ -133,7 +133,7 @@ $(OBJ_PATH)%.o:$(SRC_PATH_SIH)%.c
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
 		@echo $(BLUE) $(notdir $@) is created !!
 
-$(BIN): title libft readline directory $(OBJ) 
+$(BIN): title libft  readline directory $(OBJ) 
 		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
@@ -156,6 +156,9 @@ directory:
 
 run: all
 		@./Bin/minishell
+
+val: all
+		$(LEAKS) ./Bin/minishell
 
 
 #  NORMINETTE  #
