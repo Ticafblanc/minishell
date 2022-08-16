@@ -84,7 +84,8 @@ void    free_cmd(t_cmd *cmd)
     while (cmd)
     {
         t_cmd = cmd;
-        free(cmd);
+		if (cmd)
+        	free(cmd);
         cmd = t_cmd->next;
     }
 }

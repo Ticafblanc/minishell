@@ -118,11 +118,12 @@ int	exec_pipe(t_cmd *cmd, int *status, char **envp)
 		while (cmd->ctrl_op == PIPE)
 		{
 			//print_cmd(cmd);
-			if(!exec_builtins(cmd, status, &envp, CHILD))
+			if(!exec_builtins1(cmd, status, &envp, CHILD))
 				exec_cmd(cmd, status, envp, WNOHANG);
 			cmd = cmd->next;
 		}
-		if(!exec_builtins(cmd, status, &envp, CHILD))
+		//print_cmd(cmd);
+		if(!exec_builtins1(cmd, status, &envp, CHILD))
 			exec_cmd(cmd, status, envp, WNOHANG);
 		wait_cmd(t_cmd, status, PIPE);
 		close(STDIN_FILENO);

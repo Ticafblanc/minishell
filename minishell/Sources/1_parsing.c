@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-char	*find_next_word(char **command, int *status)
+void	find_next_word(char **command, int *status, int *nb_word, char **cmd)
 {
 	char	*str;
 
@@ -21,9 +21,11 @@ char	*find_next_word(char **command, int *status)
 	str = *command;
 	while (**command != '\0' && !pass_quote(command, status)
 		&& !check_metacharacter(command, METACHARACTER));
-	if (!ft_str_len(str))
-		str = NULL;
-	return (str);
+	if (ft_str_len(str))
+	{
+		*cmd = str;
+		(*nb_word)++;
+	}
 }
 
 char	check_metacharacter(char **command, int king)

@@ -29,10 +29,9 @@ void	print_cmd(t_cmd *cmd)
 	printf("outfile = %d\n\n", cmd->outfile);
 
 }
-//travail restant
-//bultins echo 
-//bultins unset
-//bultins export
+// travail restant
+// free not allocated exit|ls
+// retour chariot apres crash
 //variable environemenrt
 // leaks
 // valeur de retoutr status
@@ -91,18 +90,18 @@ static t_cmd	*parsing(char *command, int *status, t_cmd **cmd, char **envp)
 	t_cmd = *cmd;
 	while (!(*status) && *command != '\0')
 	{
-		t_cmd->cmd[nb_word++] = find_next_word(&command, status);
+		//printf("command = %s\n", command);
+		find_next_word(&command, status, &nb_word, &t_cmd->cmd[nb_word]);
 		parsing_redir(&command, t_cmd, status, &nb_word);
 		if (*command != '\0' && !(*status))
 			*status = parsing_ctrl_op(&command, &t_cmd, &nb_word, envp);
-		if (*command == '\0' && !t_cmd->cmd[nb_word - 1] && t_cmd->infile != 0 && t_cmd->outfile != 1)
+		if (*command == '\0' && !t_cmd->cmd[nb_word - 1])
 		{
 			*status = check_command(&command, status);
 			temp = ft_strjoin(save, command);
 			free(save);
 			save = temp;
 		}
-	
 	}
 	wait_cmd(*cmd, status, HERE_DOC);
 	if (*status)
@@ -127,7 +126,7 @@ static int	execute(char *command, int *status, char ***envp)
 		if (ft_strlen(*cmd->cmd) && exec_pipe(cmd, status, *envp))
 			while (cmd->ctrl_op == PIPE)
 				cmd = cmd->next;
-		else if(ft_strlen(*cmd->cmd) && !exec_builtins(cmd, status, envp, MAIN)
+		else if(ft_strlen(*cmd->cmd) && !exec_builtins1(cmd, status, envp, MAIN)
 				&& ((ctrl != AND && ctrl != OR)
 				|| ((ctrl == AND && !*status)
 				|| (ctrl == OR && *status))))

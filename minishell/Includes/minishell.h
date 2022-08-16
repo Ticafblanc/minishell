@@ -77,9 +77,11 @@ typedef struct	s_cmd
 	//0_env.c
 
 int		init(char ***envp);
+int		exec_export(t_cmd *cmd, char ***envp);
+int		exec_unset(t_cmd *cmd, char ***envp);
 	//1_parsing.c
 
-char	*find_next_word(char **command, int *status);
+void	find_next_word(char **command, int *status, int *nb_word, char **cmd);
 char	check_metacharacter(char **command, int king);
 int		parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp);
 int 	pass_quote(char **command, int *status);
@@ -104,7 +106,8 @@ int		exec_pipe(t_cmd *cmd, int *status, char **envp);
 	//3_builtins.c
 
 int		exec_exit(int process, char ***envp);
-int		exec_builtins(t_cmd *cmd, int *status, char ***envp, int process);
+int		exec_builtins1(t_cmd *cmd, int *status, char ***envp, int process);
+int		exec_builtins2(t_cmd *cmd, int *status, char ***envp, int process);
 
 	//4_utils.c
 

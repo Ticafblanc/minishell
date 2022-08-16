@@ -12,6 +12,20 @@
 
 #include <minishell.h>
 
+static char	*find_next_word_redir(char **command, int *status)
+{
+	char	*str;
+
+
+	while (check_metacharacter(command, R_INVISIBLE));
+	str = *command;
+	while (**command != '\0' && !pass_quote(command, status)
+		&& !check_metacharacter(command, METACHARACTER));
+	if (ft_str_len(str))
+		return (str);
+	return (NULL);
+}
+
 static char	*find_redir(char **command, int *status, int *king)
 {
 	if (**command == '<')
@@ -36,7 +50,7 @@ static char	*find_redir(char **command, int *status, int *king)
 	}
 	else
 		return (NULL);
-	return(find_next_word(command, status));
+	return(find_next_word_redir(command, status));
 }
 
 static int	check_limiter(int fd[2], char *limiter)

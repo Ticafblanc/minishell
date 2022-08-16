@@ -22,11 +22,9 @@ BIN = $(addprefix $(BIN_PATH),$(BIN_NAME))
 
 #  INCLUDES  #
 
-INC_PATH_MAT = ./Matthis/Includes
+INC_PATH = ./Includes
 
-INC_PATH_SIH = ./Siham/Includes
-
-INC_FLAGS = -I $(INC_PATH_MAT) -I $(INC_PATH_SIH)
+INC_FLAGS = -I $(INC_PATH)
 
 #  LIB => libft  #
 
@@ -65,23 +63,17 @@ LIB_FLAGS += -L $(LIB_PATH_1) -l $(LIB_NAME_1) -l $(LIB_NAME_2) -l curses #
 
 #  SOURCES  #
 
-SRC_PATH_MAT = Matthis/Sources/
+SRC_PATH = Sources/
 
-SRC_PATH_SIH = Siham/Sources/
+SRC_NAME = $(notdir $(wildcard Sources/*.c))
 
-SRC_NAME_MAT = $(notdir $(wildcard Matthis/Sources/*.c)) 
-
-SRC_NAME_SIH = $(notdir $(wildcard Siham/Sources/*.c))
-
-SRC = $(addprefix $(SRC_PATH_MAT),$(SRC_NAME_MAT)) $(addprefix $(SRC_PATH_SIH),$(SRC_NAME_SIH))
+SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 
 #  OBJECTS  #
 
 OBJ_PATH = $(BIN_PATH)Objects/
 
-OBJ_NAME = $(SRC_NAME_MAT:.c=.o)
-
-OBJ_NAME += $(SRC_NAME_SIH:.c=.o)
+OBJ_NAME = $(SRC_NAME:.c=.o)
 
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
@@ -125,15 +117,11 @@ BLU = \033[1;34m
 all: $(BIN) 
 		@echo $(GREEN) Compilation $(PROJECT) is completed !!
 		
-$(OBJ_PATH)%.o:$(SRC_PATH_MAT)%.c
+$(OBJ_PATH)%.o:$(SRC_PATH)%.c
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
 		@echo $(BLUE) $(notdir $@) is created !!
 
-$(OBJ_PATH)%.o:$(SRC_PATH_SIH)%.c
-		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
-		@echo $(BLUE) $(notdir $@) is created !!
-
-$(BIN): title libft  readline directory $(OBJ) 
+$(BIN): title libft directory $(OBJ) 
 		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
