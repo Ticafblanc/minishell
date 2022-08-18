@@ -96,7 +96,7 @@ char	*remove_quote(char *command);
 	//1-2_parsing_sub.c
 	
 int		parsing_and_or(char **command, t_cmd **cmd, int *nb_word);
-int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word, char **envp);
+int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word);//, char **envp);
 
 	//2_execute.c
 

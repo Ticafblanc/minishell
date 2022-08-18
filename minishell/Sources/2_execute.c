@@ -101,10 +101,8 @@ void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options)
 int	exec_pipe(t_cmd *cmd, int *status, char **envp)
 {
 	pid_t	pid;
-	int		i;
 	t_cmd	*t_cmd;
 
-	i = 0;
 	if (cmd->ctrl_op != PIPE)
 		return (0);
 	pid = fork();

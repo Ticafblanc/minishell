@@ -36,24 +36,26 @@ int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 	return (perror_minishell(TOKENERR, *command));
 }
 
-int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word, char **envp)
+int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)//, char **envp)
 {
 	int		status;
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	if (**(*cmd)->cmd != **command)
 	{
 		status = 0;
 		(*cmd)->ctrl_op = PIPE;
 		check_metacharacter(command, R_METACHARACTER);
-		while (envp[i] && ft_strnstr(envp[i], "SUB=", 4) == 0)
-			i++;
+		// while (envp[i] && ft_strnstr(envp[i], "SUB=", 4) == 0)
+		// 	i++;
+		// if (ft_strnstr(envp[i], "SUB=", 4))
+		// 	return (perror_minishell(TOKENERR, *command));
 		(*cmd)->cmd[2] = ft_rev_split((const char **)(*cmd)->cmd, 32);
-		(*cmd)->cmd[0] = envp[i] + 4;
+		(*cmd)->cmd[0] = ft_strdup("minishell");//envp[i] + 4;
 		(*cmd)->cmd[1] = ft_strdup("-c");
 		(*cmd)->cmd[3] = NULL;
-		(*cmd)->path = ft_strdup("./Bin/minishell");
+		// (*cmd)->path = ft_strdup("minishell");
 		(*cmd) = ft_mlstadd((*cmd), &status);
 		(*nb_word) = 0;
 		return(0);

@@ -121,7 +121,7 @@ $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
 		@echo $(BLUE) $(notdir $@) is created !!
 
-$(BIN): title libft directory $(OBJ) 
+$(BIN): title libft readline directory $(OBJ) 
 		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 

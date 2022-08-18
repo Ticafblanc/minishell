@@ -57,6 +57,8 @@ char	check_metacharacter(char **command, int king)
 
 int	parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
+	if (envp)
+
 	if (**command == '\0')
 		return (0);
 	if (check_metacharacter(command, R_INVISIBLE))
@@ -65,7 +67,7 @@ int	parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp)
 		|| (command[0][0] == '&' && command[0][1] == '&'))
 		return (parsing_and_or(command, cmd, nb_word));
 	else if (**command == '|')
-		return (parsing_pipe(command, cmd, nb_word, envp));
+		return (parsing_pipe(command, cmd, nb_word));//, envp));
 	// else if (command[0][0] == '(')
 	//  	return (parsing_brace(command, cmd, nb_word));
 	else
