@@ -45,3 +45,5 @@ README.md
 #      ours set      #
 ######################
 export.c
+libft/Bin/
+minishell/Bin/
