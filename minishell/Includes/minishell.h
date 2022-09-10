@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/11 18:36:06 by mdoquocb         ###   ########.ca       */
+/*   Updated: 2022/09/10 17:52:24 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,8 @@ int		perror_minishell(int status, char *command);
 void	handle_prompt(int signum);
 void	handle_exec(int sig_num);
 
- void	print_cmd(t_cmd *cmd);
+void	print_cmd(t_cmd *cmd);
+
+	//by tonted
+int		ft_export(char *pathname, char **args, char ***envp);
 #endif

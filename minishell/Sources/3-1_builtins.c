@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3_builtins.c                                       :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*   3-1_builtins.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/09/10 17:54:12 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int	exec_builtins2(t_cmd *cmd, int *status, char ***envp, int process)
 	if (!ft_strncmp(cmd->cmd[0], "echo", 4))
 		return (exec_echo(cmd));
 	if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
-		return (exec_export(cmd, envp));
+		return (ft_export(NULL ,cmd->cmd, envp));
+	// if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
+	// 	return (exec_export(cmd, envp));
 	if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
 		return (exec_unset(cmd, envp));
 	if (!ft_strncmp(cmd->cmd[0], "exit", 4))
