@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 17:51:13 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/10 20:13:34 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/10 20:25:38 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,8 @@ void	envp_set_line(char ***envp, char *value, char *name)
 		printf("add line to envp\n");
 	else
 	{
-		printf("replace line %d (%s)\n", i_name, line);
+		free((*envp)[i_name]);
+		(*envp)[i_name] = line;
 	}
 }
 
