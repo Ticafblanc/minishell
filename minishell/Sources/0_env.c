@@ -1,35 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0_init.c                                           :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*   0_env.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/09/11 07:35:56 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+char	*build_envp_line(char *name, char *value);
+char	*get_value(char *env_line);
+int		is_name_in_envp(char **envp, char *name);
+void	envp_set_line(char ***envp, char *value, char *name);
+
+void	add_bin_to_path(char ***envp)
+{
+	char	*tmp1;
+	char	*tmp2;
+	char	*tmp3;
+	int		i;
+
+	tmp1 = getcwd(NULL, 0);
+	tmp2 = ft_strjoin(tmp1, "/Bin");
+	free(tmp1);
+	tmp1 = NULL;
+	i = is_name_in_envp(*envp, "PATH");
+	if (i != -1)
+	{
+		tmp1 = ft_strjoin(get_value((*envp)[i]), ":");
+		tmp3 = ft_strjoin(tmp1, tmp2);
+		free(tmp1);
+		free(tmp2);
+	}
+	else
+		tmp3 = tmp2;
+	envp_set_line(envp, tmp3, "PATH");
+	free(tmp3);
+}
+
 int	init(char ***envp)
 {
-	char    *str;
-	char    *temp;
-
-	str = getcwd(NULL, 0);
-	temp = ft_strjoin(".", str);
-	free(str);
-	str = ft_strjoin(str, "/Bin/minishell");
-	free(temp);
-	*envp = ft_dup_cpp(*envp, ft_len_pp((void **)*envp) + 2);
-	if (!*envp)
-		return (-1);
-	envp[0][ft_len_pp((void **)*envp)] = ft_strjoin("SUB=", str);
-	// if (!envp[0][ft_len_pp((void **)*envp)])
-	//     return (-1);
-	//  printf("coiucou\n");
-	free(str);
+	*envp = ft_dup_cpp(*envp, ft_len_pp((void **)*envp) + 1);
+	add_bin_to_path(envp);
 	return (0);
 }
 
