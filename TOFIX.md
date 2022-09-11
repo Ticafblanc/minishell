@@ -1,2 +1,7 @@
 # Commands to check/fix
--[] `export test | cat -e`
+- [ ] free not allocated `exit|ls`
+- [ ] retour chariot apres crash
+- [ ] variable environemenrt
+- [ ] leaks
+- [ ] valeur de retoutr status
+- [ ] norminette
