@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/10 17:52:24 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/11 09:19:44 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,9 @@ typedef struct	s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
-	//0_env.c
+/* initialization */
+int	init(char ***envp);
 
-int		init(char ***envp);
-int		exec_export(t_cmd *cmd, char ***envp);
-int		exec_unset(t_cmd *cmd, char ***envp);
 	//1_parsing.c
 
 void	find_next_word(char **command, int *status, int *nb_word, char **cmd);
@@ -103,11 +101,16 @@ int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word);//, char **envp);
 void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options);
 int		exec_pipe(t_cmd *cmd, int *status, char **envp);
 
-	//3_builtins.c
+/* 3_builtins.c */
+int	exec_builtins(t_cmd *cmd, int *status, char ***envp, int process);
+int	exec_pwd(void);
+int	exec_cd(char *dir, char ***envp);
+int	exec_unset(t_cmd *cmd, char ***envp);
+int	exec_echo(t_cmd *cmd);
+int	exec_exit(int process, char ***envp);
+int	exec_export(char *pathname, char **args, char ***envp);
+int	exec_env(char **envp);
 
-int		exec_exit(int process, char ***envp);
-int		exec_builtins1(t_cmd *cmd, int *status, char ***envp, int process);
-int		exec_builtins2(t_cmd *cmd, int *status, char ***envp, int process);
 
 	//4_utils.c
 
@@ -119,6 +122,7 @@ void	handle_exec(int sig_num);
 
 void	print_cmd(t_cmd *cmd);
 
-	//by tonted
-int		ft_export(char *pathname, char **args, char ***envp);
+
+// Development tools
+void	print_cmd(t_cmd *cmd);
 #endif

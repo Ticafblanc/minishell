@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   2_execute.c                                        :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/09/11 09:17:51 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ int	exec_pipe(t_cmd *cmd, int *status, char **envp)
 		while (cmd->ctrl_op == PIPE)
 		{
 			//print_cmd(cmd);
-			if(!exec_builtins1(cmd, status, &envp, CHILD))
+			if(!exec_builtins(cmd, status, &envp, CHILD))
 				exec_cmd(cmd, status, envp, WNOHANG);
 			cmd = cmd->next;
 		}
 		//print_cmd(cmd);
-		if(!exec_builtins1(cmd, status, &envp, CHILD))
+		if(!exec_builtins(cmd, status, &envp, CHILD))
 			exec_cmd(cmd, status, envp, WNOHANG);
 		wait_cmd(t_cmd, status, PIPE);
 		close(STDIN_FILENO);

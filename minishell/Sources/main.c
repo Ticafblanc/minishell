@@ -2,40 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/11 18:30:06 by mdoquocb         ###   ########.ca       */
+/*   Updated: 2022/09/11 09:17:51 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	print_cmd(t_cmd *cmd)
-{
-	printf("\ncommand a executer\n");
-	printf("ctrl_op = %d\n", cmd->ctrl_op);
-	printf("status = %d\n", cmd->status);
-	printf("pid = %d\n", cmd->pid);
-	printf("cmd [0]= %s\n", cmd->cmd[0]);
-	printf("cmd [1]= %s\n", cmd->cmd[1]);
-	printf("cmd [2]= %s\n", cmd->cmd[2]);
-	printf("cmd [3]= %s\n", cmd->cmd[3]);
-	printf("cmd [4]= %s\n", cmd->cmd[4]);
-	printf("cmd [5]= %s\n", cmd->cmd[5]);
-	//printf("path = %s\n", cmd->path);
-	printf("infile = %d\n", cmd->infile);
-	printf("outfile = %d\n\n", cmd->outfile);
-
-}
-// travail restant
-// free not allocated exit|ls
-// retour chariot apres crash
-//variable environemenrt
-// leaks
-// valeur de retoutr status
-//norminette
 
 static int	check_command(char **command, int *status)
 {
@@ -126,7 +101,7 @@ static int	execute(char *command, int *status, char ***envp)
 		if (ft_strlen(*cmd->cmd) && exec_pipe(cmd, status, *envp))
 			while (cmd->ctrl_op == PIPE)
 				cmd = cmd->next;
-		else if(ft_strlen(*cmd->cmd) && !exec_builtins1(cmd, status, envp, MAIN)
+		else if(ft_strlen(*cmd->cmd) && !exec_builtins(cmd, status, envp, MAIN)
 				&& ((ctrl != AND && ctrl != OR)
 				|| ((ctrl == AND && !*status)
 				|| (ctrl == OR && *status))))
