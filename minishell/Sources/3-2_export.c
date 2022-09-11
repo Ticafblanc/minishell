@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 17:51:13 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/10 20:25:38 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/10 20:45:59 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ char	*build_envp_line(char *name, char *value)
 	return (line);
 }
 
-int	is_name_in_line(char *envline, char *name)
+int		is_name_in_line(char *envline, char *name)
 {
 	int	len;
 
@@ -142,7 +142,7 @@ int	is_name_in_line(char *envline, char *name)
 	return (0);
 }
 
-int	is_name_in_envp(char **envp, char *name)
+int		is_name_in_envp(char **envp, char *name)
 {
 	int	i;
 
@@ -156,6 +156,24 @@ int	is_name_in_envp(char **envp, char *name)
 	return (-1);
 }
 
+void	add_line_tabstr(char ***tabstr, char *line)
+{
+	char	**new_tabstr;
+	int		i;
+
+	new_tabstr = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)*tabstr) + 2));
+	i = 0;
+	while ((*tabstr)[i])
+	{
+		new_tabstr[i] = (*tabstr)[i];
+		i++;
+	}
+	new_tabstr[i++] = line;
+	new_tabstr[i] = NULL;
+	free(*(tabstr));
+	*(tabstr) = new_tabstr;
+}
+
 void	envp_set_line(char ***envp, char *value, char *name)
 {
 	(void)	envp;
@@ -165,7 +183,7 @@ void	envp_set_line(char ***envp, char *value, char *name)
 	line = build_envp_line(name, value);
 	i_name = is_name_in_envp(*envp, name);
 	if (i_name == -1)
-		printf("add line to envp\n");
+		add_line_tabstr(envp, line);
 	else
 	{
 		free((*envp)[i_name]);
