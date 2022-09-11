@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 17:51:13 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/10 18:05:41 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/10 20:13:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,101 @@ void	print_envp_alpha(char **env)
 
 }
 
+char	*get_name(char *env_line)
+{
+	int	i;
+
+	i = 0;
+	while (env_line[i])
+	{
+		if(env_line[i] == '=')
+			env_line[i] = '\0';
+		i++;
+	}
+	return (env_line);
+}
+
+char	*get_value(char *env_line)
+{
+	int		i;
+
+	i = 0;
+	while (env_line[i] != '=' && env_line[i])
+		i++;
+	if (!env_line[++i])
+		return ("");
+	return (&env_line[i]);
+}
+
+char	*build_envp_line(char *name, char *value)
+{
+	char	*line;
+	char	*tmp;
+
+	tmp = ft_strjoin(name, "=");
+	line = ft_strjoin(tmp, value);
+	free(tmp);
+	return (line);
+}
+
+int	is_name_in_line(char *envline, char *name)
+{
+	int	len;
+
+	len = ft_strlen(name);
+	if (!ft_strncmp(envline, name, len) && envline[len] == '=')
+		return (1);
+	return (0);
+}
+
+int	is_name_in_envp(char **envp, char *name)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (is_name_in_line(envp[i], name))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	envp_set_line(char ***envp, char *value, char *name)
+{
+	(void)	envp;
+	char	*line;
+	int		i_name;
+
+	line = build_envp_line(name, value);
+	i_name = is_name_in_envp(*envp, name);
+	if (i_name == -1)
+		printf("add line to envp\n");
+	else
+	{
+		printf("replace line %d (%s)\n", i_name, line);
+	}
+}
+
 int		ft_export(char *pathname, char **args, char ***envp)
 {
 	(void)	pathname;
 	(void)	args;
 	(void)	envp;
-
-	print_envp_alpha(*envp);
+	int		i;
+	
+	if (ft_len_pp((void **)args) > 1)
+	{
+		i = 1;
+		while (args[i])
+		{
+			envp_set_line(envp, get_value(args[i]), get_name(args[i]));
+			i++;
+		}
+	}
+	else
+		print_envp_alpha(*envp);
 
 	return (1);
 }
