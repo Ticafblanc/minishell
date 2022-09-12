@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/11 09:19:44 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/11 21:23:59 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,12 @@ int	exec_export(char *pathname, char **args, char ***envp);
 int	exec_env(char **envp);
 
 
+/* utils_free */
+void	ft_freetabstr(char **tab);
+void    free_cmd(t_cmd *cmd);
+
 	//4_utils.c
 
-void	free_cmd(t_cmd *cmd);
 void    wait_cmd(t_cmd *cmd, int *status, int ctrl_op);
 int		perror_minishell(int status, char *command);
 void	handle_prompt(int signum);

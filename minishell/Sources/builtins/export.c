@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 17:51:13 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/11 09:15:43 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/11 21:22:21 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,6 @@ void	put_envp(char *prefix, char **envp)
 	i = 0;
 	while (envp[i])
 		printf("%s%s\n",prefix, envp[i++]);
-}
-
-void	ft_freetabstr(char **tab)
-{
-	int	i;
-
-	if (*tab)
-	{
-		i = 0;
-		while ((tab)[i])
-			free((tab)[i++]);
-		free(tab);
-		tab = NULL;
-	}
 }
 
 char	**tabstrdup(char **envp)

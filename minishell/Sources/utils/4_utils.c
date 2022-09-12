@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   4_utils.c                                          :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/11 18:30:06 by mdoquocb         ###   ########.ca       */
+/*   Updated: 2022/09/11 21:25:38 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,6 @@
 // //https://www.thegeekstuff.com/2010/10/linux-error-codes/
 
 
-
-
-
 int	perror_minishell(int status, char *command)
 {
     if (status == errno)
@@ -75,19 +72,6 @@ int	perror_minishell(int status, char *command)
 	else if (status == TOKENERR)
 		dprintf(2,"minishell: syntax error near unexpected token `%s'\n", command);
 	return (status);
-}
-	
-void    free_cmd(t_cmd *cmd)
-{
-    t_cmd   *t_cmd;
-
-    while (cmd)
-    {
-        t_cmd = cmd;
-		if (cmd)
-        	free(cmd);
-        cmd = t_cmd->next;
-    }
 }
 
 void    wait_cmd(t_cmd *cmd, int *status, int ctrl_op)
