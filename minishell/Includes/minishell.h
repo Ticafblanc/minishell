@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/13 07:18:34 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/13 07:23:52 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options);
 int		exec_pipe(t_cmd *cmd, int *status, char **envp);
 
 /* 3_builtins.c */
-int	exec_builtins(t_cmd *cmd, int *status, char ***envp, int process);
-int	exec_pwd(void);
-int	exec_cd(char *dir, char ***envp);
-int	exec_unset(t_cmd *cmd, char ***envp);
-int	exec_echo(t_cmd *cmd);
-int	exec_exit(int process, char ***envp);
-int	exec_export(char *pathname, char **args, char ***envp);
-int	exec_env(char **envp);
+int		exec_builtins(t_cmd *cmd, int *status, char ***envp, int process);
+int		exec_pwd(void);
+int		exec_cd(char *dir, char ***envp);
+int		exec_unset(t_cmd *cmd, char ***envp);
+int		exec_echo(t_cmd *cmd);
+void	exec_exit(int process, char ***envp);
+int		exec_export(char *pathname, char **args, char ***envp);
+int		exec_env(char **envp);
 
 /* utils_env_line */
 char	*get_name(char *env_line);
