@@ -6,16 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:58:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/11 09:00:38 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/13 07:51:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*build_envp_line(char *name, char *value);
-char	*get_value(char *env_line);
-int		is_name_in_envp(char **envp, char *name);
-void	envp_set_line(char ***envp, char *value, char *name);
 
 static void	add_bin_to_path(char ***envp)
 {
@@ -42,9 +37,16 @@ static void	add_bin_to_path(char ***envp)
 	free(tmp3);
 }
 
+bool	path_already_exists()
+{
+	return(0);
+}
+
+// TODO don't set new path if already exists
 int			init(char ***envp)
 {
 	*envp = ft_dup_cpp(*envp, ft_len_pp((void **)*envp) + 1);
-	add_bin_to_path(envp);
+	if (!path_already_exists())
+		add_bin_to_path(envp);
 	return (0);
 }
