@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/11 21:23:59 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/13 07:18:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,29 @@ int	exec_exit(int process, char ***envp);
 int	exec_export(char *pathname, char **args, char ***envp);
 int	exec_env(char **envp);
 
+/* utils_env_line */
+char	*get_name(char *env_line);
+char	*get_value(char *env_line);
+int		is_name_in_line(char *envline, char *name);
+char	*build_envp_line(char *name, char *value);
+void	envp_set_line(char ***envp, char *value, char *name);
+
+/* utils_env */
+int		is_name_in_envp(char **envp, char *name);
+void	put_envp(char *prefix, char **envp);
 
 /* utils_free */
 void	ft_freetabstr(char **tab);
 void    free_cmd(t_cmd *cmd);
+
+/* utils_libc */
+int		ft_strcmp(const char *s1, const char *s2);
+
+/* utils_tabstr */
+void	add_line_tabstr(char ***tabstr, char *line);
+char	**get_alpha_tabstr(char **tabstr);
+char	**tabstrdup(char **tabstr);
+
 
 	//4_utils.c
 
