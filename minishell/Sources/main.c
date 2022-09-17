@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/11 09:17:51 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/16 19:30:16 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	main(int argc, char **argv, char **envp)
 			signal(SIGQUIT, SIG_IGN);
 			command = readline("minishell %");
 			if (!command)
-				exit(exec_exit(MAIN, &envp));
+				exit(exit_free_envp(&envp));
 			signal(SIGINT, SIG_IGN);
 			if (*command != '\0')
 				execute(command, &status, &envp);

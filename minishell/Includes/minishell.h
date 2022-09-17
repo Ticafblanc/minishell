@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/13 07:23:52 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/16 19:32:14 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	add_line_tabstr(char ***tabstr, char *line);
 char	**get_alpha_tabstr(char **tabstr);
 char	**tabstrdup(char **tabstr);
+
+/* utils */
+int	exit_free_envp(char ***envp);
 
 
 	//4_utils.c

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/11 21:25:38 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/16 19:31:50 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,11 @@ void	handle_exec(int sig_num)
 {
 	if (sig_num == SIGINT)
 		exit(EXIT_FAILURE);
+}
+
+int	exit_free_envp(char ***envp)
+{
+	ft_free_pp((void **)*envp);
+	printf("exit\n");
+	return (EXIT_SUCCESS);
 }
