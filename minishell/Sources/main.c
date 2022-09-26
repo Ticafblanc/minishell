@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/16 19:30:16 by tonted           ###   ########.fr       */
+/*   Updated: 2022/09/26 16:52:06 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	check_command(char **command, int *status)
 
 	pid_t	pid;
 	int		fd[2];
-		
 	if (pipe(fd) == -1)
         	return(perror_minishell(errno, "Fork child_process"));
 	pid = fork();
@@ -62,10 +61,9 @@ static t_cmd	*parsing(char *command, int *status, t_cmd **cmd, char **envp)
 	save = ft_strdup(command);
 	nb_word = 0;
 	t_cmd = (*cmd) = ft_mlstadd((*cmd), status);
-	t_cmd = *cmd;
+	// t_cmd = *cmd;
 	while (!(*status) && *command != '\0')
 	{
-		//printf("command = %s\n", command);
 		find_next_word(&command, status, &nb_word, &t_cmd->cmd[nb_word]);
 		parsing_redir(&command, t_cmd, status, &nb_word);
 		if (*command != '\0' && !(*status))
@@ -97,7 +95,6 @@ static int	execute(char *command, int *status, char ***envp)
 	r_cmd = parsing(command, status, &cmd, *envp);
 	while (r_cmd && cmd)
 	{
-		//print_cmd(cmd);
 		if (ft_strlen(*cmd->cmd) && exec_pipe(cmd, status, *envp))
 			while (cmd->ctrl_op == PIPE)
 				cmd = cmd->next;
@@ -115,31 +112,38 @@ static int	execute(char *command, int *status, char ***envp)
 	return (*status);
 }
 
-int	main(int argc, char **argv, char **envp)
+void	minishell_loop(int *status, char ***envp)
+{
+	char	*command;
+
+		while (42)
+		{
+			printf("status = %d\n", *status);
+			signal(SIGINT, handle_prompt);
+			signal(SIGQUIT, SIG_IGN);
+			command = readline("minishell %");
+			if (!command)
+				exit(exit_free_envp(envp));
+			signal(SIGINT, SIG_IGN);
+			printf(">>> %s\n", command);
+			if (*command != '\0')
+				execute(command, status, envp);
+			else
+				add_history(command);			//TODO Why?
+			free(command);
+		}
+}
+
+int		main(int argc, char **argv, char **envp)
 {
 	int		status;
-	char	*command;
 	
 	status = 0;
 	if (argc == 1)
 	{
 		if (init(&envp))
 			exit(perror_minishell(errno, "minishell:"));
-		while (argc)
-		{
-			printf("status = %d\n", status);
-			signal(SIGINT, handle_prompt);
-			signal(SIGQUIT, SIG_IGN);
-			command = readline("minishell %");
-			if (!command)
-				exit(exit_free_envp(&envp));
-			signal(SIGINT, SIG_IGN);
-			if (*command != '\0')
-				execute(command, &status, &envp);
-			else
-				add_history(command);
-			free(command);
-		}
+		minishell_loop(&status, &envp);
 	}
 	else if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)
 		exit(execute(argv[2], &status, &envp));
