@@ -6,47 +6,51 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:58:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/13 07:51:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/06 11:53:29 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_bin_to_path(char ***envp)
+static void	add_bin_to_path(char ***envp, char *own_path)
 {
 	char	*tmp1;
 	char	*tmp2;
-	char	*tmp3;
 	int		i;
 
-	tmp1 = getcwd(NULL, 0);
-	tmp2 = ft_strjoin(tmp1, "/Bin");
-	free(tmp1);
-	tmp1 = NULL;
 	i = is_name_in_envp(*envp, "PATH");
 	if (i != -1)
 	{
 		tmp1 = ft_strjoin(get_value((*envp)[i]), ":");
-		tmp3 = ft_strjoin(tmp1, tmp2);
+		tmp2 = ft_strjoin(tmp1, own_path);
 		free(tmp1);
-		free(tmp2);
+		free(own_path);
 	}
 	else
-		tmp3 = tmp2;
-	envp_set_line(envp, tmp3, "PATH");
-	free(tmp3);
+		tmp2 = own_path;
+	envp_set_line(envp, tmp2, "PATH");
+	free(tmp2);
 }
 
-bool	path_already_exists()
+char	*get_own_path(void)
 {
-	return(0);
+	char	*own_path;
+	char	*tmp;
+
+	tmp = getcwd(NULL, 0);
+	own_path = ft_strjoin(tmp, "/Bin");
+	free(tmp);
+	tmp = NULL;
+	return (own_path);
 }
 
-// TODO don't set new path if already exists
-int			init(char ***envp)
+int	init(char ***envp)
 {
+	char	*own_path;
+
+	own_path = get_own_path();
 	*envp = ft_dup_cpp(*envp, ft_len_pp((void **)*envp) + 1);
-	if (!path_already_exists())
-		add_bin_to_path(envp);
+	if (!find_path("minishell", *envp))
+		add_bin_to_path(envp, own_path);
 	return (0);
 }
