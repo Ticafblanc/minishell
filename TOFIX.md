@@ -5,3 +5,4 @@
 - [ ] leaks
 - [ ] valeur de retoutr status
 - [ ] norminette
+- [ ] env -i ./minishell
