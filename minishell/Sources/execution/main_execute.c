@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/06 11:11:42 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/06 12:15:00 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static bool	_continue(t_cmd *cmd, char ***envp, int *status, int ctrl)
 {
-	return (ft_strlen(*cmd->cmd) && !exec_builtins(cmd, status, envp, MAIN) && ((ctrl != AND && ctrl != OR) || ((ctrl == AND && !*status)|| (ctrl == OR && *status))));
+	return (ft_strlen(*cmd->cmd) && !exec_builtins(cmd, status, envp, MAIN)
+		&& ((ctrl != AND && ctrl != OR)
+			|| ((ctrl == AND && !*status) || (ctrl == OR && *status))));
 }
 
 int	execute(char *command, int *status, char ***envp)

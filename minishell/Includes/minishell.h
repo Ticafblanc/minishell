@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/06 11:45:01 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/06 12:44:07 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ char	*remove_quote(char *command);
 int		parsing_and_or(char **command, t_cmd **cmd, int *nb_word);
 int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word);//, char **envp);
 
-	//2_execute.c
-
+/* execute */
 void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options);
 int		exec_pipe(t_cmd *cmd, int *status, char **envp);
+void	switch_streams(int toclose, int oldfd, int newfd);
+void	dup_file(t_cmd *cmd);
 
 /* 3_builtins.c */
 int		exec_builtins(t_cmd *cmd, int *status, char ***envp, int process);

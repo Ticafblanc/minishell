@@ -6,38 +6,20 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/06 11:45:33 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/06 12:43:23 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void dup_file(t_cmd *cmd)
-{
-	if (cmd->infile != STDIN_FILENO)
-	{
-		dup2(cmd->infile, STDIN_FILENO);
-		close(cmd->infile);
-	}
-	if (cmd->outfile != STDOUT_FILENO)
-	{
-		dup2(cmd->outfile, STDOUT_FILENO);
-		close(cmd->outfile);
-	}
-}
-
 static void	child_process(t_cmd *cmd, char **envp, int fd[2])
 {
 	if (cmd->ctrl_op == PIPE)
-	{
-		close(fd[STDIN_FILENO]);
-		dup2(fd[STDOUT_FILENO], STDOUT_FILENO);
-		close(fd[STDOUT_FILENO]);
-	}
+		switch_streams(fd[STDIN_FILENO], fd[STDOUT_FILENO], STDOUT_FILENO);
 	dup_file(cmd);
 	if (*cmd->cmd[0] == '/' || *cmd->cmd[0] == '.' || *cmd->cmd[0] == '~')
 		cmd->path = cmd->cmd[0];
- 	else
+	else
 		cmd->path = find_path(cmd->cmd[0], envp);
 	execve(cmd->path, cmd->cmd, envp);
 	exit(perror_minishell(NCMD, cmd->cmd[0]));
@@ -49,10 +31,10 @@ void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options)
 
 	if (cmd->ctrl_op == PIPE)
 		if (pipe(fd) == -1)
-        		exit(perror_minishell(errno, "Fork child_process"));
+			exit(perror_minishell(errno, "Fork child_process"));
 	cmd->pid = fork();
 	if (cmd->pid == -1)
-        exit(perror_minishell(errno, "Fork child_process"));
+		exit(perror_minishell(errno, "Fork child_process"));
 	if (!cmd->pid)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -60,12 +42,18 @@ void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options)
 		child_process(cmd, envp, fd);
 	}
 	if (cmd->ctrl_op == PIPE)
-	{
-		close(fd[STDOUT_FILENO]);
-		dup2(fd[STDIN_FILENO], STDIN_FILENO);
-		close(fd[STDIN_FILENO]);
-	}
+		switch_streams(fd[STDOUT_FILENO], fd[STDIN_FILENO], STDIN_FILENO);
 	waitpid(cmd->pid, status, options);
+}
+
+void	pipe_loop(t_cmd **cmd, int *status, char ***envp)
+{
+	while ((*cmd)->ctrl_op == PIPE)
+	{
+		if (!exec_builtins(*cmd, status, envp, CHILD))
+			exec_cmd(*cmd, status, *envp, WNOHANG);
+		*cmd = (*cmd)->next;
+	}
 }
 
 int	exec_pipe(t_cmd *cmd, int *status, char **envp)
@@ -77,21 +65,14 @@ int	exec_pipe(t_cmd *cmd, int *status, char **envp)
 		return (0);
 	pid = fork();
 	if (pid == -1)
-        exit(perror_minishell(errno, "Fork child_process"));
+		exit(perror_minishell(errno, "Fork child_process"));
 	if (!pid)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		t_cmd = cmd;
-		while (cmd->ctrl_op == PIPE)
-		{
-			//print_cmd(cmd);
-			if(!exec_builtins(cmd, status, &envp, CHILD))
-				exec_cmd(cmd, status, envp, WNOHANG);
-			cmd = cmd->next;
-		}
-		//print_cmd(cmd);
-		if(!exec_builtins(cmd, status, &envp, CHILD))
+		pipe_loop(&cmd, status, &envp);
+		if (!exec_builtins(cmd, status, &envp, CHILD))
 			exec_cmd(cmd, status, envp, WNOHANG);
 		wait_cmd(t_cmd, status, PIPE);
 		close(STDIN_FILENO);
