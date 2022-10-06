@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/27 13:31:47 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/06 11:45:01 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	envp_set_line(char ***envp, char *value, char *name);
 /* utils_env */
 int		is_name_in_envp(char **envp, char *name);
 void	put_envp(char *prefix, char **envp);
+char	*find_path(char *cmd, char **envp);
 
 /* utils_free */
 void	ft_freetabstr(char **tab);

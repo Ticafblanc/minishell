@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/11 09:17:51 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/06 11:45:33 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,6 @@ static void dup_file(t_cmd *cmd)
 		dup2(cmd->outfile, STDOUT_FILENO);
 		close(cmd->outfile);
 	}
-}
-
-static char	*find_path(char *cmd, char **envp)
-{
-	char	**paths;
-	char	*path;
-	int		i;
-
-
-	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	cmd = ft_strjoin("/", cmd);
-	while (paths[i])
-	{
-		path = ft_strjoin(paths[i], cmd);
-		if (access(path, X_OK) == 0)
-		{
-			free(cmd);
-			ft_free_pp((void **)paths);
-			return (path);
-		}
-		free(path);
-		i++;
-	}
-	free(cmd);
-	ft_free_pp((void **)paths);
-	return (NULL);
 }
 
 static void	child_process(t_cmd *cmd, char **envp, int fd[2])
