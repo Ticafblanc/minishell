@@ -6,12 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/27 13:34:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 16:45:07 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// TODO Change name function
 static int	_child_process(int fd[2])
 {
 	char	*str;
@@ -55,31 +56,37 @@ static int	check_command(char **command, int *status)
 	return (*status);
 }
 
-t_cmd	*parsing(char *command, int *status, t_cmd **cmd, char **envp)
+char	*parsing_loop(int *status, char **command, t_cmd *t_cmd, char **envp)
 {
 	int		nb_word;
-	t_cmd	*t_cmd;
-	char	*save;
 	char	*temp;
+	char	*save;
 
-	save = ft_strdup(command);
 	nb_word = 0;
-	*cmd = ft_mlstadd((*cmd), status);
-	t_cmd = *cmd;
-	while (!(*status) && *command != '\0')
+	save = ft_strdup(*command);
+	while (!(*status) && **command != '\0')
 	{
-		find_next_word(&command, status, &nb_word, &t_cmd->cmd[nb_word]);
-		parsing_redir(&command, t_cmd, status, &nb_word);
-		if (*command != '\0' && !(*status))
-			*status = parsing_ctrl_op(&command, &t_cmd, &nb_word, envp);
-		if (*command == '\0' && !t_cmd->cmd[nb_word - 1])
+		find_next_word(command, status, &nb_word, &t_cmd->cmd[nb_word]);
+		parsing_redir(command, t_cmd, status, &nb_word);
+		if (**command != '\0' && !(*status))
+			*status = parsing_ctrl_op(command, &t_cmd, &nb_word, envp);
+		if (**command == '\0' && !t_cmd->cmd[nb_word - 1])
 		{
-			*status = check_command(&command, status);
-			temp = ft_strjoin(save, command);
+			*status = check_command(command, status);
+			temp = ft_strjoin(save, *command);
 			free(save);
 			save = temp;
 		}
 	}
+	return (save);
+}
+
+t_cmd	*parsing(char *command, int *status, t_cmd **cmd, char **envp)
+{
+	char	*save;
+
+	*cmd = ft_mlstadd((*cmd), status);
+	save = parsing_loop(status, &command, *cmd, envp);
 	wait_cmd(*cmd, status, HERE_DOC);
 	if (*status)
 		return (NULL);

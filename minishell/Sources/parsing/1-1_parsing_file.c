@@ -2,30 +2,34 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   1-1_parsing_file.c                                 :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/10/08 18:07:40 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+// TODO
 static char	*find_next_word_redir(char **command, int *status)
 {
 	char	*str;
 
-
-	while (check_metacharacter(command, R_INVISIBLE));
+	while (check_metacharacter(command, R_INVISIBLE))
+		;
 	str = *command;
 	while (**command != '\0' && !pass_quote(command, status)
-		&& !check_metacharacter(command, METACHARACTER));
+		&& !check_metacharacter(command, METACHARACTER))
+		;
 	if (ft_str_len(str))
 		return (str);
 	return (NULL);
 }
 
+// TODO refactor, removing check_metacharacter!
+/*
 static char	*find_redir(char **command, int *status, int *king)
 {
 	if (**command == '<')
@@ -50,7 +54,36 @@ static char	*find_redir(char **command, int *status, int *king)
 	}
 	else
 		return (NULL);
-	return(find_next_word_redir(command, status));
+	return (find_next_word_redir(command, status));
+}
+*/
+
+// TODO refactor, removing check_metacharacter!
+static char	*find_redir(char **command, int *status, int *king)
+{
+	if (**command == '<')
+	{
+		check_metacharacter(command, R_METACHARACTER);
+		*king = INFILE;
+		if (**command == '<')
+		{
+			check_metacharacter(command, R_METACHARACTER);
+			*king = HERE_DOC;
+		}
+	}	
+	else if (**command == '>')
+	{
+		check_metacharacter(command, R_METACHARACTER);
+		*king = OUTFILE;
+		if (**command == '>')
+		{
+			check_metacharacter(command, R_METACHARACTER);
+			*king = APPEND;
+		}
+	}
+	else
+		return (NULL);
+	return (find_next_word_redir(command, status));
 }
 
 static int	check_limiter(int fd[2], char *limiter)
@@ -100,11 +133,11 @@ int	parsing_here_doc(t_cmd *cmd, char *limiter)
 
 int	parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
 {
-    int     king;
+	int		king;
 	char	*file;
 	char	c;
 
-    file = find_redir(command, status, &king);
+	file = find_redir(command, status, &king);
 	if (!file)
 		return (0);
 	if (*file != **command)
@@ -114,9 +147,11 @@ int	parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
 		if (king == INFILE)
 			cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
 		else if (king == OUTFILE)
-			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
+					| O_TRUNC, 0777);
 		else if (king == APPEND)
-			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT | O_APPEND, 0777);
+			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
+					| O_APPEND, 0777);
 		else if (king == HERE_DOC)
 			cmd->infile = parsing_here_doc(cmd, remove_quote(file));
 		if (cmd->infile == -1 || cmd->outfile == -1)
@@ -130,33 +165,33 @@ int	parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
 	return (*status);
 }
 
-char *remove_quote(char *command)
+char	*remove_quote(char *command)
 {
-    int     i;
-    char    c;
-    int     trig;
-    char    *new_command;
+	int		i;
+	char	c;
+	int		trig;
+	char	*new_command;
 
-    i =  0;
-    trig = 0;
-    new_command = command;
-    while (*command != '\0')
-    {
-        if (!trig && (*command == 34 || *command == 39))
-        {
-            c = *command;
-            i++;
-            trig = 1;
-        }
-        else if (trig && c == *command)
-        {
-            i++;
-            trig = 0;
-        }
-        *command = command[i];
-        command++;
-    }
+	i = 0;
+	trig = 0;
+	new_command = command;
+	while (*command != '\0')
+	{
+		if (!trig && (*command == 34 || *command == 39))
+		{
+			c = *command;
+			i++;
+			trig = 1;
+		}
+		else if (trig && c == *command)
+		{
+			i++;
+			trig = 0;
+		}
+		*command = command[i];
+		command++;
+	}
 	command -= i;
 	*command = '\0';
-    return (new_command);
+	return (new_command);
 }

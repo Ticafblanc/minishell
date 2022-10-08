@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   1_parsing.c                                        :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/10/08 16:58:28 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ void	find_next_word(char **command, int *status, int *nb_word, char **cmd)
 {
 	char	*str;
 
-
-	while (check_metacharacter(command, R_INVISIBLE));
+	while (check_metacharacter(command, R_INVISIBLE))
+		;
 	str = *command;
 	while (**command != '\0' && !pass_quote(command, status)
-		&& !check_metacharacter(command, METACHARACTER));
+		&& !check_metacharacter(command, METACHARACTER))
+		;
 	if (ft_str_len(str))
 	{
 		*cmd = str;
@@ -28,74 +29,29 @@ void	find_next_word(char **command, int *status, int *nb_word, char **cmd)
 	}
 }
 
-char	check_metacharacter(char **command, int king)
-{
-    char i;
-
-    i = 0;
-    if (((king == R_INVISIBLE || king == INVISIBLE)
-        && (**command == 32
-        || (**command >= 9 && **command <= 13)))
-	    || ((king == METACHARACTER || king == R_METACHARACTER)
-        && (**command == '|' || **command == '&'
-        || **command == '(' || **command == ')' 
-        || **command == '<' || **command == '>'
-		|| **command == 32 
-        || (**command >= 9 && **command <= 13))))
-    {
-		i = **command;
-        if (king == R_INVISIBLE || king == R_METACHARACTER)
-        {
-            **command = '\0';
-	        (*command)++;
-        } 
-    }
-	else if (king == METACHARACTER)
-		(*command)++;
-	return (i);
-}
-
+/*
+	// else if (command[0][0] == '(')
+	//  	return (parsing_brace(command, cmd, nb_word));
+*/
 int	parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
-	if (envp)
-
+	(void) envp;
 	if (**command == '\0')
 		return (0);
 	if (check_metacharacter(command, R_INVISIBLE))
-		return(0);
+		return (0);
 	if ((command[0][0] == '|' && command[0][1] == '|')
 		|| (command[0][0] == '&' && command[0][1] == '&'))
 		return (parsing_and_or(command, cmd, nb_word));
 	else if (**command == '|')
-		return (parsing_pipe(command, cmd, nb_word));//, envp));
-	// else if (command[0][0] == '(')
-	//  	return (parsing_brace(command, cmd, nb_word));
+		return (parsing_pipe(command, cmd, nb_word));
 	else
 		command[0][1] = '\0';
 	return (perror_minishell(TOKENERR, *command));
 }
 
-int pass_quote(char **command, int *status)
-{
-    int i;
-
-    i =  0;
-    if ((**command == 34 || **command == 39))
-	{
-		while (command[0][i++] != '\0')
-		{
-			if (command[0][i] == '\0')
-				return (*status = perror_minishell(QNC, *command));
-			if (**command == command[0][i])
-			{
-				*command += ++i;
-				break;
-			}
-		}
-	}
-    return(0);
-}
-
+// TODO Que veux dire msltadd?
+// TODO Pourquoi une Calloc avec caractere 20(int)?
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 {
 	t_cmd	*new;
@@ -121,4 +77,3 @@ t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 	perror("minishell:");
 	return (NULL);
 }
-

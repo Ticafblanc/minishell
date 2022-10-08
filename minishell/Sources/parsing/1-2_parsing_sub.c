@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   1-2_parsing_sub.c                                  :+:      :+:    :+:   */
-/*   By: sbouras <sbouras@student.42quebec.com>       +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec.com>   +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/06/13 15:10:10 by jrossign         ###   ########.ca       */
+/*   Updated: 2022/10/08 17:02:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,43 @@ int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 			(*cmd)->cmd[(*nb_word)] = NULL;
 		(*cmd) = ft_mlstadd((*cmd), &status);
 		(*nb_word) = 0;
-		return(0);
+		return (0);
 	}
 	command[0][2] = '\0';
 	return (perror_minishell(TOKENERR, *command));
 }
 
-int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)//, char **envp)
+/*
+	int		i;
+
+	i = 0;
+
+	check_metacharacter(command, R_METACHARACTER);
+	while (envp[i] && ft_strnstr(envp[i], "SUB=", 4) == 0)
+		i++;
+	if (ft_strnstr(envp[i], "SUB=", 4))
+		return (perror_minishell(TOKENERR, *command));
+
+	(*cmd)->cmd[3] = NULL;
+	(*cmd)->path = ft_strdup("minishell");
+*/
+
+int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 {
 	int		status;
-	// int		i;
 
-	// i = 0;
 	if (**(*cmd)->cmd != **command)
 	{
 		status = 0;
 		(*cmd)->ctrl_op = PIPE;
 		check_metacharacter(command, R_METACHARACTER);
-		// while (envp[i] && ft_strnstr(envp[i], "SUB=", 4) == 0)
-		// 	i++;
-		// if (ft_strnstr(envp[i], "SUB=", 4))
-		// 	return (perror_minishell(TOKENERR, *command));
 		(*cmd)->cmd[2] = ft_rev_split((const char **)(*cmd)->cmd, 32);
-		(*cmd)->cmd[0] = ft_strdup("minishell");//envp[i] + 4;
+		(*cmd)->cmd[0] = ft_strdup("minishell");
 		(*cmd)->cmd[1] = ft_strdup("-c");
 		(*cmd)->cmd[3] = NULL;
-		// (*cmd)->path = ft_strdup("minishell");
 		(*cmd) = ft_mlstadd((*cmd), &status);
 		(*nb_word) = 0;
-		return(0);
+		return (0);
 	}
 	command[0][1] = '\0';
 	return (perror_minishell(TOKENERR, *command));
@@ -80,7 +88,8 @@ int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)//, char **envp)
 // 	while (!(*status) && *command != '\0')
 // 	{
 // 		t_cmd->cmd[nb_word++] = find_next_word(&command, status);
-// 		if (*command != '\0' && !parsing_redir(&command, t_cmd, status) && !(*status))
+// 		if (*command != '\0' && !parsing_redir(&command, t_cmd, status) 
+//			&& !(*status))
 // 			*status = parsing_ctrl_op(&command, &t_cmd, &nb_word);
 // 	}
 // 	if (!(*cmd)->cmd[0])
