@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/08 21:57:55 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/09 05:07:44 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <stdbool.h>
 # include <errno.h>
 
-# define PROMPT "minishell %>"
+# define PROMPT "\e[1;36m minishell % \e[0m"
 
 extern int	errno;
 
