@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:09:21 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/11 09:09:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:48:29 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exec_env(char **envp)
 {
-	while(*envp)
+	while (*envp)
 	{
 		printf("%s\n", *envp);
 		envp++;

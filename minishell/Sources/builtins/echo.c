@@ -6,11 +6,26 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:10:51 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/11 09:11:01 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 20:13:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	set_flag(char *flags)
+{
+	int	i;
+
+	i = 1;
+	while (flags[i])
+	{
+		if (flags[i] == 'n')
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
 
 int	exec_echo(t_cmd *cmd)
 {
@@ -20,17 +35,8 @@ int	exec_echo(t_cmd *cmd)
 	i = 0;
 	flag_n = 1;
 	if (cmd->cmd[1][i] == '-')
-		while (cmd->cmd[1][++i])
-		{
-			if (cmd->cmd[1][i] == 'n')
-				flag_n = 0;
-			else
-			{
-				flag_n = 1;
-				break;
-			}
-		}
-	i = 1;
+		flag_n = set_flag(cmd->cmd[1]);
+	i++;
 	if (!flag_n)
 		i++;
 	while (cmd->cmd[i])

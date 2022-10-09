@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 17:51:13 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/13 07:17:00 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:48:15 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	print_envp_alpha(char *prefix, char **env)
 	ft_freetabstr(env_alpha);
 }
 
-int		exec_export(char *pathname, char **args, char ***envp)
+int	exec_export(char *pathname, char **args, char ***envp)
 {
-	(void)	pathname;
-	(void)	args;
-	(void)	envp;
 	int		i;
-	
+
+	(void) pathname;
+	(void) args;
+	(void) envp;
 	i = 0;
 	if (ft_len_pp((void **)args) > 1)
 		while (args[++i])

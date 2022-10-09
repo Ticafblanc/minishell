@@ -6,20 +6,21 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:08:33 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/11 09:08:53 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:50:17 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// gestion de staut pour retour 
 static int	exec_cd2(char **str, char ***envp)
 {
 	int		i;
 
 	i = 0;
-	while (envp[0][i] && ft_strncmp(envp[0][i], "OLDPWD=", 7) != 0)// gestion de staut pour retour 
+	while (envp[0][i] && ft_strncmp(envp[0][i], "OLDPWD=", 7) != 0)
 		i++;
-	if(ft_strncmp(envp[0][i], "OLDPWD=", 7) == 0)
+	if (ft_strncmp(envp[0][i], "OLDPWD=", 7) == 0)
 	{
 		free(envp[0][i]);
 		envp[0][i] = ft_strjoin("OLDPWD=", *str);
@@ -28,7 +29,7 @@ static int	exec_cd2(char **str, char ***envp)
 	i = 0;
 	while (envp[0][i] && ft_strncmp(envp[0][i], "PWD=", 4) != 0)
 		i++;
-	if(ft_strncmp(envp[0][i], "PWD=", 4) == 0)
+	if (ft_strncmp(envp[0][i], "PWD=", 4) == 0)
 	{
 		free(envp[0][i]);
 		*str = getcwd(NULL, 0);
