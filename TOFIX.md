@@ -10,3 +10,4 @@
 - [ ] echo $PATH
 - [ ] echo test>>file
 - [ ] echo test >> file
+- [ ] probleme dans les redirections, espace non geré
