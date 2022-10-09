@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/09 05:07:44 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/09 05:25:05 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 # include <libft.h>
 # include "../readline/readline.h"
 # include "../readline/history.h"
-//# include "../sys/ioctl.h"
-//# include <readline/readline.h>
-//# include <readline/history.h>
 # include <sys/ioctl.h>
 # include <signal.h>
 # include <sys/wait.h>
@@ -29,8 +26,6 @@
 # include <errno.h>
 
 # define PROMPT "\e[1;36m minishell % \e[0m"
-
-extern int	errno;
 
 enum	e_status
 {
@@ -55,16 +50,23 @@ enum	e_kind
 	CHILD = 12,
 };
 
+/*
+	END		\0
+	PIPE 	cree un pipe de sortie
+	OR		continue si ko
+	AND		continue si ok
+	BRACE	
+*/
 enum	e_control_operator
 {
-	END = 0,//\0
-	PIPE = 1, // cree un pipe de sortie
-	OR = 2, // continue si ko
-	AND = 3, //continue si ok
+	END = 0,
+	PIPE = 1,
+	OR = 2,
+	AND = 3,
 	BRACE = 4,
 };
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	int				ctrl_op;
 	int				status;
@@ -77,26 +79,23 @@ typedef struct	s_cmd
 }				t_cmd;
 
 /* initialization */
-int	init(char ***envp);
+int		init(char ***envp);
 
-	//1_parsing.c
-
+//1_parsing.c
 void	find_next_word(char **command, int *status, int *nb_word, char **cmd);
 char	check_metacharacter(char **command, int king);
 int		parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp);
-int 	pass_quote(char **command, int *status);
+int		pass_quote(char **command, int *status);
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status);
 
-	//1-1_parsing_file.c
-
+//1-1_parsing_file.c
 int		parsing_here_doc(t_cmd *cmd, char *limiter);
 int		parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word);
 char	*remove_quote(char *command);
 
-	//1-2_parsing_sub.c
-	
+//1-2_parsing_sub.c	
 int		parsing_and_or(char **command, t_cmd **cmd, int *nb_word);
-int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word);//, char **envp);
+int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word);
 
 /* execute */
 void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options);
@@ -128,7 +127,7 @@ char	*find_path(char *cmd, char **envp);
 
 /* utils_free */
 void	ft_freetabstr(char **tab);
-void    free_cmd(t_cmd *cmd);
+void	free_cmd(t_cmd *cmd);
 void	free_null(void *ptr);
 
 /* utils_libc */
@@ -140,24 +139,19 @@ char	**get_alpha_tabstr(char **tabstr);
 char	**tabstrdup(char **tabstr);
 
 /* utils */
-int	exit_free_envp(char ***envp);
+int		exit_free_envp(char ***envp);
 
 /* execute */
-int	execute(char *command, int *status, char ***envp);
+int		execute(char *command, int *status, char ***envp);
 
 /* parsing */
 t_cmd	*parsing(char *command, int *status, t_cmd **cmd, char **envp);
 
-
-	//4_utils.c
-
-void    wait_cmd(t_cmd *cmd, int *status, int ctrl_op);
+//4_utils.c
+void	wait_cmd(t_cmd *cmd, int *status, int ctrl_op);
 int		perror_minishell(int status, char *command);
 void	handle_prompt(int signum);
 void	handle_exec(int sig_num);
-
-void	print_cmd(t_cmd *cmd);
-
 
 // Development tools
 void	print_cmd(t_cmd *cmd);
