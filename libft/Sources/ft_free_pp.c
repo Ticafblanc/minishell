@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_pp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec>       +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:14:14 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/03/03 10:18:30 by mdoquocb         ###   ########.fr       */
+/*   Updated: 2022/10/09 04:52:39 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	ft_free_pp(void **argv)
 	while (argv[i])
 	{
 		free(argv[i]);
+		argv[i] = NULL;
 		i++;
 	}
 	free(argv);
+	argv = NULL;
 	return ;
 }
