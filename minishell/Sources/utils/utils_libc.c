@@ -6,11 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:54:29 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/13 06:57:23 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:37:33 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2 && *s1 == *s2)
 	{

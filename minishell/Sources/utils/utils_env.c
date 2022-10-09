@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:50:45 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/06 11:45:10 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:39:28 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_name_in_envp(char **envp, char *name)
+int	is_name_in_envp(char **envp, char *name)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ void	put_envp(char *prefix, char **envp)
 
 	i = 0;
 	while (envp[i])
-		printf("%s%s\n",prefix, envp[i++]);
+		printf("%s%s\n", prefix, envp[i++]);
 }
 
 char	*find_path(char *cmd, char **envp)
@@ -40,7 +40,6 @@ char	*find_path(char *cmd, char **envp)
 	char	**paths;
 	char	*path;
 	int		i;
-
 
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)

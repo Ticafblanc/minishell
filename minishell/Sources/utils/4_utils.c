@@ -6,12 +6,15 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/16 19:31:50 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:44:03 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-// static void	wait_and_free(t_cmd *cmd)//voir gestion du sigpipe pour ficheir sans and of file
+
+/*
+//voir gestion du sigpipe pour ficheir sans and of file
+// static void	wait_and_free(t_cmd *cmd)
 // {
 // 	t_cmd	*tmp;
 
@@ -35,7 +38,7 @@
 
 // static int	exec_last(t_cmd *cmd, int status)
 // {
-	
+
 // 	if (cmd->bultin)
 // 		return (exec_bultin(cmd->bultin));
 // 	if (status == SUB)
@@ -50,31 +53,30 @@
 // 	return (0);
 // }
 
-
-
-
-
-// //https://www.cyberciti.biz/faq/linux-bash-exit-status-set-exit-statusin-bash/
-// //https://www.thegeekstuff.com/2010/10/linux-error-codes/
-
+// https://www.cyberciti.biz/faq/linux-bash-exit-status-set-exit-statusin-bash/
+// https://www.thegeekstuff.com/2010/10/linux-error-codes/
+*/
 
 int	perror_minishell(int status, char *command)
 {
-    if (status == errno)
-    {
-         dprintf(2,"minishell: %s: %s \n", command, strerror(errno));
-         status = 1;
-    }
+	if (status == errno)
+	{
+		dprintf (2, "minishell: %s: %s \n", command, strerror(errno));
+		status = 1;
+	}
 	else if (status == NCMD)
-		dprintf(2,"minishell: %s: command not found\n", command);
+		dprintf (2, "minishell: %s: command not found\n", command);
 	else if (status == QNC)
-		dprintf(2,"minishell: syntax error `%c' not close\n", *command);
+		dprintf (2, "minishell: syntax error `%c' not close\n", *command);
 	else if (status == TOKENERR)
-		dprintf(2,"minishell: syntax error near unexpected token `%s'\n", command);
+	{
+		dprintf (2, "minishell: syntax error near unexpected token `%s'\n",
+			command);
+	}
 	return (status);
 }
 
-void    wait_cmd(t_cmd *cmd, int *status, int ctrl_op)
+void	wait_cmd(t_cmd *cmd, int *status, int ctrl_op)
 {
 	if (ctrl_op == PIPE)
 	{
@@ -85,7 +87,7 @@ void    wait_cmd(t_cmd *cmd, int *status, int ctrl_op)
 		}
 		waitpid(cmd->pid, status, 0);
 	}
-	else if(ctrl_op == HERE_DOC)
+	else if (ctrl_op == HERE_DOC)
 	{
 		while (cmd)
 		{
@@ -93,7 +95,6 @@ void    wait_cmd(t_cmd *cmd, int *status, int ctrl_op)
 			cmd = cmd->next;
 		}
 	}
-	
 }
 
 void	handle_prompt(int sig_num)

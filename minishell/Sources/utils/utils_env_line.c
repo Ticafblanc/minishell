@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 07:10:34 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/13 07:14:45 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:40:33 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_name(char *env_line)
 	i = 0;
 	while (env_line[i])
 	{
-		if(env_line[i] == '=')
+		if (env_line[i] == '=')
 			env_line[i] = '\0';
 		i++;
 	}
@@ -38,7 +38,7 @@ char	*get_value(char *env_line)
 	return (&env_line[i]);
 }
 
-int		is_name_in_line(char *envline, char *name)
+int	is_name_in_line(char *envline, char *name)
 {
 	int	len;
 
@@ -61,10 +61,10 @@ char	*build_envp_line(char *name, char *value)
 
 void	envp_set_line(char ***envp, char *value, char *name)
 {
-	(void)	envp;
 	char	*line;
 	int		i_name;
 
+	(void) envp;
 	line = build_envp_line(name, value);
 	i_name = is_name_in_envp(*envp, name);
 	if (i_name == -1)

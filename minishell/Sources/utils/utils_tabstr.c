@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:52:34 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/13 06:57:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:37:14 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	add_line_tabstr(char ***tabstr, char *line)
 	char	**new_tabstr;
 	int		i;
 
-	new_tabstr = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)*tabstr) + 2));
+	new_tabstr = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)*tabstr)
+				+ 2));
 	i = 0;
 	while ((*tabstr)[i])
 	{
@@ -32,11 +33,11 @@ void	add_line_tabstr(char ***tabstr, char *line)
 
 char	**get_alpha_tabstr(char **tabstr)
 {
-	char 	**n_tabstr;
+	char	**n_tabstr;
 	char	*temp;
 	int		i;
 	int		j;
-	
+
 	n_tabstr = tabstrdup(tabstr);
 	i = 0;
 	while (n_tabstr[i])
@@ -54,7 +55,7 @@ char	**get_alpha_tabstr(char **tabstr)
 		}
 		i++;
 	}
-	return n_tabstr;
+	return (n_tabstr);
 }
 
 char	**tabstrdup(char **tabstr)
@@ -62,7 +63,8 @@ char	**tabstrdup(char **tabstr)
 	char	**n_tabstr;
 	int		i;
 
-	n_tabstr = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)tabstr) + 1));
+	n_tabstr = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)tabstr)
+				+ 1));
 	i = 0;
 	while (*tabstr)
 		n_tabstr[i++] = ft_strdup(*tabstr++);

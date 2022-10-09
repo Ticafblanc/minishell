@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:54:18 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/11 08:57:22 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 19:44:32 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,4 @@ void	print_cmd(t_cmd *cmd)
 	//printf("path = %s\n", cmd->path);
 	printf("infile = %d\n", cmd->infile);
 	printf("outfile = %d\n\n", cmd->outfile);
-
 }
