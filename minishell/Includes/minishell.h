@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/08 16:55:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/08 21:57:55 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ char	*find_path(char *cmd, char **envp);
 /* utils_free */
 void	ft_freetabstr(char **tab);
 void    free_cmd(t_cmd *cmd);
+void	free_null(void *ptr);
 
 /* utils_libc */
 int		ft_strcmp(const char *s1, const char *s2);
