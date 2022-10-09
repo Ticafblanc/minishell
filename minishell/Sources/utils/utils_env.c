@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:50:45 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 19:39:28 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/09 04:51:26 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	put_envp(char *prefix, char **envp)
 		printf("%s%s\n", prefix, envp[i++]);
 }
 
+// TODO si PATH n'existes pas?
 char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -52,14 +53,14 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(paths[i], cmd);
 		if (access(path, X_OK) == 0)
 		{
-			free(cmd);
+			free_null((void *)cmd);
 			ft_free_pp((void **)paths);
 			return (path);
 		}
-		free(path);
+		free_null((void *)path);
 		i++;
 	}
-	free(cmd);
+	free_null((void *)cmd);
 	ft_free_pp((void **)paths);
 	return (NULL);
 }
