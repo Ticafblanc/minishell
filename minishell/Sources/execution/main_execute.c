@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/06 12:15:00 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/09 05:27:24 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static bool	_continue(t_cmd *cmd, char ***envp, int *status, int ctrl)
 			|| ((ctrl == AND && !*status) || (ctrl == OR && *status))));
 }
 
+//TODO explications sur le ctrl?
+//TODO a quoi correspond r_cmd?
 int	execute(char *command, int *status, char ***envp)
 {
 	t_cmd	*cmd;
