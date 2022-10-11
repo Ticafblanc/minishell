@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rev_split.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec>       +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 05:45:50 by mdoquocb          #+#    #+#             */
-/*   Updated: 2021/10/13 05:46:15 by mdoquocb         ###   ########.fr       */
+/*   Updated: 2022/10/11 15:29:17 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_rev_split(const char **s, char c)
 	{
 		t_str = ft_substr(str, 0, ft_str_len(str) + 1);
 		free(str);
-		t_str[ft_str_len(str)] = c;
+		t_str[ft_str_len(t_str)] = c;
 		str = ft_strjoin(t_str, *s);
 		free(t_str);
 		s++;	
