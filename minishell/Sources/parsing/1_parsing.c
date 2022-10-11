@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/08 16:58:28 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/11 15:12:32 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,15 @@ t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 		new->cmd = (char **)ft_calloc(20, sizeof(char *));
 		if (new->cmd)
 		{
-			new->next = NULL;
-			new->status = 0;
 			new->ctrl_op = END;
+			new->status = 0;
+			new->path = NULL;
 			new->infile = STDIN_FILENO;
 			new->outfile = STDOUT_FILENO;
 			if (cmd)
 				cmd->next = new;
+			else
+				new->next = NULL;
 			return (new);
 		}
 		free(new);

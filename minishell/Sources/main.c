@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/09/26 21:42:59 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/09 05:13:23 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	minishell_loop(int *status, char ***envp)
 			execute(command, status, envp);
 		else
 			add_history(command);
-		free(command);
+		free_null((void *)command);
 	}
 }
 
