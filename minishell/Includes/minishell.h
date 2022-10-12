@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/09 05:25:05 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/12 23:54:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@
 # include <errno.h>
 
 # define PROMPT "\e[1;36m minishell % \e[0m"
+# define WHITESPACES " \t\n\v\f\r"
+# define METACHARS "|&()<>"
+# define WHITESMETA " \t\n\v\f\r|&()<>"
+# define REDIR "<>"
+# define OPERATOR "|&"
 
 enum	e_status
 {
