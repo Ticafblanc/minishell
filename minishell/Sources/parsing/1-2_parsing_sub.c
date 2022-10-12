@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/08 17:02:48 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/11 22:54:06 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 	command[0][1] = '\0';
 	return (perror_minishell(TOKENERR, *command));
 }
+
+// TODO manage brace!
 
 // int	parsing_brace(char **command, t_cmd **cmd, int *nb_word)
 // {

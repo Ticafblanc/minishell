@@ -6,13 +6,12 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/08 18:07:40 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/12 10:38:45 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// TODO
 static char	*find_next_word_redir(char **command, int *status)
 {
 	char	*str;
@@ -165,6 +164,8 @@ int	parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
 	return (*status);
 }
 
+//TODO manage $ here always sauf ' '
+//TODO manage * 
 char	*remove_quote(char *command)
 {
 	int		i;

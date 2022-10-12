@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/11 15:12:32 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/11 16:13:33 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp)
 	return (perror_minishell(TOKENERR, *command));
 }
 
-// TODO Que veux dire msltadd?
-// TODO Pourquoi une Calloc avec caractere 20(int)?
+// TODO Que veux dire msltadd (maillon list add!)
+// TODO voir pour faire un fonction! pour gerer les 20 d'allocation!
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 {
 	t_cmd	*new;
@@ -59,7 +59,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (new)
 	{
-		new->cmd = (char **)ft_calloc(20, sizeof(char *));
+		new->cmd = (char **)ft_calloc(20, sizeof(char *)); 
 		if (new->cmd)
 		{
 			new->ctrl_op = END;
