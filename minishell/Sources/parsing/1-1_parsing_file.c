@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/12 10:38:45 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/12 13:56:18 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,36 +26,6 @@ static char	*find_next_word_redir(char **command, int *status)
 		return (str);
 	return (NULL);
 }
-
-// TODO refactor, removing check_metacharacter!
-/*
-static char	*find_redir(char **command, int *status, int *king)
-{
-	if (**command == '<')
-	{
-		check_metacharacter(command, R_METACHARACTER);
-		*king = INFILE;
-		if (**command == '<')
-		{
-			check_metacharacter(command, R_METACHARACTER);
-			*king = HERE_DOC;
-		}
-	}	
-	else if (**command == '>')
-	{
-		check_metacharacter(command, R_METACHARACTER);
-		*king = OUTFILE;
-		if (**command == '>')
-		{
-			check_metacharacter(command, R_METACHARACTER);
-			*king = APPEND;
-		}
-	}
-	else
-		return (NULL);
-	return (find_next_word_redir(command, status));
-}
-*/
 
 // TODO refactor, removing check_metacharacter!
 static char	*find_redir(char **command, int *status, int *king)
