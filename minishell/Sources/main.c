@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/11 15:47:02 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/12 11:48:19 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,15 @@ void	minishell_loop(int *status, char ***envp)
 	}
 }
 
-//TODO manage `env -i ./minishell
 int	main(int argc, char **argv, char **envp)
 {
 	int		status;
 
+	if (!envp || !(*envp))
+	{
+		printf("minshell: minishell can't be launch without environement\n");
+		return (EXIT_SUCCESS);
+	}
 	status = 0;
 	if (argc == 1)
 	{
