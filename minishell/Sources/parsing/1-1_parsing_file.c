@@ -6,12 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/12 13:56:18 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 00:36:02 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+//TODO si str == NULL il faudrait retourner une erreur
 static char	*find_next_word_redir(char **command, int *status)
 {
 	char	*str;
@@ -32,26 +33,24 @@ static char	*find_redir(char **command, int *status, int *king)
 {
 	if (**command == '<')
 	{
-		check_metacharacter(command, R_METACHARACTER);
-		*king = INFILE;
-		if (**command == '<')
+		if (++(**command) == '<')
 		{
-			check_metacharacter(command, R_METACHARACTER);
 			*king = HERE_DOC;
+			++(**command);
 		}
+		else
+			*king = INFILE;
 	}	
-	else if (**command == '>')
+	else
 	{
-		check_metacharacter(command, R_METACHARACTER);
-		*king = OUTFILE;
 		if (**command == '>')
 		{
-			check_metacharacter(command, R_METACHARACTER);
 			*king = APPEND;
+			++(**command);
 		}
+		else
+			*king = OUTFILE;
 	}
-	else
-		return (NULL);
 	return (find_next_word_redir(command, status));
 }
 
@@ -71,7 +70,7 @@ static int	check_limiter(int fd[2], char *limiter)
 		ft_putstr_fd(line, fd[STDOUT_FILENO]);
 		ft_putchar_fd('\n', fd[STDOUT_FILENO]);
 		free(line);
-		line = readline("> ");
+		line = readline("> "); 
 	}
 	close(fd[STDOUT_FILENO]);
 	free(line);
@@ -100,6 +99,7 @@ int	parsing_here_doc(t_cmd *cmd, char *limiter)
 	return (-1);
 }
 
+// TODO Look TODO find_next_word_redir
 int	parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
 {
 	int		king;
