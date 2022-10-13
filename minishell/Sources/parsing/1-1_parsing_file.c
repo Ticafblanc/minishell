@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/13 00:36:02 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 11:19:09 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ static char	*find_next_word_redir(char **command, int *status)
 // TODO refactor, removing check_metacharacter!
 static char	*find_redir(char **command, int *status, int *king)
 {
-	if (**command == '<')
+	if (*(*command)++ == '<')
 	{
-		if (++(**command) == '<')
+		if (**command == '<')
 		{
 			*king = HERE_DOC;
-			++(**command);
+			(*command)++;
 		}
 		else
 			*king = INFILE;
@@ -46,7 +46,7 @@ static char	*find_redir(char **command, int *status, int *king)
 		if (**command == '>')
 		{
 			*king = APPEND;
-			++(**command);
+			(*command)++;
 		}
 		else
 			*king = OUTFILE;
