@@ -5,9 +5,7 @@
 - [ ] leaks
 - [ ] valeur de retoutr status
 - [ ] norminette
-- [ ] env -i ./minishell
 - [ ] cat | ls
 - [ ] echo $PATH
 - [ ] echo test>>file
 - [ ] echo test >> file
-- [ ] probleme dans les redirections, espace non geré
