@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 21:21:15 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 22:04:11 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 18:16:26 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,11 @@ void	free_null(void *ptr)
 		free(ptr);
 		ptr = NULL;
 	}
+}
+
+int	exit_free_envp(char ***envp)
+{
+	ft_free_pp((void **)*envp);
+	printf("exit\n");
+	return (EXIT_SUCCESS);
 }
