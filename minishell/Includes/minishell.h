@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/12 23:54:48 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:41:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ int		init(char ***envp);
 //1_parsing.c
 void	find_next_word(char **command, int *status, int *nb_word, char **cmd);
 char	check_metacharacter(char **command, int king);
-int		parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp);
+int		manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp);
 int		pass_quote(char **command, int *status);
 t_cmd	*ft_mlstadd(t_cmd *cmd, int *status);
 
 //1-1_parsing_file.c
 int		parsing_here_doc(t_cmd *cmd, char *limiter);
-int		parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word);
+int		manage_redir(char **command, t_cmd *cmd, int *status, int *nb_word);
 char	*remove_quote(char *command);
 
 //1-2_parsing_sub.c	
@@ -151,6 +151,7 @@ int		execute(char *command, int *status, char ***envp);
 
 /* parsing */
 t_cmd	*parsing(char *command, int *status, t_cmd **cmd, char **envp);
+char	*find_next_word_redir(char **command, int *status);
 
 //4_utils.c
 void	wait_cmd(t_cmd *cmd, int *status, int ctrl_op);

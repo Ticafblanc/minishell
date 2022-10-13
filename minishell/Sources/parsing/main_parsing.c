@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/13 09:39:05 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:41:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ char	*parsing_loop(int *status, char **command, t_cmd *t_cmd, char **envp)
 	{
 		find_next_word(command, status, &nb_word, &t_cmd->cmd[nb_word]);
 		if (**command && ft_strchr(REDIR, **command))
-			parsing_redir(command, t_cmd, status, &nb_word);
+			manage_redir(command, t_cmd, status, &nb_word);
 		if (**command && ft_strchr(OPERATOR, **command))
-			*status = parsing_ctrl_op(command, &t_cmd, &nb_word, envp);
+			*status = manage_operators(command, &t_cmd, &nb_word, envp);
 		// TODO necessaire?
 		// if (**command == '\0' && !t_cmd->cmd[nb_word - 1])
 		// {

@@ -6,43 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/13 00:27:52 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:41:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	skip_whitespaces(char **s)
-{
-	while (**s && ft_strchr(WHITESPACES, **s))
-	{
-		**s = '\0';
-		(*s)++;
-	}
-}
-
-void	forward_to_end_word(char **s, int *status)
-{
-	while (**s != '\0' && !pass_quote(s, status) && !ft_strchr(WHITESMETA, **s))
-		(*s)++;
-}
-
-void	find_next_word(char **command, int *status, int *nb_word, char **cmd)
-{
-	char	*str;
-
-	skip_whitespaces(command);
-	str = *command;
-	forward_to_end_word(command, status);
-	if (ft_str_len(str))
-	{
-		*cmd = str;
-		(*nb_word)++;
-	}
-	skip_whitespaces(command);
-}
-
-int	parsing_ctrl_op(char **command, t_cmd **cmd, int *nb_word, char **envp)
+int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
 	(void) envp;
 	if (**command == '\0')

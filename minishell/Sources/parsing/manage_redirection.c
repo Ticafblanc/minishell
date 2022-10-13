@@ -1,42 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1-1_parsing_file.c                                 :+:      :+:    :+:   */
+/*   manage_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/13 11:19:09 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 18:08:56 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//TODO si str == NULL il faudrait retourner une erreur
-static char	*find_next_word_redir(char **command, int *status)
-{
-	char	*str;
-
-	while (check_metacharacter(command, R_INVISIBLE))
-		;
-	str = *command;
-	while (**command != '\0' && !pass_quote(command, status)
-		&& !check_metacharacter(command, METACHARACTER))
-		;
-	if (ft_str_len(str))
-		return (str);
-	return (NULL);
-}
-
-// TODO refactor, removing check_metacharacter!
 static char	*find_redir(char **command, int *status, int *king)
 {
 	if (*(*command)++ == '<')
 	{
 		if (**command == '<')
 		{
-			*king = HERE_DOC;
 			(*command)++;
+			*king = HERE_DOC;
 		}
 		else
 			*king = INFILE;
@@ -99,40 +82,6 @@ int	parsing_here_doc(t_cmd *cmd, char *limiter)
 	return (-1);
 }
 
-// TODO Look TODO find_next_word_redir
-int	parsing_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
-{
-	int		king;
-	char	*file;
-	char	c;
-
-	file = find_redir(command, status, &king);
-	if (!file)
-		return (0);
-	if (*file != **command)
-	{
-		c = **command;
-		**command = '\0';
-		if (king == INFILE)
-			cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
-		else if (king == OUTFILE)
-			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
-					| O_TRUNC, 0777);
-		else if (king == APPEND)
-			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
-					| O_APPEND, 0777);
-		else if (king == HERE_DOC)
-			cmd->infile = parsing_here_doc(cmd, remove_quote(file));
-		if (cmd->infile == -1 || cmd->outfile == -1)
-			*status = perror_minishell(errno, file);
-		**command = c;
-		(*nb_word)--;
-		return (*status);
-	}
-	command[0][1] = '\0';
-	*status = perror_minishell(TOKENERR, *command);
-	return (*status);
-}
 
 //TODO manage $ here always sauf ' '
 //TODO manage * 
@@ -165,4 +114,78 @@ char	*remove_quote(char *command)
 	command -= i;
 	*command = '\0';
 	return (new_command);
+}
+
+//TODO si str == NULL il faudrait retourner une erreur
+char	*find_next_word_redir(char **command, int *status)
+{
+	char	*str;
+
+	skip_whitespaces(command);
+	str = *command;
+	forward_to_end_word(command, status);
+	if (ft_str_len(str))
+		return (str);
+	return (NULL);
+}
+
+int	set_redir(char **command)
+{
+	if (*(*command)++ == '<')
+	{
+		if (**command == '<')
+		{
+			(*command)++;
+			return (HERE_DOC);
+		}
+		else
+			return (INFILE);
+	}	
+	else
+	{
+		if (**command == '>')
+		{
+			(*command)++;
+			return (APPEND);
+		}
+		else
+			return (OUTFILE);
+	}
+	return (-1);
+}
+
+// TODO Look TODO find_next_word_redir
+int	manage_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
+{
+	int		king;
+	char	*file;
+	char	c;
+
+	king = set_redir(command);
+	file = find_next_word_redir(command, status);
+	if (!file)
+		return (0);
+	if (*file != **command)
+	{
+		c = **command;
+		**command = '\0';
+		if (king == INFILE)
+			cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
+		else if (king == OUTFILE)
+			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
+					| O_TRUNC, 0777);
+		else if (king == APPEND)
+			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
+					| O_APPEND, 0777);
+		else if (king == HERE_DOC)
+			cmd->infile = parsing_here_doc(cmd, remove_quote(file));
+		if (cmd->infile == -1 || cmd->outfile == -1)
+			*status = perror_minishell(errno, file);
+		**command = c;
+		(*nb_word)--;
+		return (*status);
+	}
+	command[0][1] = '\0';
+	*status = perror_minishell(TOKENERR, *command);
+	return (*status);
 }

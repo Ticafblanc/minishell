@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:54:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 16:57:40 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 11:28:53 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	check_metacharacter(char **command, int king)
 	return (i);
 }
 
-//TODO remove break!
 int	pass_quote(char **command, int *status)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/11 22:54:06 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/13 16:41:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 // 	while (!(*status) && *command != '\0')
 // 	{
 // 		t_cmd->cmd[nb_word++] = find_next_word(&command, status);
-// 		if (*command != '\0' && !parsing_redir(&command, t_cmd, status) 
+// 		if (*command != '\0' && !manage_redir(&command, t_cmd, status) 
 //			&& !(*status))
-// 			*status = parsing_ctrl_op(&command, &t_cmd, &nb_word);
+// 			*status = manage_operators(&command, &t_cmd, &nb_word);
 // 	}
 // 	if (!(*cmd)->cmd[0])
 // 	{
