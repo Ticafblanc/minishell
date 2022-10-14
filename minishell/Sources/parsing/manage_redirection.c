@@ -6,36 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/13 18:08:56 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 02:44:57 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-static char	*find_redir(char **command, int *status, int *king)
-{
-	if (*(*command)++ == '<')
-	{
-		if (**command == '<')
-		{
-			(*command)++;
-			*king = HERE_DOC;
-		}
-		else
-			*king = INFILE;
-	}	
-	else
-	{
-		if (**command == '>')
-		{
-			*king = APPEND;
-			(*command)++;
-		}
-		else
-			*king = OUTFILE;
-	}
-	return (find_next_word_redir(command, status));
-}
 
 static int	check_limiter(int fd[2], char *limiter)
 {
@@ -116,19 +91,6 @@ char	*remove_quote(char *command)
 	return (new_command);
 }
 
-//TODO si str == NULL il faudrait retourner une erreur
-char	*find_next_word_redir(char **command, int *status)
-{
-	char	*str;
-
-	skip_whitespaces(command);
-	str = *command;
-	forward_to_end_word(command, status);
-	if (ft_str_len(str))
-		return (str);
-	return (NULL);
-}
-
 int	set_redir(char **command)
 {
 	if (*(*command)++ == '<')
@@ -155,14 +117,14 @@ int	set_redir(char **command)
 }
 
 // TODO Look TODO find_next_word_redir
-int	manage_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
+int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 {
 	int		king;
 	char	*file;
 	char	c;
 
 	king = set_redir(command);
-	file = find_next_word_redir(command, status);
+	file = find_next_word_redir(command);
 	if (!file)
 		return (0);
 	if (*file != **command)
@@ -180,12 +142,12 @@ int	manage_redir(char **command, t_cmd *cmd, int *status, int *nb_word)
 		else if (king == HERE_DOC)
 			cmd->infile = parsing_here_doc(cmd, remove_quote(file));
 		if (cmd->infile == -1 || cmd->outfile == -1)
-			*status = perror_minishell(errno, file);
+			set_status(perror_minishell(errno, file));
 		**command = c;
 		(*nb_word)--;
-		return (*status);
+		return (get_status());
 	}
 	command[0][1] = '\0';
-	*status = perror_minishell(TOKENERR, *command);
-	return (*status);
+	set_status(perror_minishell(TOKENERR, *command));
+	return (get_status());
 }

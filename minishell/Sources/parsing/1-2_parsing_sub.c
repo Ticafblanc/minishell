@@ -6,35 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/13 16:41:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 02:19:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
-{
-	int		status;
-
-	if (**(*cmd)->cmd != **command)
-	{
-		(*cmd)->cmd[(*nb_word)] = NULL;
-		if (command[0][0] == '&')
-			(*cmd)->ctrl_op = AND;
-		else
-			(*cmd)->ctrl_op = OR;
-		status = 0;
-		check_metacharacter(command, R_METACHARACTER);
-		check_metacharacter(command, R_METACHARACTER);
-		if (!ft_str_len((*cmd)->cmd[--(*nb_word)]))
-			(*cmd)->cmd[(*nb_word)] = NULL;
-		(*cmd) = ft_mlstadd((*cmd), &status);
-		(*nb_word) = 0;
-		return (0);
-	}
-	command[0][2] = '\0';
-	return (perror_minishell(TOKENERR, *command));
-}
 
 /*
 	int		i;
@@ -50,27 +26,6 @@ int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 	(*cmd)->cmd[3] = NULL;
 	(*cmd)->path = ft_strdup("minishell");
 */
-
-int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
-{
-	int		status;
-
-	if (**(*cmd)->cmd != **command)
-	{
-		status = 0;
-		(*cmd)->ctrl_op = PIPE;
-		check_metacharacter(command, R_METACHARACTER);
-		(*cmd)->cmd[2] = ft_rev_split((const char **)(*cmd)->cmd, 32);
-		(*cmd)->cmd[0] = ft_strdup("minishell");
-		(*cmd)->cmd[1] = ft_strdup("-c");
-		(*cmd)->cmd[3] = NULL;
-		(*cmd) = ft_mlstadd((*cmd), &status);
-		(*nb_word) = 0;
-		return (0);
-	}
-	command[0][1] = '\0';
-	return (perror_minishell(TOKENERR, *command));
-}
 
 // TODO manage brace!
 

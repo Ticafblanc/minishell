@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/13 16:41:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 02:33:31 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 // 	return (*status);
 // }
 
-char	*parsing_loop(int *status, char **command, t_cmd *t_cmd, char **envp)
+char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 {
 	int		nb_word;
 	// char	*temp;
@@ -64,13 +64,13 @@ char	*parsing_loop(int *status, char **command, t_cmd *t_cmd, char **envp)
 
 	nb_word = 0;
 	save = ft_strdup(*command);
-	while (!(*status) && **command != '\0')
+	while (!(get_status()) && **command != '\0')
 	{
-		find_next_word(command, status, &nb_word, &t_cmd->cmd[nb_word]);
+		find_next_word(command, &nb_word, &t_cmd->cmd[nb_word]);
 		if (**command && ft_strchr(REDIR, **command))
-			manage_redir(command, t_cmd, status, &nb_word);
+			manage_redir(command, t_cmd, &nb_word);
 		if (**command && ft_strchr(OPERATOR, **command))
-			*status = manage_operators(command, &t_cmd, &nb_word, envp);
+			manage_operators(command, &t_cmd, &nb_word, envp);
 		// TODO necessaire?
 		// if (**command == '\0' && !t_cmd->cmd[nb_word - 1])
 		// {
@@ -85,14 +85,14 @@ char	*parsing_loop(int *status, char **command, t_cmd *t_cmd, char **envp)
 	return (save);
 }
 
-t_cmd	*parsing(char *command, int *status, t_cmd **cmd, char **envp)
+t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 {
 	char	*save;
 
-	*cmd = ft_mlstadd((*cmd), status);
-	save = parsing_loop(status, &command, *cmd, envp);
-	wait_cmd(*cmd, status, HERE_DOC);
-	if (*status)
+	*cmd = ft_mlstadd((*cmd));
+	save = parsing_loop(&command, *cmd, envp);
+	wait_cmd(*cmd, HERE_DOC);
+	if (get_status())
 		return (NULL);
 	add_history(save);
 	free(save);

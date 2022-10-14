@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:54:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/13 11:28:53 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 01:59:21 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	check_metacharacter(char **command, int king)
 	return (i);
 }
 
-int	pass_quote(char **command, int *status)
+// TODO check return if just only EXIT_FAILIURE works
+int	pass_quote(char **command)
 {
 	int	i;
 
@@ -57,7 +58,10 @@ int	pass_quote(char **command, int *status)
 		while (command[0][i++] != '\0')
 		{
 			if (command[0][i] == '\0')
-				return (*status = perror_minishell(QNC, *command));
+			{
+				set_status(perror_minishell(QNC, *command));
+				return (get_status());
+			}
 			if (**command == command[0][i])
 			{
 				*command += ++i;

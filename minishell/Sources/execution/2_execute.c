@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/06 12:43:23 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 14:58:57 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	child_process(t_cmd *cmd, char **envp, int fd[2])
 	exit(perror_minishell(NCMD, cmd->cmd[0]));
 }
 
-void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options)
+void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
 	int		fd[2];
 
@@ -43,20 +43,20 @@ void	exec_cmd(t_cmd *cmd, int *status, char **envp, int options)
 	}
 	if (cmd->ctrl_op == PIPE)
 		switch_streams(fd[STDOUT_FILENO], fd[STDIN_FILENO], STDIN_FILENO);
-	waitpid(cmd->pid, status, options);
+	waitpid(cmd->pid, get_at_status(), options);
 }
 
-void	pipe_loop(t_cmd **cmd, int *status, char ***envp)
+void	pipe_loop(t_cmd **cmd, char ***envp)
 {
 	while ((*cmd)->ctrl_op == PIPE)
 	{
-		if (!exec_builtins(*cmd, status, envp, CHILD))
-			exec_cmd(*cmd, status, *envp, WNOHANG);
+		if (!exec_builtins(*cmd, envp, CHILD))
+			exec_cmd(*cmd, *envp, WNOHANG);
 		*cmd = (*cmd)->next;
 	}
 }
 
-int	exec_pipe(t_cmd *cmd, int *status, char **envp)
+int	exec_pipe(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
 	t_cmd	*t_cmd;
@@ -71,13 +71,13 @@ int	exec_pipe(t_cmd *cmd, int *status, char **envp)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		t_cmd = cmd;
-		pipe_loop(&cmd, status, &envp);
-		if (!exec_builtins(cmd, status, &envp, CHILD))
-			exec_cmd(cmd, status, envp, WNOHANG);
-		wait_cmd(t_cmd, status, PIPE);
+		pipe_loop(&cmd, &envp);
+		if (!exec_builtins(cmd, &envp, CHILD))
+			exec_cmd(cmd, envp, WNOHANG);
+		wait_cmd(t_cmd, PIPE);
 		close(STDIN_FILENO);
-		exit(*status);
+		exit(get_status());
 	}
-	waitpid(pid, status, 0);
+	waitpid(pid, get_at_status(), 0);
 	return (1);
 }

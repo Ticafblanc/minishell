@@ -6,15 +6,14 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 19:46:45 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 02:35:00 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtins(t_cmd *cmd, int *status, char ***envp, int process)
+int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 {
-	(void) status;
 	if (!ft_strncmp(cmd->cmd[0], "cd", 2))
 		return (exec_cd(cmd->cmd[1], envp));
 	if (!ft_strncmp(cmd->cmd[0], "pwd", 3))

@@ -1,16 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   1_parsing.c                                        :+:      :+:    :+:   */
+/*   manage_operators.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/13 16:41:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 02:21:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
+{
+	if (**(*cmd)->cmd != **command)
+	{
+		(*cmd)->cmd[(*nb_word)] = NULL;
+		if (command[0][0] == '&')
+			(*cmd)->ctrl_op = AND;
+		else
+			(*cmd)->ctrl_op = OR;
+		check_metacharacter(command, R_METACHARACTER);
+		check_metacharacter(command, R_METACHARACTER);
+		if (!ft_str_len((*cmd)->cmd[--(*nb_word)]))
+			(*cmd)->cmd[(*nb_word)] = NULL;
+		(*cmd) = ft_mlstadd(*cmd);
+		(*nb_word) = 0;
+		return (0);
+	}
+	command[0][2] = '\0';
+	return (perror_minishell(TOKENERR, *command));
+}
+
+int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
+{
+	if (**(*cmd)->cmd != **command)
+	{
+		(*cmd)->ctrl_op = PIPE;
+		check_metacharacter(command, R_METACHARACTER);
+		(*cmd)->cmd[2] = ft_rev_split((const char **)(*cmd)->cmd, 32);
+		(*cmd)->cmd[0] = ft_strdup("minishell");
+		(*cmd)->cmd[1] = ft_strdup("-c");
+		(*cmd)->cmd[3] = NULL;
+		(*cmd) = ft_mlstadd(*cmd);
+		(*nb_word) = 0;
+		return (0);
+	}
+	command[0][1] = '\0';
+	return (perror_minishell(TOKENERR, *command));
+}
 
 int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
@@ -26,12 +65,13 @@ int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
 		return (parsing_pipe(command, cmd, nb_word));
 	else
 		command[0][1] = '\0';
-	return (perror_minishell(TOKENERR, *command));
+	set_status(perror_minishell(TOKENERR, *command));
+	return (get_status());
 }
 
 // TODO Que veux dire msltadd (maillon list add!)
 // TODO voir pour faire un fonction! pour gerer les 20 d'allocation!
-t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
+t_cmd	*ft_mlstadd(t_cmd *cmd)
 {
 	t_cmd	*new;
 
@@ -54,7 +94,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd, int *status)
 		}
 		free(new);
 	}
-	*status = errno;
+	set_status(errno);
 	perror("minishell:");
 	return (NULL);
 }
