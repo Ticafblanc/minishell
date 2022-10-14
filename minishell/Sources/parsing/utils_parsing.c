@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:54:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 01:59:21 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 17:33:59 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	pass_quote(char **command)
 			if (command[0][i] == '\0')
 			{
 				set_status(perror_minishell(QNC, *command));
-				return (get_status());
+				return (get_value_status());
 			}
 			if (**command == command[0][i])
 			{

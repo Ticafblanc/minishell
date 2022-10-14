@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 14:58:57 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 21:16:50 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 	}
 	if (cmd->ctrl_op == PIPE)
 		switch_streams(fd[STDOUT_FILENO], fd[STDIN_FILENO], STDIN_FILENO);
-	waitpid(cmd->pid, get_at_status(), options);
+	waitpid(cmd->pid, get_status(), options);
 }
 
-void	pipe_loop(t_cmd **cmd, char ***envp)
+static void	pipe_loop(t_cmd **cmd, char ***envp)
 {
 	while ((*cmd)->ctrl_op == PIPE)
 	{
@@ -76,8 +76,8 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 			exec_cmd(cmd, envp, WNOHANG);
 		wait_cmd(t_cmd, PIPE);
 		close(STDIN_FILENO);
-		exit(get_status());
+		exit(get_value_status());
 	}
-	waitpid(pid, get_at_status(), 0);
+	waitpid(pid, get_status(), 0);
 	return (1);
 }

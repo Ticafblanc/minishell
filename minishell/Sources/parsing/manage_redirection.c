@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 02:44:57 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 17:33:59 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,9 @@ int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 			set_status(perror_minishell(errno, file));
 		**command = c;
 		(*nb_word)--;
-		return (get_status());
+		return (get_value_status());
 	}
 	command[0][1] = '\0';
 	set_status(perror_minishell(TOKENERR, *command));
-	return (get_status());
+	return (get_value_status());
 }

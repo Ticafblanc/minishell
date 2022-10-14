@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:54:18 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 19:44:32 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 21:17:10 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_cmd(t_cmd *cmd)
 {
 	printf("\ncommand a executer\n");
 	printf("ctrl_op = %d\n", cmd->ctrl_op);
-	printf("status = %d\n", cmd->status);
+	// printf("status = %d\n", cmd->status);
 	printf("pid = %d\n", cmd->pid);
 	printf("cmd [0]= %s\n", cmd->cmd[0]);
 	printf("cmd [1]= %s\n", cmd->cmd[1]);

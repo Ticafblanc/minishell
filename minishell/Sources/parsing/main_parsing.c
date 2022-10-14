@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 02:33:31 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 17:33:59 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 
 	nb_word = 0;
 	save = ft_strdup(*command);
-	while (!(get_status()) && **command != '\0')
+	while (!(get_value_status()) && **command != '\0')
 	{
 		find_next_word(command, &nb_word, &t_cmd->cmd[nb_word]);
 		if (**command && ft_strchr(REDIR, **command))
@@ -92,7 +92,7 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 	*cmd = ft_mlstadd((*cmd));
 	save = parsing_loop(&command, *cmd, envp);
 	wait_cmd(*cmd, HERE_DOC);
-	if (get_status())
+	if (get_value_status())
 		return (NULL);
 	add_history(save);
 	free(save);

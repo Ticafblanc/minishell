@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   status.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 01:25:53 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 02:29:31 by tonted           ###   ########.fr       */
+/*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
+/*   Updated: 2022/10/14 21:17:32 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	*singleton_status(void)
-{
-	int static	status = 0;
+#include <minishell.h>
 
-	return (&status);
-}
-
-int	get_status(void)
+void	wait_cmd(t_cmd *cmd, int ctrl_op)
 {
-	int	*tmp;
-	tmp = singleton_status();
-	return (*tmp);
-}
-
-void	set_status(int status)
-{
-	int	*tmp;
-	tmp = singleton_status();
-	*tmp = status;
-}
-
-int	*get_at_status(void)
-{
-	return (singleton_status());
+	if (ctrl_op == PIPE)
+	{
+		while (cmd->ctrl_op == PIPE)
+		{
+			waitpid(cmd->pid, get_status(), 0);
+			cmd = cmd->next;
+		}
+		waitpid(cmd->pid, get_status(), 0);
+	}
+	else if (ctrl_op == HERE_DOC)
+	{
+		while (cmd)
+		{
+			waitpid(cmd->pid, get_status(), 0);
+			cmd = cmd->next;
+		}
+	}
 }

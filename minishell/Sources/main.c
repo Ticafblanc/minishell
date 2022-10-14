@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 02:46:39 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 17:36:43 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	minishell_loop(char ***envp)
+static void	minishell_loop(char ***envp)
 {
 	char	*command;
 
@@ -29,20 +29,17 @@ void	minishell_loop(char ***envp)
 		else
 			add_history(command);
 		free_null((void *)command);
-		printf(">>> status: %d\n", get_status());
+		printf(">>> status: %d\n", get_value_status());
 	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	// int		status;
-
 	if (!envp || !(*envp))
 	{
 		printf("minshell: minishell can't be launch without environement\n");
 		return (EXIT_SUCCESS);
 	}
-	// status = 0;
 	if (argc == 1)
 	{
 		if (init(&envp))

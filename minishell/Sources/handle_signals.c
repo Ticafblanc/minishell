@@ -1,37 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   4_utils.c                                          :+:      :+:    :+:   */
+/*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 02:33:00 by tonted           ###   ########.fr       */
+/*   Created: 2022/10/14 16:26:31 by tonted            #+#    #+#             */
+/*   Updated: 2022/10/14 16:27:13 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-
-void	wait_cmd(t_cmd *cmd, int ctrl_op)
-{
-	if (ctrl_op == PIPE)
-	{
-		while (cmd->ctrl_op == PIPE)
-		{
-			waitpid(cmd->pid, get_at_status(), 0);
-			cmd = cmd->next;
-		}
-		waitpid(cmd->pid, get_at_status(), 0);
-	}
-	else if (ctrl_op == HERE_DOC)
-	{
-		while (cmd)
-		{
-			waitpid(cmd->pid, get_at_status(), 0);
-			cmd = cmd->next;
-		}
-	}
-}
+#include "minishell.h"
 
 void	handle_prompt(int sig_num)
 {

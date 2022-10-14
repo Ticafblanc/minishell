@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 02:21:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 21:20:47 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
 	else
 		command[0][1] = '\0';
 	set_status(perror_minishell(TOKENERR, *command));
-	return (get_status());
+	return (get_value_status());
 }
 
 // TODO Que veux dire msltadd (maillon list add!)
@@ -82,7 +82,6 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 		if (new->cmd)
 		{
 			new->ctrl_op = END;
-			new->status = 0;
 			new->path = NULL;
 			new->infile = STDIN_FILENO;
 			new->outfile = STDOUT_FILENO;

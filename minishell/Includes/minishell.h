@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 02:29:24 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 21:17:46 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ enum	e_control_operator
 typedef struct s_cmd
 {
 	int				ctrl_op;
-	int				status;
 	pid_t			pid;
 	char			**cmd;
 	char			*path;
@@ -85,6 +84,28 @@ typedef struct s_cmd
 
 /* initialization */
 int		init(char ***envp);
+
+/* status */
+int		get_value_status(void);
+void	set_status(int status);
+int		*get_status(void);
+
+/* handle_signals */
+void	handle_prompt(int signum);
+void	handle_exec(int sig_num);
+
+/* builtins.c */
+int		exec_builtins(t_cmd *cmd, char ***envp, int process);
+int		exec_pwd(void);
+int		exec_cd(char *dir, char ***envp);
+int		exec_unset(t_cmd *cmd, char ***envp);
+int		exec_echo(t_cmd *cmd);
+void	exec_exit(int process, char ***envp);
+int		exec_export(char *pathname, char **args, char ***envp);
+int		exec_env(char **envp);
+
+/* execute */
+int		execute(char *command, char ***envp);
 
 //1_parsing.c
 void	find_next_word(char **command, int *nb_word, char **cmd);
@@ -107,16 +128,6 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options);
 int		exec_pipe(t_cmd *cmd, char **envp);
 void	switch_streams(int toclose, int oldfd, int newfd);
 void	dup_file(t_cmd *cmd);
-
-/* 3_builtins.c */
-int		exec_builtins(t_cmd *cmd, char ***envp, int process);
-int		exec_pwd(void);
-int		exec_cd(char *dir, char ***envp);
-int		exec_unset(t_cmd *cmd, char ***envp);
-int		exec_echo(t_cmd *cmd);
-void	exec_exit(int process, char ***envp);
-int		exec_export(char *pathname, char **args, char ***envp);
-int		exec_env(char **envp);
 
 /* utils_env_line */
 char	*get_name(char *env_line);
@@ -146,25 +157,15 @@ char	**tabstrdup(char **tabstr);
 /* utils */
 int		exit_free_envp(char ***envp);
 
-/* execute */
-int		execute(char *command, char ***envp);
-
 /* parsing */
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp);
 char	*find_next_word_redir(char **command);
 
-//4_utils.c
+/* utils.c */
 void	wait_cmd(t_cmd *cmd, int ctrl_op);
 int		perror_minishell(int status, char *command);
-void	handle_prompt(int signum);
-void	handle_exec(int sig_num);
 
-// Development tools
+/* Development tools */
 void	print_cmd(t_cmd *cmd);
-
-/* status */
-int		get_status(void);
-void	set_status(int status);
-int		*get_at_status(void);
 
 #endif
