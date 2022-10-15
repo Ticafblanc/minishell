@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 21:17:46 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 22:13:01 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,5 +167,6 @@ int		perror_minishell(int status, char *command);
 
 /* Development tools */
 void	print_cmd(t_cmd *cmd);
+void	print_cmds(t_cmd *cmd);
 
 #endif

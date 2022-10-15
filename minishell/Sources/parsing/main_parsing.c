@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 17:33:59 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/14 22:35:53 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 		// }
 
 	}
+	print_cmds(t_cmd);
 	return (save);
 }
 
