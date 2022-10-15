@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 22:35:53 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/15 23:35:29 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 		// }
 
 	}
-	print_cmds(t_cmd);
+	// print_cmds(t_cmd);
 	return (save);
 }
 
@@ -92,7 +92,7 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 
 	*cmd = ft_mlstadd((*cmd));
 	save = parsing_loop(&command, *cmd, envp);
-	wait_cmd(*cmd, HERE_DOC);
+	// wait_cmd(*cmd, HERE_DOC);
 	if (get_value_status())
 		return (NULL);
 	add_history(save);

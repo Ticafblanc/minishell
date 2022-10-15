@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:37:03 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 02:44:08 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/15 23:03:46 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	find_next_word(char **command, int *nb_word, char **cmd)
 	skip_whitespaces(command);
 	str = *command;
 	forward_to_end_word(command);
-	if (ft_str_len(str))
+	if (ft_str_len(str) && !ft_strchr(METACHARS, *str))
 	{
 		*cmd = str;
 		(*nb_word)++;
@@ -50,7 +50,7 @@ char	*find_next_word_redir(char **command)
 	skip_whitespaces(command);
 	str = *command;
 	forward_to_end_word(command);
-	if (ft_str_len(str))
+	if (ft_str_len(str) && !ft_strchr(METACHARS, *str))
 		return (str);
 	return (NULL);
 }

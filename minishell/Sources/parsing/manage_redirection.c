@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 17:33:59 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/15 23:24:51 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,12 @@ char	*remove_quote(char *command)
 
 int	set_redir(char **command)
 {
-	if (*(*command)++ == '<')
+	if (**command == '<')
 	{
+		*(*command)++ = '\0';
 		if (**command == '<')
 		{
-			(*command)++;
+			*(*command)++ = '\0';
 			return (HERE_DOC);
 		}
 		else
@@ -105,9 +106,10 @@ int	set_redir(char **command)
 	}	
 	else
 	{
+		*(*command)++ = '\0';
 		if (**command == '>')
 		{
-			(*command)++;
+			*(*command)++ = '\0';
 			return (APPEND);
 		}
 		else

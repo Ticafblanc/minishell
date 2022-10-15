@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 21:17:36 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/15 23:38:39 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,3 +47,4 @@ int	execute(char *command, char ***envp)
 	free_cmd(cmd);
 	return (get_value_status());
 }
+//ls|wc|cat Makefile|wc>fileer|ls
