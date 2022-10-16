@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/15 22:06:52 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/16 17:31:59 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <errno.h>
+# include "colors.h"
 
 # define PROMPT "\e[1;36m minishell % \e[0m"
 # define WHITESPACES " \t\n\v\f\r"
@@ -169,5 +170,7 @@ int		perror_minishell(int status, char *command);
 void	print_cmd(t_cmd *cmd);
 void	print_cmds(t_cmd *cmd);
 void	skip_whitespaces(char **s);
+
+# define WHOAMI printf(GRN"Function "BMAG"%s"GRN" ran "BGRN"SUCCESSFULLY\n"RESET, __func__);
 
 #endif
