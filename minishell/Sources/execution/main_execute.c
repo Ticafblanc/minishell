@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/15 23:38:39 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/16 09:25:35 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO refactor `get_value_status()`
+// TODO rename function
 static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 {
 	return (ft_strlen(*cmd->cmd) && !exec_builtins(cmd, envp, MAIN)
@@ -20,8 +20,6 @@ static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 			|| ((ctrl == AND && !get_value_status()) || (ctrl == OR && get_value_status()))));
 }
 
-//TODO explications sur le ctrl?
-//TODO a quoi correspond r_cmd?
 int	execute(char *command, char ***envp)
 {
 	t_cmd	*cmd;

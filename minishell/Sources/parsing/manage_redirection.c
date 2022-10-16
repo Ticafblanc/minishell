@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/15 23:24:51 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/15 23:45:33 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	set_redir(char **command)
 	return (-1);
 }
 
-// TODO Look TODO find_next_word_redir
 int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 {
 	int		king;

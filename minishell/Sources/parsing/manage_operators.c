@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 21:20:47 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/16 09:12:17 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 
 int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 {
-	if (**(*cmd)->cmd != **command)
+	if (**(*cmd)->cmd != **command && **command)
 	{
 		(*cmd)->ctrl_op = PIPE;
 		check_metacharacter(command, R_METACHARACTER);
@@ -69,8 +69,6 @@ int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
 	return (get_value_status());
 }
 
-// TODO Que veux dire msltadd (maillon list add!)
-// TODO voir pour faire un fonction! pour gerer les 20 d'allocation!
 t_cmd	*ft_mlstadd(t_cmd *cmd)
 {
 	t_cmd	*new;
@@ -81,6 +79,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 		new->cmd = (char **)ft_calloc(20, sizeof(char *)); 
 		if (new->cmd)
 		{
+			*new->cmd = NULL;
 			new->ctrl_op = END;
 			new->path = NULL;
 			new->infile = STDIN_FILENO;

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:54:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 17:33:59 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/15 23:46:19 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	check_metacharacter(char **command, int king)
 	return (i);
 }
 
-// TODO check return if just only EXIT_FAILIURE works
 int	pass_quote(char **command)
 {
 	int	i;
