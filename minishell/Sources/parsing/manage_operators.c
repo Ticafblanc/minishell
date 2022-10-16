@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/16 09:12:17 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/16 21:47:13 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 	{
 		(*cmd)->ctrl_op = PIPE;
 		check_metacharacter(command, R_METACHARACTER);
-		(*cmd)->cmd[2] = ft_rev_split((const char **)(*cmd)->cmd, 32);
 		(*cmd)->cmd[0] = ft_strdup("minishell");
 		(*cmd)->cmd[1] = ft_strdup("-c");
+		(*cmd)->cmd[2] = ft_rev_split((const char **)(*cmd)->cmd, 32);
 		(*cmd)->cmd[3] = NULL;
 		(*cmd) = ft_mlstadd(*cmd);
 		(*nb_word) = 0;
@@ -79,15 +79,14 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 		new->cmd = (char **)ft_calloc(20, sizeof(char *)); 
 		if (new->cmd)
 		{
-			*new->cmd = NULL;
+			*(new->cmd) = NULL;
 			new->ctrl_op = END;
 			new->path = NULL;
 			new->infile = STDIN_FILENO;
 			new->outfile = STDOUT_FILENO;
+			new->next = NULL;
 			if (cmd)
 				cmd->next = new;
-			else
-				new->next = NULL;
 			return (new);
 		}
 		free(new);
