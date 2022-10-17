@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 02:32:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 03:10:00 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 17:52:19 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	perror_minishell(int status, char *command)
 {
 	set_status(status);
-	printf("<<<<< ERROR %d : %s >>>>>\n", status, command);
 	if (status == errno)
 	{
 		dprintf (2, "minishell: %s: %s \n", command, strerror(errno));
