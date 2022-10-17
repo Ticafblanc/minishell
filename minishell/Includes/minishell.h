@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/16 17:31:59 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 08:50:58 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int		pass_quote(char **command);
 t_cmd	*ft_mlstadd(t_cmd *cmd);
 
 //1-1_parsing_file.c
-int		parsing_here_doc(t_cmd *cmd, char *limiter);
 int		manage_redir(char **command, t_cmd *cmd, int *nb_word);
 char	*remove_quote(char *command);
 
@@ -169,7 +168,6 @@ int		perror_minishell(int status, char *command);
 /* Development tools */
 void	print_cmd(t_cmd *cmd);
 void	print_cmds(t_cmd *cmd);
-void	skip_whitespaces(char **s);
 
 # define WHOAMI printf(GRN"Function "BMAG"%s"GRN" ran "BGRN"SUCCESSFULLY\n"RESET, __func__);
 

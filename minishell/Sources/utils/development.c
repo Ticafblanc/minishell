@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:54:18 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 22:15:16 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 08:52:39 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_cmd(t_cmd *cmd)
 
 	i = 0;
 	printf("\nCommand to execute:");
-	while(cmd->cmd[i])
+	while (cmd->cmd[i])
 		printf(" %s", cmd->cmd[i++]);
 	printf("\n\tctrl_op: %d", cmd->ctrl_op);
 	printf("\n\tpid: %d", cmd->pid);

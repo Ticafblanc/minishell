@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:54:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/15 23:46:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 08:52:12 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,37 @@ int	pass_quote(char **command)
 		}
 	}
 	return (0);
+}
+
+//TODO manage $ here always sauf ' '
+//TODO manage * 
+char	*remove_quote(char *command)
+{
+	int		i;
+	char	c;
+	int		trig;
+	char	*new_command;
+
+	i = 0;
+	trig = 0;
+	new_command = command;
+	while (*command != '\0')
+	{
+		if (!trig && (*command == 34 || *command == 39))
+		{
+			c = *command;
+			i++;
+			trig = 1;
+		}
+		else if (trig && c == *command)
+		{
+			i++;
+			trig = 0;
+		}
+		*command = command[i];
+		command++;
+	}
+	command -= i;
+	*command = '\0';
+	return (new_command);
 }

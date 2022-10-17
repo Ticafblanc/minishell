@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/15 23:45:33 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 09:01:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static int	check_limiter(int fd[2], char *limiter)
 		ft_putstr_fd(line, fd[STDOUT_FILENO]);
 		ft_putchar_fd('\n', fd[STDOUT_FILENO]);
 		free(line);
-		line = readline("> "); 
+		line = readline("> ");
 	}
 	close(fd[STDOUT_FILENO]);
 	free(line);
 	exit(EXIT_SUCCESS);
 }
 
-int	parsing_here_doc(t_cmd *cmd, char *limiter)
+int	here_doc(t_cmd *cmd, char *limiter)
 {
 	int		fd[2];
 
@@ -57,41 +57,7 @@ int	parsing_here_doc(t_cmd *cmd, char *limiter)
 	return (-1);
 }
 
-
-//TODO manage $ here always sauf ' '
-//TODO manage * 
-char	*remove_quote(char *command)
-{
-	int		i;
-	char	c;
-	int		trig;
-	char	*new_command;
-
-	i = 0;
-	trig = 0;
-	new_command = command;
-	while (*command != '\0')
-	{
-		if (!trig && (*command == 34 || *command == 39))
-		{
-			c = *command;
-			i++;
-			trig = 1;
-		}
-		else if (trig && c == *command)
-		{
-			i++;
-			trig = 0;
-		}
-		*command = command[i];
-		command++;
-	}
-	command -= i;
-	*command = '\0';
-	return (new_command);
-}
-
-int	set_redir(char **command)
+int static	get_redir(char **command)
 {
 	if (**command == '<')
 	{
@@ -118,13 +84,29 @@ int	set_redir(char **command)
 	return (-1);
 }
 
+void	set_redir(int king, char *file, t_cmd *cmd)
+{
+	if (king == INFILE)
+		cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
+	else if (king == OUTFILE)
+		cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
+				| O_TRUNC, 0777);
+	else if (king == APPEND)
+		cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
+				| O_APPEND, 0777);
+	else if (king == HERE_DOC)
+		cmd->infile = here_doc(cmd, remove_quote(file));
+	if (cmd->infile == -1 || cmd->outfile == -1)
+		set_status(perror_minishell(errno, file));
+}
+
 int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 {
 	int		king;
 	char	*file;
 	char	c;
 
-	king = set_redir(command);
+	king = get_redir(command);
 	file = find_next_word_redir(command);
 	if (!file)
 		return (0);
@@ -132,18 +114,7 @@ int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 	{
 		c = **command;
 		**command = '\0';
-		if (king == INFILE)
-			cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
-		else if (king == OUTFILE)
-			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
-					| O_TRUNC, 0777);
-		else if (king == APPEND)
-			cmd->outfile = open(remove_quote(file), O_WRONLY | O_CREAT
-					| O_APPEND, 0777);
-		else if (king == HERE_DOC)
-			cmd->infile = parsing_here_doc(cmd, remove_quote(file));
-		if (cmd->infile == -1 || cmd->outfile == -1)
-			set_status(perror_minishell(errno, file));
+		set_redir(king, file, cmd);
 		**command = c;
 		(*nb_word)--;
 		return (get_value_status());

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/16 09:25:35 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 08:54:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 {
 	return (ft_strlen(*cmd->cmd) && !exec_builtins(cmd, envp, MAIN)
 		&& ((ctrl != AND && ctrl != OR)
-			|| ((ctrl == AND && !get_value_status()) || (ctrl == OR && get_value_status()))));
+			|| ((ctrl == AND && !get_value_status())
+				|| (ctrl == OR && get_value_status()))));
 }
 
 int	execute(char *command, char ***envp)

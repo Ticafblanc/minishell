@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/15 23:35:29 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 08:54:41 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,48 @@
 // 	return (*status);
 // }
 
+t_cmd	*ft_mlstadd(t_cmd *cmd)
+{
+	t_cmd	*new;
+
+	new = (t_cmd *)malloc(sizeof(t_cmd));
+	if (new)
+	{
+		new->cmd = (char **)ft_calloc(20, sizeof(char *));
+		if (new->cmd)
+		{
+			*(new->cmd) = NULL;
+			new->ctrl_op = END;
+			new->path = NULL;
+			new->infile = STDIN_FILENO;
+			new->outfile = STDOUT_FILENO;
+			new->next = NULL;
+			if (cmd)
+				cmd->next = new;
+			return (new);
+		}
+		free(new);
+	}
+	set_status(errno);
+	perror("minishell:");
+	return (NULL);
+}
+
+/*
+	// char	*temp;
+	// TODO necessaire?
+	// if (**command == '\0' && !t_cmd->cmd[nb_word - 1])
+	// {
+	// 	// *status = check_command(command, status);
+	// 	printf("HERE\n");
+	// 	temp = ft_strjoin(save, *command);
+	// 	free(save);
+	// 	save = temp;
+	// }
+*/
 char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 {
 	int		nb_word;
-	// char	*temp;
 	char	*save;
 
 	nb_word = 0;
@@ -71,18 +109,7 @@ char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 			manage_redir(command, t_cmd, &nb_word);
 		if (**command && ft_strchr(OPERATOR, **command))
 			manage_operators(command, &t_cmd, &nb_word, envp);
-		// TODO necessaire?
-		// if (**command == '\0' && !t_cmd->cmd[nb_word - 1])
-		// {
-		// 	// *status = check_command(command, status);
-		// 	printf("HERE\n");
-		// 	temp = ft_strjoin(save, *command);
-		// 	free(save);
-		// 	save = temp;
-		// }
-
 	}
-	// print_cmds(t_cmd);
 	return (save);
 }
 
@@ -92,7 +119,7 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 
 	*cmd = ft_mlstadd((*cmd));
 	save = parsing_loop(&command, *cmd, envp);
-	// wait_cmd(*cmd, HERE_DOC);
+	wait_cmd(*cmd, HERE_DOC);
 	if (get_value_status())
 		return (NULL);
 	add_history(save);

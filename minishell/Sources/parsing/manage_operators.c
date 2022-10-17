@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/16 21:47:13 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 09:26:18 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 	return (perror_minishell(TOKENERR, *command));
 }
 
+// command[0][1] = '\0'; // TODO? why? if & alone?
+// 	if (ft_strncmp(*command, "||", 2) || ft_strncmp(*command, "&&", 2)) ???
 int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
 	(void) envp;
@@ -67,31 +69,4 @@ int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
 		command[0][1] = '\0';
 	set_status(perror_minishell(TOKENERR, *command));
 	return (get_value_status());
-}
-
-t_cmd	*ft_mlstadd(t_cmd *cmd)
-{
-	t_cmd	*new;
-
-	new = (t_cmd *)malloc(sizeof(t_cmd));
-	if (new)
-	{
-		new->cmd = (char **)ft_calloc(20, sizeof(char *)); 
-		if (new->cmd)
-		{
-			*(new->cmd) = NULL;
-			new->ctrl_op = END;
-			new->path = NULL;
-			new->infile = STDIN_FILENO;
-			new->outfile = STDOUT_FILENO;
-			new->next = NULL;
-			if (cmd)
-				cmd->next = new;
-			return (new);
-		}
-		free(new);
-	}
-	set_status(errno);
-	perror("minishell:");
-	return (NULL);
 }
