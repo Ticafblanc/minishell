@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/17 08:50:58 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 17:20:20 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ int		perror_minishell(int status, char *command);
 /* Development tools */
 void	print_cmd(t_cmd *cmd);
 void	print_cmds(t_cmd *cmd);
+char	**manage_var(t_cmd *cmd, char **envp);
 
 # define WHOAMI printf(GRN"Function "BMAG"%s"GRN" ran "BGRN"SUCCESSFULLY\n"RESET, __func__);
 

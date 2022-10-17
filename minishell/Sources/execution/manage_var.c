@@ -1,55 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   manage_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/11 09:10:51 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 16:51:55 by tonted           ###   ########.fr       */
+/*   Created: 2022/10/17 17:18:58 by tonted            #+#    #+#             */
+/*   Updated: 2022/10/17 17:25:24 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	set_flag(char *flags)
+int	forward_to_next(char *s, int i, char c)
 {
-	int	i;
-
-	i = 1;
-	while (flags[i])
-	{
-		if (flags[i] == 'n')
-			i++;
-		else
-			return (1);
-	}
-	return (0);
-}
-
-int	exec_echo(t_cmd *cmd)
-{
-	int		flag_n;
-	int		i;
-
-	i = 0;
-	flag_n = 1;
-	if (cmd->cmd[1][i] == '-')
-		flag_n = set_flag(cmd->cmd[1]);
-	i++;
-	if (!flag_n)
+	while (s[i] && s[i] != c)
 		i++;
-	while (cmd->cmd[i])
-	{
-		write(1, cmd->cmd[i], ft_str_len(cmd->cmd[i]));
-		if (cmd->cmd[++i])
-			write(1, " ", 1);
-	}
-	write(1, "\n", flag_n);
-	return (1);
+	return (i);
 }
 
-/*
+int	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
+{
 	int		i_end;
 	int		i_env;
 	char	*tmp1;
@@ -67,11 +38,34 @@ int	exec_echo(t_cmd *cmd)
 	cmd->cmd[i][i_s] = ' ';
 	tmp1 = ft_strjoin(tmp2, &cmd->cmd[i][i_end]);
 	free_null(tmp2);
-	tmp2 = cmd->cmd[i];
+	free_null(cmd->cmd[i]);
 	cmd->cmd[i] = remove_quote(tmp1);
-	free_null(tmp1);
-	free_null(tmp2);
-	tmp1 = ft_rev_split((const char**)cmd->cmd, ' ');
-	cmd->cmd = ft_split(remove_quote(tmp1), ' ');
+	tmp2 = ft_rev_split((const char **)cmd->cmd, ' ');
+	cmd->cmd = ft_split(remove_quote(tmp2), ' ');
 	return (EXIT_SUCCESS);
-*/
+}
+
+char	**manage_var(t_cmd *cmd, char **envp)
+{
+	int		i;
+	int		i_s;
+
+	i = 0;
+	while (cmd->cmd[i])
+	{
+		i_s = 0;
+		while (cmd->cmd[i][i_s])
+		{
+			if (cmd->cmd[i][i_s] == '\'')
+				i_s = forward_to_next(cmd->cmd[i], i_s++, '\'');
+			else if (cmd->cmd[i][i_s] == '$')
+			{
+				i_s = interpret_var(cmd, envp, i, i_s);
+				continue ;
+			}
+			i_s++;
+		}
+		i++;
+	}
+	return (cmd->cmd);
+}
