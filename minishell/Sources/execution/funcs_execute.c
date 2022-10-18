@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/17 17:19:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 18:37:00 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@ static void	child_process(t_cmd *cmd, char **envp, int fd[2])
 	if (cmd->ctrl_op == PIPE)
 		switch_streams(fd[STDIN_FILENO], fd[STDOUT_FILENO], STDOUT_FILENO);
 	dup_file(cmd);
+	if (cmd->ctrl_op == PIPE)
+	{
+		cmd->cmd[2] = ft_rev_split((const char **)cmd->cmd, 32);
+		cmd->cmd[0] = ft_strdup("minishell");
+		cmd->cmd[1] = ft_strdup("-c");
+		cmd->cmd[3] = NULL;
+	}
 	cmd->cmd = manage_var(cmd, envp);
-	print_cmd(cmd);
 	if (*cmd->cmd[0] == '/' || *cmd->cmd[0] == '.' || *cmd->cmd[0] == '~')
 		cmd->path = cmd->cmd[0];
 	else

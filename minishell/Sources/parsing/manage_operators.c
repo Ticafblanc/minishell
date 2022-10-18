@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/17 09:41:22 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 18:28:01 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 	{
 		(*cmd)->ctrl_op = PIPE;
 		check_metacharacter(command, R_METACHARACTER);
-		(*cmd)->cmd[2] = ft_rev_split((const char **)(*cmd)->cmd, 32);
-		(*cmd)->cmd[0] = ft_strdup("minishell");
-		(*cmd)->cmd[1] = ft_strdup("-c");
-		(*cmd)->cmd[3] = NULL;
 		(*cmd) = ft_mlstadd(*cmd);
 		(*nb_word) = 0;
 		return (0);
