@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:18:58 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 17:25:24 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/17 19:33:05 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,24 @@ int	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
 	cmd->cmd[i][i_s] = ' ';
 	tmp1 = ft_strjoin(tmp2, &cmd->cmd[i][i_end]);
 	free_null(tmp2);
-	free_null(cmd->cmd[i]);
+	// free_null(cmd->cmd[i]);
 	cmd->cmd[i] = remove_quote(tmp1);
 	tmp2 = ft_rev_split((const char **)cmd->cmd, ' ');
 	cmd->cmd = ft_split(remove_quote(tmp2), ' ');
+	return (EXIT_SUCCESS);
+}
+
+int	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
+{
+	int		i_end;
+	int		i_env;
+	char	*tmp1;
+	char	*tmp2;
+
+	cmd->cmd[i][i_s] = '\0';
+	tmp1 = ft_strjoin(cmd->cmd[i], ft_itoa(*last_status()));
+	cmd->cmd[i] = ft_strjoin(tmp1, &cmd->cmd[i][i_s]);
+	free_null(tmp1);
 	return (EXIT_SUCCESS);
 }
 
@@ -58,6 +72,10 @@ char	**manage_var(t_cmd *cmd, char **envp)
 		{
 			if (cmd->cmd[i][i_s] == '\'')
 				i_s = forward_to_next(cmd->cmd[i], i_s++, '\'');
+			else if (cmd->cmd[i][i_s] == '$'
+				&& cmd->cmd[i][i_s + 1] == '?'
+				&& ft_strchr(WHITESMETA, cmd->cmd[i][i_s + 2] == '?'))
+				i_s = interpret_status(cmd, envp, i, i_s);
 			else if (cmd->cmd[i][i_s] == '$')
 			{
 				i_s = interpret_var(cmd, envp, i, i_s);

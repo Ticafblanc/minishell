@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/17 17:20:20 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/18 14:12:13 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int		init(char ***envp);
 int		get_value_status(void);
 void	set_status(int status);
 int		*get_status(void);
+int		*last_status(void);
 
 /* handle_signals */
 void	handle_prompt(int signum);
