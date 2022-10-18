@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/18 14:12:13 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/18 14:26:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define WHITESMETA " \t\n\v\f\r|&()<>"
 # define REDIR "<>"
 # define OPERATOR "|&"
+# define BRACES "()"
 
 enum	e_status
 {
@@ -115,6 +116,7 @@ char	check_metacharacter(char **command, int king);
 int		manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp);
 int		pass_quote(char **command);
 t_cmd	*ft_mlstadd(t_cmd *cmd);
+int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
 
 //1-1_parsing_file.c
 int		manage_redir(char **command, t_cmd *cmd, int *nb_word);

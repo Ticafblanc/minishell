@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/17 18:37:00 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/18 19:18:50 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	child_process(t_cmd *cmd, char **envp, int fd[2])
 {
-	if (cmd->ctrl_op == PIPE)
+	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 		switch_streams(fd[STDIN_FILENO], fd[STDOUT_FILENO], STDOUT_FILENO);
 	dup_file(cmd);
-	if (cmd->ctrl_op == PIPE)
+	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		cmd->cmd[2] = ft_rev_split((const char **)cmd->cmd, 32);
 		cmd->cmd[0] = ft_strdup("minishell");
@@ -37,7 +37,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
 	int		fd[2];
 
-	if (cmd->ctrl_op == PIPE)
+	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 		if (pipe(fd) == -1)
 			exit(perror_minishell(errno, "Fork child_process"));
 	cmd->pid = fork();

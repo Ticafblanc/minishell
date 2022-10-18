@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:18:58 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 19:33:05 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/18 19:29:22 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
 	cmd->cmd[i][i_s] = ' ';
 	tmp1 = ft_strjoin(tmp2, &cmd->cmd[i][i_end]);
 	free_null(tmp2);
-	// free_null(cmd->cmd[i]);
 	cmd->cmd[i] = remove_quote(tmp1);
 	tmp2 = ft_rev_split((const char **)cmd->cmd, ' ');
 	cmd->cmd = ft_split(remove_quote(tmp2), ' ');
