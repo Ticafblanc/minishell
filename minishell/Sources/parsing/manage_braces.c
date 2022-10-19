@@ -6,11 +6,26 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:25:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/18 19:28:49 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/19 08:51:24 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_next_operator(char **command)
+{
+	int	i;
+
+	i = 0;
+	while (**command)
+	{
+		if (ft_strchr("|&", **command))
+			return (true);
+		if (!ft_strchr(WHITESPACES, **command))
+			return (false);
+	}
+	return (true);
+}
 
 int	find_next_brace(char **command, t_cmd **cmd)
 {
@@ -40,12 +55,12 @@ int	manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
 	(void) envp;
 	(*cmd)->cmd[(*nb_word)] = NULL;
-	if (*(*cmd)->cmd)
-		(*cmd) = ft_mlstadd(*cmd);
-	(*cmd)->ctrl_op = BRACE;
-	if (**command == '(')
-		if (!find_next_brace(command, cmd))
+	if (**command == '(' && !*(*cmd)->cmd)
+	{
+		(*cmd)->ctrl_op = BRACE;
+		if (!find_next_brace(command, cmd) && is_next_operator(command))
 			return (get_value_status());
+	}
 	set_status(perror_minishell(TOKENERR, *command));
 	return (get_value_status());
 }
