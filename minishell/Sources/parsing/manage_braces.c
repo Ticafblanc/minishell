@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:25:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/19 08:51:24 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/19 17:54:40 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	find_next_brace(char **command, t_cmd **cmd)
 int	manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
 	(void) envp;
-	(*cmd)->cmd[(*nb_word)] = NULL;
 	if (**command == '(' && !*(*cmd)->cmd)
 	{
 		(*cmd)->ctrl_op = BRACE;

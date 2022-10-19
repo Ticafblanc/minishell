@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/18 19:18:50 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/19 18:01:58 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 static void	child_process(t_cmd *cmd, char **envp, int fd[2])
 {
-	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
+	if (cmd->ctrl_op == PIPE)
 		switch_streams(fd[STDIN_FILENO], fd[STDOUT_FILENO], STDOUT_FILENO);
 	dup_file(cmd);
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
-		cmd->cmd[2] = ft_rev_split((const char **)cmd->cmd, 32);
+		if (cmd->ctrl_op == PIPE)
+			cmd->cmd[2] = ft_rev_split((const char **)cmd->cmd, 32);
+		else
+			cmd->cmd[2] = cmd->cmd[0];
 		cmd->cmd[0] = ft_strdup("minishell");
 		cmd->cmd[1] = ft_strdup("-c");
 		cmd->cmd[3] = NULL;
@@ -37,7 +40,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
 	int		fd[2];
 
-	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
+	if (cmd->ctrl_op == PIPE)
 		if (pipe(fd) == -1)
 			exit(perror_minishell(errno, "Fork child_process"));
 	cmd->pid = fork();
