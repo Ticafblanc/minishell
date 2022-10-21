@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_operators.c                                 :+:      :+:    :+:   */
+/*   manage_ope.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/17 18:28:01 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 23:07:33 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
+int static	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 {
 	if (**(*cmd)->cmd != **command)
 	{
@@ -33,7 +33,7 @@ int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 	return (perror_minishell(TOKENERR, *command));
 }
 
-int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
+int	static	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 {
 	if (**(*cmd)->cmd != **command && **command)
 	{
@@ -49,7 +49,7 @@ int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 
 // command[0][1] = '\0'; // TODO? why? if & alone?
 // 	if (ft_strncmp(*command, "||", 2) || ft_strncmp(*command, "&&", 2)) ???
-int	manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp)
+int	manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
 	(void) envp;
 	if (**command == '\0')

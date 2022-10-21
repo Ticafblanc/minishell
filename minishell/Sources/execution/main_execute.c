@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 08:54:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:04:44 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 				|| (ctrl == OR && get_value_status()))));
 }
 
+/*
+	ls|wc|cat Makefile|wc>fileer|ls
+*/
 int	execute(char *command, char ***envp)
 {
 	t_cmd	*cmd;
@@ -46,4 +49,3 @@ int	execute(char *command, char ***envp)
 	free_cmd(cmd);
 	return (get_value_status());
 }
-//ls|wc|cat Makefile|wc>fileer|ls

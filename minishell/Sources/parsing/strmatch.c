@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildecard.c                                        :+:      :+:    :+:   */
+/*   strmatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:33:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 13:42:16 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:49:39 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	**wildcard_tab(int len_str, int len_pat)
+int static	**init_matrix_tab(int len_str, int len_pat)
 {
 	int	i_str;
 	int	i_pat;
@@ -33,7 +33,7 @@ int	**wildcard_tab(int len_str, int len_pat)
 	return (tab);
 }
 
-void	set_first_line(int len_str, int len_pat, char *pattern, int **tab)
+void static	set_first_line(int len_str, int len_pat, char *pattern, int **tab)
 {
 	int	i;
 
@@ -46,7 +46,7 @@ void	set_first_line(int len_str, int len_pat, char *pattern, int **tab)
 	}
 }
 
-void	set_all_tab(char *pattern, char *str, int **tab)
+void static	set_all_tab(char *pattern, char *str, int **tab)
 {
 	int	c;
 	int	r;
@@ -75,7 +75,7 @@ void	set_all_tab(char *pattern, char *str, int **tab)
 	}
 }
 
-void	free_tab_int(int **tab, int len)
+void static	free_tab_int(int **tab, int len)
 {
 	while (len)
 		free(tab[--len]);
@@ -85,7 +85,7 @@ void	free_tab_int(int **tab, int len)
 /*
 	returns true if the pattern matchs with the string, otherwise return false
 */
-bool	wildcard(char *str, char *pattern)
+bool	strmatch(char *str, char *pattern)
 {
 	int		len_str;
 	int		len_pat;
@@ -95,7 +95,7 @@ bool	wildcard(char *str, char *pattern)
 
 	len_str = ft_strlen(str);
 	len_pat = ft_strlen(pattern);
-	tab = wildcard_tab(len_str, len_pat);
+	tab = init_matrix_tab(len_str, len_pat);
 	set_first_line(len_str, len_pat, pattern, tab);
 	set_all_tab(pattern, str, tab);
 	ret = (bool)tab[len_str][len_pat];

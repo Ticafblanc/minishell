@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/18 14:51:21 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 23:08:45 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 	// 	save = temp;
 	// }
 */
-char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
+static char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 {
 	int		nb_word;
 	char	*save;
@@ -108,7 +108,7 @@ char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 		if (**command && ft_strchr(REDIR, **command))
 			manage_redir(command, t_cmd, &nb_word);
 		if (**command && ft_strchr(OPERATOR, **command))
-			manage_operators(command, &t_cmd, &nb_word, envp);
+			manage_ope(command, &t_cmd, &nb_word, envp);
 		if (**command && ft_strchr(BRACES, **command))
 			manage_braces(command, &t_cmd, &nb_word, envp);
 	}

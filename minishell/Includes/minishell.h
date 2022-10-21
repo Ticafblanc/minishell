@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/18 14:26:48 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 23:09:00 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,32 @@ int		*last_status(void);
 void	handle_prompt(int signum);
 void	handle_exec(int sig_num);
 
+/* parsing */
+t_cmd	*parsing(char *command, t_cmd **cmd, char **envp);
+t_cmd	*ft_mlstadd(t_cmd *cmd);
+int		manage_redir(char **command, t_cmd *cmd, int *nb_word);
+int		manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp);
+int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
+char	**manage_var(t_cmd *cmd, char **envp);
+void	manage_wildcard(t_cmd *cmd);
+
+/* utils parsing */
+bool	strmatch(char *str, char *pattern);
+void	find_next_word(char **command, int *nb_word, char **cmd);
+char	*find_next_word_redir(char **command);
+char	check_metacharacter(char **command, int king);
+char	*remove_quote(char *command);
+
+/* execute */
+int		execute(char *command, char ***envp);
+int		exec_pipe(t_cmd *cmd, char **envp);
+void	exec_cmd(t_cmd *cmd, char **envp, int options);
+
+/* utils execute */
+void	switch_streams(int toclose, int oldfd, int newfd);
+void	dup_file(t_cmd *cmd);
+void	wait_cmd(t_cmd *cmd, int ctrl_op);
+
 /* builtins.c */
 int		exec_builtins(t_cmd *cmd, char ***envp, int process);
 int		exec_pwd(void);
@@ -107,47 +133,23 @@ void	exec_exit(int process, char ***envp);
 int		exec_export(char *pathname, char **args, char ***envp);
 int		exec_env(char **envp);
 
-/* execute */
-int		execute(char *command, char ***envp);
-
-//1_parsing.c
-void	find_next_word(char **command, int *nb_word, char **cmd);
-char	check_metacharacter(char **command, int king);
-int		manage_operators(char **command, t_cmd **cmd, int *nb_word, char **envp);
-int		pass_quote(char **command);
-t_cmd	*ft_mlstadd(t_cmd *cmd);
-int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
-
-//1-1_parsing_file.c
-int		manage_redir(char **command, t_cmd *cmd, int *nb_word);
-char	*remove_quote(char *command);
-
-//1-2_parsing_sub.c	
-int		parsing_and_or(char **command, t_cmd **cmd, int *nb_word);
-int		parsing_pipe(char **command, t_cmd **cmd, int *nb_word);
-
-/* execute */
-void	exec_cmd(t_cmd *cmd, char **envp, int options);
-int		exec_pipe(t_cmd *cmd, char **envp);
-void	switch_streams(int toclose, int oldfd, int newfd);
-void	dup_file(t_cmd *cmd);
-
-/* utils_env_line */
+/* utils_env */
+void	envp_set_line(char ***envp, char *value, char *name);
 char	*get_name(char *env_line);
 char	*get_value(char *env_line);
 int		is_name_in_line(char *envline, char *name);
-char	*build_envp_line(char *name, char *value);
-void	envp_set_line(char ***envp, char *value, char *name);
-
-/* utils_env */
 int		is_name_in_envp(char **envp, char *name);
 void	put_envp(char *prefix, char **envp);
 char	*find_path(char *cmd, char **envp);
+
+/* utils error */
+int		perror_minishell(int status, char *command);
 
 /* utils_free */
 void	ft_freetabstr(char **tab);
 void	free_cmd(t_cmd *cmd);
 void	free_null(void *ptr);
+int		exit_free_envp(char ***envp);
 
 /* utils_libc */
 int		ft_strcmp(const char *s1, const char *s2);
@@ -157,22 +159,8 @@ void	add_line_tabstr(char ***tabstr, char *line);
 char	**get_alpha_tabstr(char **tabstr);
 char	**tabstrdup(char **tabstr);
 
-/* utils */
-int		exit_free_envp(char ***envp);
-
-/* parsing */
-t_cmd	*parsing(char *command, t_cmd **cmd, char **envp);
-char	*find_next_word_redir(char **command);
-
-/* utils.c */
-void	wait_cmd(t_cmd *cmd, int ctrl_op);
-int		perror_minishell(int status, char *command);
-
 /* Development tools */
 void	print_cmd(t_cmd *cmd);
 void	print_cmds(t_cmd *cmd);
-char	**manage_var(t_cmd *cmd, char **envp);
-
-# define WHOAMI printf(GRN"Function "BMAG"%s"GRN" ran "BGRN"SUCCESSFULLY\n"RESET, __func__);
 
 #endif

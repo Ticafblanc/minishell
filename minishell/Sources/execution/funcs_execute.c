@@ -6,13 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/21 18:07:27 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:33:16 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-char	**manage_wildcard(t_cmd *cmd);
 
 static void	child_process(t_cmd *cmd, char **envp, int fd[2])
 {

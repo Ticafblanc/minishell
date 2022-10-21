@@ -6,11 +6,35 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:37:03 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 09:03:25 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:52:38 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int static	pass_quote(char **command)
+{
+	int	i;
+
+	i = 0;
+	if ((**command == 34 || **command == 39))
+	{
+		while (command[0][i++] != '\0')
+		{
+			if (command[0][i] == '\0')
+			{
+				set_status(perror_minishell(QNC, *command));
+				return (get_value_status());
+			}
+			if (**command == command[0][i])
+			{
+				*command += ++i;
+				break ;
+			}
+		}
+	}
+	return (0);
+}
 
 void static	skip_whitespaces(char **s)
 {

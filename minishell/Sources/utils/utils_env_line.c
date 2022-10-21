@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 07:10:34 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 19:40:33 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 23:06:28 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	is_name_in_line(char *envline, char *name)
 	return (0);
 }
 
-char	*build_envp_line(char *name, char *value)
+char static	*build_envp_line(char *name, char *value)
 {
 	char	*line;
 	char	*tmp;

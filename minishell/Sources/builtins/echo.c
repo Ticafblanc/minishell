@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:10:51 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 16:51:55 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:56:54 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	set_flag(char *flags)
+int static	set_flag(char *flags)
 {
 	int	i;
 
@@ -48,30 +48,3 @@ int	exec_echo(t_cmd *cmd)
 	write(1, "\n", flag_n);
 	return (1);
 }
-
-/*
-	int		i_end;
-	int		i_env;
-	char	*tmp1;
-	char	*tmp2;
-
-	cmd->cmd[i][i_s] = '\0';
-	i_end = forward_to_next(cmd->cmd[i], i_s + 1, ' ');
-	cmd->cmd[i][i_end] = '\0';
-	i_env = is_name_in_envp(envp, &cmd->cmd[i][i_s + 1]);
-	if (i_env == -1)
-		tmp1 = "";
-	else
-		tmp1 = get_value(envp[i_env]);
-	tmp2 = ft_strjoin(cmd->cmd[i], tmp1);
-	cmd->cmd[i][i_s] = ' ';
-	tmp1 = ft_strjoin(tmp2, &cmd->cmd[i][i_end]);
-	free_null(tmp2);
-	tmp2 = cmd->cmd[i];
-	cmd->cmd[i] = remove_quote(tmp1);
-	free_null(tmp1);
-	free_null(tmp2);
-	tmp1 = ft_rev_split((const char**)cmd->cmd, ' ');
-	cmd->cmd = ft_split(remove_quote(tmp1), ' ');
-	return (EXIT_SUCCESS);
-*/

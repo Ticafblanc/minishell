@@ -6,14 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 18:06:49 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:33:08 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**interpret_vars(t_cmd *cmd, char **envp);
-char	**manage_wildcard(t_cmd *cmd);
 
 int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 {	

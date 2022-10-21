@@ -6,20 +6,20 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:18:58 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/18 19:29:22 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:32:11 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	forward_to_next(char *s, int i, char c)
+int static	forward_to_next(char *s, int i, char c)
 {
 	while (s[i] && s[i] != c)
 		i++;
 	return (i);
 }
 
-int	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
+int static	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
 {
 	int		i_end;
 	int		i_env;
@@ -44,7 +44,7 @@ int	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
 	return (EXIT_SUCCESS);
 }
 
-int	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
+int static	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
 {
 	int		i_end;
 	int		i_env;

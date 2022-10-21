@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:54:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 08:52:12 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 23:12:35 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,6 @@ char	check_metacharacter(char **command, int king)
 	return (i);
 }
 
-int	pass_quote(char **command)
-{
-	int	i;
-
-	i = 0;
-	if ((**command == 34 || **command == 39))
-	{
-		while (command[0][i++] != '\0')
-		{
-			if (command[0][i] == '\0')
-			{
-				set_status(perror_minishell(QNC, *command));
-				return (get_value_status());
-			}
-			if (**command == command[0][i])
-			{
-				*command += ++i;
-				break ;
-			}
-		}
-	}
-	return (0);
-}
-
 //TODO manage $ here always sauf ' '
 //TODO manage * 
 char	*remove_quote(char *command)
@@ -85,17 +61,13 @@ char	*remove_quote(char *command)
 	new_command = command;
 	while (*command != '\0')
 	{
-		if (!trig && (*command == 34 || *command == 39))
+		if (!trig && (*command == 34 || *command == 39) && ++i)
 		{
 			c = *command;
-			i++;
 			trig = 1;
 		}
-		else if (trig && c == *command)
-		{
-			i++;
+		else if (trig && c == *command && ++i)
 			trig = 0;
-		}
 		*command = command[i];
 		command++;
 	}

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:58:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/09 05:01:13 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:15:19 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	add_bin_to_path(char ***envp, char *own_path)
 		envp_set_line(envp, own_path, PATH);
 }
 
-char	*get_own_path(void)
+static char	*get_own_path(void)
 {
 	char	*own_path;
 	char	*tmp;

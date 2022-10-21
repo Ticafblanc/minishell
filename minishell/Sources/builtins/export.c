@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 17:51:13 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 19:48:15 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:57:21 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_envp_alpha(char *prefix, char **env)
+void static	print_envp_alpha(char *prefix, char **env)
 {
 	char	**env_alpha;
 

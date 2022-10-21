@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 18:39:08 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 22:44:32 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	push_tab(char **tab, int i, char (*str)[1024])
 	}
 }
 
-bool	wildcard(char *str, char *pattern);
+bool	strmatch(char *str, char *pattern);
 
 //TODO Manage `.*`
-void	search_files(t_cmd *cmd, int i)
+void static	search_files(t_cmd *cmd, int i)
 {
 	DIR				*dir;
 	struct dirent	*files;
@@ -49,7 +49,7 @@ void	search_files(t_cmd *cmd, int i)
 	files = readdir(dir);
 	while (files)
 	{
-		if (wildcard(files->d_name, pattern) && files->d_name[0] != '.')
+		if (strmatch(files->d_name, pattern) && files->d_name[0] != '.')
 		{
 			printf("%s\n", files->d_name);
 			if (!flag)
