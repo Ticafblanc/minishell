@@ -6,17 +6,19 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 17:44:09 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 18:06:49 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char	**interpret_vars(t_cmd *cmd, char **envp);
+char	**manage_wildcard(t_cmd *cmd);
 
 int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 {	
 	manage_var(cmd, *envp);
+	manage_wildcard(cmd);
 	if (!ft_strncmp(cmd->cmd[0], "cd", 2))
 		return (exec_cd(cmd->cmd[1], envp));
 	if (!ft_strncmp(cmd->cmd[0], "pwd", 3))

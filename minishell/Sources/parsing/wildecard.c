@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:33:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/19 17:10:32 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 13:42:16 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ void	free_tab_int(int **tab, int len)
 	free(tab);
 }
 
+/*
+	returns true if the pattern matchs with the string, otherwise return false
+*/
 bool	wildcard(char *str, char *pattern)
 {
 	int		len_str;
