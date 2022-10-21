@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 22:44:32 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 23:25:07 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // TODO increase when tab > 20.
 // TODO push_after not order add.
-void	push_tab(char **tab, int i, char (*str)[1024])
+void static	push_tab(char **tab, int i, char (*str)[1024])
 {
 	int	j;
 
@@ -32,8 +32,6 @@ void	push_tab(char **tab, int i, char (*str)[1024])
 		tab[i] = *str;
 	}
 }
-
-bool	strmatch(char *str, char *pattern);
 
 //TODO Manage `.*`
 void static	search_files(t_cmd *cmd, int i)
