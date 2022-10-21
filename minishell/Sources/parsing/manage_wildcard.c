@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 18:25:13 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 18:39:08 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	push_tab(char **tab, int i, char (*str)[1024])
 
 bool	wildcard(char *str, char *pattern);
 
+//TODO Manage `.*`
 void	search_files(t_cmd *cmd, int i)
 {
 	DIR				*dir;
