@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 23:25:07 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/21 23:42:57 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void static	push_tab(char **tab, int i, char (*str)[1024])
 	}
 }
 
-//TODO Manage `.*`
 void static	search_files(t_cmd *cmd, int i)
 {
 	DIR				*dir;
@@ -47,9 +46,8 @@ void static	search_files(t_cmd *cmd, int i)
 	files = readdir(dir);
 	while (files)
 	{
-		if (strmatch(files->d_name, pattern) && files->d_name[0] != '.')
+		if (strmatch(files->d_name, pattern))
 		{
-			printf("%s\n", files->d_name);
 			if (!flag)
 			{
 				flag = 0x1;

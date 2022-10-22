@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:33:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 22:49:39 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/22 19:11:02 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ bool	strmatch(char *str, char *pattern)
 	bool	ret;
 	int		i;
 
+	if (str[0] == '.' && pattern[0] != '.')
+		return (false);
 	len_str = ft_strlen(str);
 	len_pat = ft_strlen(pattern);
 	tab = init_matrix_tab(len_str, len_pat);
