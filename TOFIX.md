@@ -1,0 +1,11 @@
+# Commands to check/fix
+- [ ] free not allocated `exit|ls`
+- [ ] retour chariot apres crash
+- [ ] variable environemenrt
+- [ ] leaks
+- [ ] valeur de retoutr status
+- [ ] norminette
+- [ ] cat | ls
+- [ ] echo $PATH
+- [ ] echo test>>file
+- [ ] echo test >> file

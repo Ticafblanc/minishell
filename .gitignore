@@ -41,3 +41,11 @@ Thumbs.db
 .vscode
 AUTHORS
 README.md
+
+#      ours set      #
+######################
+libft/Bin/
+minishell/Bin/
+tontedMakefile
+.idea
+main.c
