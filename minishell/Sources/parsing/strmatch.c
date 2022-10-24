@@ -91,7 +91,7 @@ bool	strmatch(char *str, char *pattern)
 	int		len_pat;
 	int		**tab;
 	bool	ret;
-	int		i;
+//	int		i;
 
 	if (str[0] == '.' && pattern[0] != '.')
 		return (false);

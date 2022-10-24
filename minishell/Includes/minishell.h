@@ -77,6 +77,7 @@ typedef struct s_cmd
 {
 	int				ctrl_op;
 	pid_t			pid;
+	int 			fd[2];
 	char			**cmd;
 	char			*path;
 	int				infile;

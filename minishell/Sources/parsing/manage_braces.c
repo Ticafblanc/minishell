@@ -14,9 +14,9 @@
 
 bool static	is_next_operator(char **command)
 {
-	int	i;
+	//int	i;
 
-	i = 0;
+	//i = 0;
 	while (**command)
 	{
 		if (ft_strchr("|&", **command))
@@ -53,6 +53,7 @@ int	static	find_next_brace(char **command, t_cmd **cmd)
 
 int	manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
+	(void)nb_word;
 	(void) envp;
 	if (**command == '(' && !*(*cmd)->cmd)
 	{

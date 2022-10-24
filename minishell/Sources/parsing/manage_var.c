@@ -46,10 +46,11 @@ int static	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
 
 int static	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
 {
-	int		i_end;
-	int		i_env;
+	(void)envp;
+	//int		i_end;
+	//int		i_env;
 	char	*tmp1;
-	char	*tmp2;
+	//char	*tmp2;
 
 	cmd->cmd[i][i_s] = '\0';
 	tmp1 = ft_strjoin(cmd->cmd[i], ft_itoa(*last_status()));

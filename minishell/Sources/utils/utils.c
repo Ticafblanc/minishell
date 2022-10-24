@@ -18,12 +18,20 @@ void	wait_cmd(t_cmd *cmd, int ctrl_op)
 	{
 		while (cmd->ctrl_op == PIPE)
 		{
+			if (cmd->fd[STDIN_FILENO] != STDIN_FILENO)
+				close(cmd->fd[STDIN_FILENO]);
+			if (cmd->fd[STDOUT_FILENO] != STDOUT_FILENO)
+				close(cmd->fd[STDOUT_FILENO]);
+			if (cmd->infile!= STDIN_FILENO)
+				close(cmd->infile);
+			if (cmd->outfile != STDOUT_FILENO)
+				close(cmd->outfile);
 			waitpid(cmd->pid, get_status(), 0);
 			cmd = cmd->next;
 		}
 		waitpid(cmd->pid, get_status(), 0);
 	}
-	else if (ctrl_op == HERE_DOC)
+	if (ctrl_op == HERE_DOC)
 	{
 		while (cmd)
 		{

@@ -22,13 +22,7 @@ void	switch_streams(int toclose, int oldfd, int newfd)
 void	dup_file(t_cmd *cmd)
 {
 	if (cmd->infile != STDIN_FILENO)
-	{
 		dup2(cmd->infile, STDIN_FILENO);
-		close(cmd->infile);
-	}
 	if (cmd->outfile != STDOUT_FILENO)
-	{
 		dup2(cmd->outfile, STDOUT_FILENO);
-		close(cmd->outfile);
-	}
 }
