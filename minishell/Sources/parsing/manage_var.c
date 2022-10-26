@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:18:58 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 22:32:11 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:12:28 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,9 @@ int static	interpret_var(t_cmd *cmd, char **envp, int i, int i_s)
 
 int static	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
 {
-	(void)envp;
-	//int		i_end;
-	//int		i_env;
 	char	*tmp1;
-	//char	*tmp2;
 
+	(void)envp;
 	cmd->cmd[i][i_s] = '\0';
 	tmp1 = ft_strjoin(cmd->cmd[i], ft_itoa(*last_status()));
 	cmd->cmd[i] = ft_strjoin(tmp1, &cmd->cmd[i][i_s]);

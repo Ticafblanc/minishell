@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:33:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/22 19:11:02 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/26 12:02:05 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ bool	strmatch(char *str, char *pattern)
 	int		len_pat;
 	int		**tab;
 	bool	ret;
-//	int		i;
 
 	if (str[0] == '.' && pattern[0] != '.')
 		return (false);

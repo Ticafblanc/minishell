@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/21 22:33:16 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/26 11:56:52 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	child_process(t_cmd *cmd, char **envp)
 {
-	int stat;
+	int	stat;
 
 	if (cmd->ctrl_op == PIPE)
-		switch_streams(cmd->fd[STDIN_FILENO], cmd->fd[STDOUT_FILENO], STDOUT_FILENO);
+		switch_streams(cmd->fd[0], cmd->fd[1], 1);
 	dup_file(cmd);
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
@@ -37,7 +37,7 @@ static void	child_process(t_cmd *cmd, char **envp)
 		cmd->path = find_path(cmd->cmd[0], envp);
 	execve(cmd->path, cmd->cmd, envp);
 	stat = perror_minishell(NCMD, cmd->cmd[0]);
-	free_cmd(cmd);	
+	free_cmd(cmd);
 	exit(stat);
 }
 
@@ -60,7 +60,7 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 	while ((*cmd)->ctrl_op == PIPE)
 	{
 		if (pipe((*cmd)->fd) == -1)
-				exit(perror_minishell(errno, "Fork child_process"));
+			exit(perror_minishell(errno, "Fork child_process"));
 		if ((*cmd)->next->infile == STDIN_FILENO)
 			(*cmd)->next->infile = (*cmd)->fd[STDIN_FILENO];
 		if (!exec_builtins(*cmd, envp, CHILD))

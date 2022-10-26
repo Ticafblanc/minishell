@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/14 21:17:32 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/26 12:01:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	wait_cmd(t_cmd *cmd, int ctrl_op)
 				close(cmd->fd[STDIN_FILENO]);
 			if (cmd->fd[STDOUT_FILENO] != STDOUT_FILENO)
 				close(cmd->fd[STDOUT_FILENO]);
-			if (cmd->infile!= STDIN_FILENO)
+			if (cmd->infile != STDIN_FILENO)
 				close(cmd->infile);
 			if (cmd->outfile != STDOUT_FILENO)
 				close(cmd->outfile);
