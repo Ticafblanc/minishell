@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:10:51 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 23:16:50 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/31 18:45:26 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	exec_echo(t_cmd *cmd)
 
 	i = 0;
 	flag_n = 1;
-	if (cmd->cmd[1][i] == '-')
+	if (cmd->cmd[1] && cmd->cmd[1][i] == '-')
 		flag_n = set_flag(cmd->cmd[1]);
 	i++;
 	if (!flag_n)
