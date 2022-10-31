@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 17:18:58 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/26 13:12:28 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/31 22:45:13 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**manage_var(t_cmd *cmd, char **envp)
 		while (cmd->cmd[i][i_s])
 		{
 			if (cmd->cmd[i][i_s] == '\'')
-				i_s = forward_to_next(cmd->cmd[i], i_s++, '\'');
+				i_s = forward_to_next(cmd->cmd[i], ++i_s, '\'');
 			else if (cmd->cmd[i][i_s] == '$'
 				&& cmd->cmd[i][i_s + 1] == '?'
 				&& ft_strchr(WHITESMETA, cmd->cmd[i][i_s + 2] == '?'))
