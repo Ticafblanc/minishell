@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:26:31 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 16:27:13 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/26 13:18:11 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,9 @@ void	handle_prompt(int sig_num)
 
 void	handle_exec(int sig_num)
 {
-	printf("coucou\n");
 	if (sig_num == SIGINT)
 		exit(EXIT_FAILURE);
 	else if (sig_num == SIGPIPE)
-	{
 		exit(EXIT_FAILURE);
-	}
 }
 
