@@ -6,7 +6,7 @@
 #    By: tonted <tonted@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/11 10:09:10 by mdoquocb          #+#    #+#              #
-#    Updated: 2022/10/16 08:41:29 by tonted           ###   ########.fr        #
+#    Updated: 2022/10/31 17:29:14 by tonted           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,8 +62,8 @@ OBJ = $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRC))
 
 #  FLAGS  #
 CC = gcc
-# CC_FLAGS =  -g -Wall -Wextra -Werror 
-CC_FLAGS =  -g 
+CC_FLAGS =  -g -Wall -Wextra -Werror 
+# CC_FLAGS =  -g  
 CL = rm -rf
 
 LEAK = leaks -atExit --
