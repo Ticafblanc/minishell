@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/31 17:25:13 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/01 07:33:39 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 	return (NULL);
 }
 
-static void	get_sequel(char **command)
-{
-	char	*sequel;
+// static void	get_sequel(char **command)
+// {
+// 	char	*sequel;
 
-	(void) sequel;
-	set_status(perror_minishell(TOKENERR, *command));
-	// sequel = readline("> ");
-}
+// 	(void) sequel;
+// 	set_status(perror_minishell(TOKENERR, *command));
+// 	// sequel = readline("> ");
+// }
 
 /*
 	// char	*temp;
@@ -120,8 +120,8 @@ static char	*parsing_loop(char **command, t_cmd *t_cmd, char **envp)
 			manage_ope(command, &t_cmd, &nb_word, envp);
 		if (**command && ft_strchr(BRACES, **command))
 			manage_braces(command, &t_cmd, &nb_word, envp);
-		if (**command == '\0' && !t_cmd->cmd[nb_word - 1])
-			get_sequel(command);
+		// if (**command == '\0' && !t_cmd->cmd[nb_word - 1] && t_cmd->ctrl_op == PIPE)
+		// 	get_sequel(command);
 	}
 	return (save);
 }
