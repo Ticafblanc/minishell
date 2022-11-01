@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:09:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 19:47:14 by tonted           ###   ########.fr       */
+/*   Updated: 2022/10/31 22:49:32 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	exec_unset(t_cmd *cmd, char ***envp)
 		while (ft_len_pp((void **)envp[0] + env) > 0)
 		{
 			if (!strncmp(envp[0][env], cmd->cmd[com],
-				ft_str_len(cmd->cmd[com])))
+				ft_strlen(cmd->cmd[com])))
 				env++;
 			envp[0][n_env++] = envp[0][env++];
 		}
