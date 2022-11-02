@@ -24,12 +24,7 @@ void	handle_prompt(int sig_num)
 
 void	handle_exec(int sig_num)
 {
-	printf("coucou\n");
 	if (sig_num == SIGINT)
 		exit(EXIT_FAILURE);
-	else if (sig_num == SIGPIPE)
-	{
-		exit(EXIT_FAILURE);
-	}
 }
 

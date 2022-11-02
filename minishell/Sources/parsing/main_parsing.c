@@ -71,6 +71,8 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 			new->path = NULL;
 			new->infile = STDIN_FILENO;
 			new->outfile = STDOUT_FILENO;
+			new->fd[STDIN_FILENO] = STDIN_FILENO;
+			new->fd[STDOUT_FILENO] = STDOUT_FILENO;
 			new->next = NULL;
 			if (cmd)
 				cmd->next = new;

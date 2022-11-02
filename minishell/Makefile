@@ -62,8 +62,8 @@ OBJ = $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRC))
 
 #  FLAGS  #
 CC = gcc
-# CC_FLAGS =  -g -Wall -Wextra -Werror 
-CC_FLAGS =  -g 
+CC_FLAGS =  -g -Wall -Wextra -Werror 
+#CC_FLAGS =  -g 
 CL = rm -rf
 
 LEAK = leaks -atExit --
@@ -93,7 +93,7 @@ $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
 		@echo $(BLUE) $(notdir $@) is created !!
 
-$(BIN): title libft readline directory $(OBJ) 
+$(BIN): title libft  directory $(OBJ) 
 		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
@@ -113,7 +113,7 @@ directory:
 		@echo $(BLUE) Binary $(PROJECT) directory created !!
 
 #   LAUNCH	#
-run: all
+run: re
 		@./Bin/minishell
 
 val: all
