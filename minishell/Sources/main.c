@@ -23,7 +23,7 @@ static void	minishell_loop(char ***envp)
 		command = readline(PROMPT);
 		if (!command)
 			exit(exit_free_envp(envp));
-		signal(SIGINT, SIG_IGN);
+		//signal(SIGINT, handle_prompt);
 		if (*command != '\0')
 			execute(command, envp);
 		else

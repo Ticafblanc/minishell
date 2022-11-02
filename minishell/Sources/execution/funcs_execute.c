@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/26 11:56:52 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/02 19:21:04 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ static void	child_process(t_cmd *cmd, char **envp)
 {
 	int	stat;
 
-	if (cmd->ctrl_op == PIPE)
-		switch_streams(cmd->fd[0], cmd->fd[1], 1);
-	dup_file(cmd);
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		if (cmd->ctrl_op == PIPE)
@@ -50,8 +47,13 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
+			switch_streams(cmd->fd[STDIN_FILENO], cmd->fd[STDOUT_FILENO], STDOUT_FILENO);
+		dup_file(cmd);
 		child_process(cmd, envp);
 	}
+	if(cmd->ctrl_op == PIPE)
+		switch_streams(cmd->fd[STDOUT_FILENO], cmd->fd[STDIN_FILENO], STDIN_FILENO);
 	waitpid(cmd->pid, get_status(), options);
 }
 
@@ -60,25 +62,33 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 	while ((*cmd)->ctrl_op == PIPE)
 	{
 		if (pipe((*cmd)->fd) == -1)
-			exit(perror_minishell(errno, "Fork child_process"));
-		if ((*cmd)->next->infile == STDIN_FILENO)
-			(*cmd)->next->infile = (*cmd)->fd[STDIN_FILENO];
+				exit(perror_minishell(errno, "Pipe"));
 		if (!exec_builtins(*cmd, envp, CHILD))
 			exec_cmd(*cmd, *envp, WNOHANG);
 		*cmd = (*cmd)->next;
 	}
 }
 
+
 int	exec_pipe(t_cmd *cmd, char **envp)
 {
 	t_cmd	*t_cmd;
+	pid_t 	pid;
 
 	if (cmd->ctrl_op != PIPE)
 		return (0);
-	t_cmd = cmd;
-	pipe_loop(&cmd, &envp);
-	if (!exec_builtins(cmd, &envp, CHILD))
-		exec_cmd(cmd, envp, WNOHANG);
-	wait_cmd(t_cmd, PIPE);
+	pid = fork();
+	if (pid == -1)
+		exit(perror_minishell(errno, "Fork child_process"));
+	if(!pid)
+	{
+		t_cmd = cmd;
+		pipe_loop(&cmd, &envp);
+		if (!exec_builtins(cmd, &envp, CHILD))
+			exec_cmd(cmd, envp, 0);
+		wait_cmd(t_cmd, PIPE);
+		exit(*get_status());
+	}
+	waitpid(pid, get_status(), 0);
 	return (1);
 }

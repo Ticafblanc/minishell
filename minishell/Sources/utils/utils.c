@@ -26,10 +26,12 @@ void	wait_cmd(t_cmd *cmd, int ctrl_op)
 				close(cmd->infile);
 			if (cmd->outfile != STDOUT_FILENO)
 				close(cmd->outfile);
+			close(STDIN_FILENO);
+			close(STDOUT_FILENO);
 			waitpid(cmd->pid, get_status(), 0);
 			cmd = cmd->next;
 		}
-		waitpid(cmd->pid, get_status(), 0);
+		//waitpid(cmd->pid, get_status(), 0);
 	}
 	if (ctrl_op == HERE_DOC)
 	{

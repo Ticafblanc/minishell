@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:26:31 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/26 13:18:11 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/02 19:22:09 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,4 @@ void	handle_exec(int sig_num)
 {
 	if (sig_num == SIGINT)
 		exit(EXIT_FAILURE);
-	else if (sig_num == SIGPIPE)
-		exit(EXIT_FAILURE);
 }
-

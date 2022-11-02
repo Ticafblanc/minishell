@@ -37,6 +37,7 @@ void	print_cmd(t_cmd *cmd)
 	printf("\nCommand to execute:");
 	while (cmd->cmd[i])
 		printf(" %s", cmd->cmd[i++]);
+	printf("\n%s", cmd->cmd[i]);
 	printf("\n\tctrl_op: %d", cmd->ctrl_op);
 	printf("\n\tpid: %d", cmd->pid);
 	printf("\n\tinfile: %d", cmd->infile);
