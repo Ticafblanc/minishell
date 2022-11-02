@@ -11,7 +11,7 @@
 - [ ] echo test >> file
 
 # Correction
-- [ ] exit avec argument
+- [x] exit avec argument
 - [ ] donner une path absolue sans faire cd devant
 - [ ] cat Makefile | wc : reste stuck dans le cat
 - [ ] [bad command] | wc : reste stuck dans le child process

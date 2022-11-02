@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 22:33:08 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/02 09:16:09 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 	if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
 		return (exec_unset(cmd, envp));
 	if (!ft_strncmp(cmd->cmd[0], "exit", 4))
-		exec_exit(process, envp);
+		return (exec_exit(process, envp, cmd->cmd));
 	return (0);
 }

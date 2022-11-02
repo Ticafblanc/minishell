@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/21 23:09:00 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/02 09:08:28 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int		exec_pwd(void);
 int		exec_cd(char *dir, char ***envp);
 int		exec_unset(t_cmd *cmd, char ***envp);
 int		exec_echo(t_cmd *cmd);
-void	exec_exit(int process, char ***envp);
+int		exec_exit(int process, char ***envp, char **cmd);
 int		exec_export(char *pathname, char **args, char ***envp);
 int		exec_env(char **envp);
 
