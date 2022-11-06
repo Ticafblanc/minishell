@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/02 12:06:33 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/05 19:50:12 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,11 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 	char	*sequel;
 	char	*tmp;
 
+	signal(SIGINT, handle_prompt);
+	signal(SIGQUIT, SIG_IGN);
 	tmp = *save;
 	sequel = readline("> ");
+	//manage if EOF
 	*save = ft_strjoin(*save, sequel);
 	free(tmp);
 	parsing_loop(&sequel, cmd, envp, save);
