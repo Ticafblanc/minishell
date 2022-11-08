@@ -6,29 +6,39 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/02 09:16:09 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/08 21:44:12 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	manage_args(t_cmd *cmd, char **envp);
+void	manage_argv2(t_cmd *cmd, char **envp);
+
 int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 {	
-	manage_var(cmd, *envp);
-	manage_wildcard(cmd);
+	// manage_var(cmd, *envp);
+	// manage_wildcard(cmd);
+	int ret;
+
+	ret = 0;
+	// manage_args(cmd, *envp);
+	manage_argv2(cmd, *envp);
+	// manage_wildcard(cmd);
 	if (!ft_strncmp(cmd->cmd[0], "cd", 2))
-		return (exec_cd(cmd->cmd[1], envp));
-	if (!ft_strncmp(cmd->cmd[0], "pwd", 3))
-		return (exec_pwd());
-	if (!ft_strncmp(cmd->cmd[0], "env", 3))
-		return (exec_env(*envp));
-	if (!ft_strncmp(cmd->cmd[0], "echo", 4))
-		return (exec_echo(cmd));
-	if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
-		return (exec_export(NULL, cmd->cmd, envp));
-	if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
-		return (exec_unset(cmd, envp));
-	if (!ft_strncmp(cmd->cmd[0], "exit", 4))
-		return (exec_exit(process, envp, cmd->cmd));
-	return (0);
+		ret = exec_cd(cmd->cmd[1], envp);
+	else if (!ft_strncmp(cmd->cmd[0], "pwd", 3))
+		ret = exec_pwd();
+	else if (!ft_strncmp(cmd->cmd[0], "env", 3))
+		ret = exec_env(*envp);
+	else if (!ft_strncmp(cmd->cmd[0], "echo", 4))
+		ret = exec_echo(cmd);
+	else if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
+		ret = exec_export(NULL, cmd->cmd, envp);
+	else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
+		ret = exec_unset(cmd, envp);
+	else if (!ft_strncmp(cmd->cmd[0], "exit", 4))
+		ret = exec_exit(process, envp, cmd->cmd);
+	// TODO free if malloced!
+	return (ret);
 }

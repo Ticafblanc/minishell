@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:10:51 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/31 18:45:26 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/05 19:12:59 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	exec_echo(t_cmd *cmd)
 		i++;
 	while (cmd->cmd[i])
 	{
-		write(1, remove_quote(cmd->cmd[i]), ft_str_len(cmd->cmd[i]));
+		write(1, cmd->cmd[i], ft_str_len(cmd->cmd[i]));
 		if (cmd->cmd[++i])
 			write(1, " ", 1);
 	}

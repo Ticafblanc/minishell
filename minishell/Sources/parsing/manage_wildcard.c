@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 23:42:57 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/06 18:11:37 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void static	push_tab(char **tab, int i, char (*str)[1024])
 	}
 }
 
-void static	search_files(t_cmd *cmd, int i)
+void	search_files(t_cmd *cmd, int i)
 {
 	DIR				*dir;
 	struct dirent	*files;
