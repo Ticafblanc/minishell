@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/09 09:34:32 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/09 10:57:51 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	manage_argv2(t_cmd *cmd, char **envp);
 
 int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 {	
-	int ret;
+	int	ret;
 
 	ret = 0;
 	manage_args(cmd, *envp);
