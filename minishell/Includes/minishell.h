@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/09 10:59:02 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/09 11:40:03 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_cmd
 	pid_t			pid;
 	int 			fd[2];
 	char			**cmd;
+	char			malloced;
 	char			*path;
 	int				infile;
 	int				outfile;
@@ -104,7 +105,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd);
 int		manage_redir(char **command, t_cmd *cmd, int *nb_word);
 int		manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp);
 int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
-char	**manage_var(t_cmd *cmd, char **envp);
+void	manage_args(t_cmd *cmd, char **envp);
 void	manage_wildcard(t_cmd *cmd);
 void	search_files(t_cmd *cmd, int i);
 void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save);

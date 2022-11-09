@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/09 10:55:36 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/09 11:40:08 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 			new->outfile = STDOUT_FILENO;
 			new->fd[STDIN_FILENO] = STDIN_FILENO;
 			new->fd[STDOUT_FILENO] = STDOUT_FILENO;
+			new->malloced = 0x0;
 			new->next = NULL;
 			if (cmd)
 				cmd->next = new;

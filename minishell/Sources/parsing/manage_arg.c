@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 17:30:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/09 10:54:24 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/09 11:58:31 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,19 @@ void	shift_str(char **s, int i, char *flag, char flag_set)
 	*flag = flag_set;
 }
 
+void	malloc_cmds(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	cmd->malloced = 0x1;
+	while (cmd->cmd[i])
+	{
+		cmd->cmd[i] = ft_strdup(cmd->cmd[i]);
+		i++;
+	}
+}
+
 void	manage_arg(t_cmd *cmd, char **envp, int i_cmd)
 {
 	int		i;
@@ -88,6 +101,8 @@ void	manage_arg(t_cmd *cmd, char **envp, int i_cmd)
 			shift_str(&cmd->cmd[i_cmd], i, &flag, RESET_FLAG);
 		else if (cmd->cmd[i_cmd][i] == '$' && flag != S_QUOTE)
 		{	
+			if (!cmd->malloced)
+				malloc_cmds(cmd);
 			if (cmd->cmd[i_cmd][i + 1] == '?')
 				i = interpret_status(cmd, envp, i_cmd, i);
 			else
