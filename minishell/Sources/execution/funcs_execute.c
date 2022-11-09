@@ -6,11 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/02 19:21:04 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/09 09:23:22 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	manage_args(t_cmd *cmd, char **envp);
 
 static void	child_process(t_cmd *cmd, char **envp)
 {
@@ -26,8 +28,7 @@ static void	child_process(t_cmd *cmd, char **envp)
 		cmd->cmd[1] = ft_strdup("-c");
 		cmd->cmd[3] = NULL;
 	}
-	cmd->cmd = manage_var(cmd, envp);
-	manage_wildcard(cmd);
+	manage_args(cmd, envp);
 	if (*cmd->cmd[0] == '/' || *cmd->cmd[0] == '.' || *cmd->cmd[0] == '~')
 		cmd->path = cmd->cmd[0];
 	else
