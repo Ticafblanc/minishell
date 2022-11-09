@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/05 19:50:12 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/09 10:55:36 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 	return (NULL);
 }
 
-static void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save);
-
 //TODO Manage signals
 static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 {
@@ -115,7 +113,7 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 	// 	save = temp;
 	// }
 */
-static void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
+void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 {
 	int		nb_word;
 

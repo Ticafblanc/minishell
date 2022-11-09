@@ -6,14 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/09 10:57:51 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/09 11:03:18 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	manage_args(t_cmd *cmd, char **envp);
-void	manage_argv2(t_cmd *cmd, char **envp);
 
 int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 {	
