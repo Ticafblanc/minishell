@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 05:45:50 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/11 15:29:17 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 00:48:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_rev_split(const char **s, char c)
 		t_str[ft_str_len(t_str)] = c;
 		str = ft_strjoin(t_str, *s);
 		free(t_str);
-		s++;	
+		s++;
 	}
 	return (str);
 }

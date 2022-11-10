@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/11 00:44:20 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 13:07:21 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ char	*remove_quote(char *command);
 int		execute(char *command, char ***envp);
 int		exec_pipe(t_cmd *cmd, char **envp);
 void	exec_cmd(t_cmd *cmd, char **envp, int options);
-int		interpret_var(char **s, int i, char **envp);
 void	interpret_vars(t_cmd *cmd, int i, int i_cmd, char **envp);
 
 /* utils execute */

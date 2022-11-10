@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_pp.c                                       :+:      :+:    :+:   */
+/*   ft_getcharv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdoquocb <mdoquocb@student.42quebec>       +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:14:14 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/03/03 10:18:30 by mdoquocb         ###   ########.fr       */
+/*   Updated: 2022/11/11 00:50:04 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-int ft_getcharv(void)
+int	ft_getcharv(void)
 {
-    static int  i = 0;
-    static char buff[BUFSIZ];
-    static char *buff_ptr = buff;
+	static int	i = 0;
+	static char	buff[BUFSIZ];
+	static char	*buff_ptr = buff;
 
-    if (i == 0)
-    {
-        i = read(0, buff, 1);
-        buff_ptr = buff;
-    }
-    if (--i >= 0)
-        return  (*buff_ptr++);
-    return (EOF);
+	if (i == 0)
+	{
+		i = read(0, buff, 1);
+		buff_ptr = buff;
+	}
+	if (--i >= 0)
+		return (*buff_ptr++);
+	return (EOF);
 }
