@@ -64,9 +64,8 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 			exit(perror_minishell(errno, "Pipe"));
 		if (!exec_builtins(*cmd, envp, CHILD))
 			exec_cmd(*cmd, *envp, WNOHANG);
-		*cmd = (*cmd)->next;
-		if ((*cmd)->ctrl_op == PIPE)
-			switch_streams((*cmd)->fd[1], (*cmd)->fd[0], STDIN_FILENO);
+		switch_streams((*cmd)->fd[1], (*cmd)->fd[0], STDIN_FILENO);
+		(*cmd) = (*cmd)->next;
 	}
 }
 

@@ -45,6 +45,6 @@ int	exec_echo(t_cmd *cmd, int fd)
 		if (cmd->cmd[++i])
 			write(fd, " ", 1);
 	}
-	write(1, "\n", flag_n);
+	write(fd, "\n", flag_n);
 	return (1);
 }

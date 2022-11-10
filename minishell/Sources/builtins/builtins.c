@@ -18,10 +18,9 @@ int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 	int	fd;
 
 	ret = 0;
-    if (cmd->ctrl_op == PIPE)
+	fd = cmd->outfile;
+    if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
         fd = cmd->fd[STDOUT_FILENO];
-	else
-		fd = cmd->outfile;
 	manage_args(cmd, *envp);
 	if (!ft_strncmp(cmd->cmd[0], "cd", 2))
 		ret = exec_cd(cmd->cmd[1], envp);

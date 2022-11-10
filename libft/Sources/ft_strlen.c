@@ -16,6 +16,7 @@ size_t	ft_strlen(const char *maxlen)
 {
 	unsigned int	count;
 
+	count = 0;
 	if (maxlen)
 	{
 		count = 0;
