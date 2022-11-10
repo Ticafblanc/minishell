@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 12:42:59 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/06 12:44:15 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/10 08:57:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	dup_file(t_cmd *cmd)
 	{
 		dup2(cmd->infile, STDIN_FILENO);
 		close(cmd->infile);
+		//TODO Remove!
 		printf("infile = %d\n", cmd->infile);
 	}
 	if (cmd->outfile != STDOUT_FILENO)

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/09 10:57:25 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/10 11:16:07 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 		dup_file(cmd);
 		child_process(cmd, envp);
 	}
-	if (cmd->ctrl_op == PIPE)
-		switch_streams(cmd->fd[0], cmd->fd[1], STDIN_FILENO);
 	waitpid(cmd->pid, get_status(), options);
 }
 
@@ -67,6 +65,8 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 		if (!exec_builtins(*cmd, envp, CHILD))
 			exec_cmd(*cmd, *envp, WNOHANG);
 		*cmd = (*cmd)->next;
+		if ((*cmd)->ctrl_op == PIPE)
+			switch_streams((*cmd)->fd[1], (*cmd)->fd[0], STDIN_FILENO);
 	}
 }
 

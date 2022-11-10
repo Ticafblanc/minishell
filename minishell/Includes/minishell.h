@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/09 11:40:03 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/10 11:08:07 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,13 @@ void	wait_cmd(t_cmd *cmd, int ctrl_op);
 
 /* builtins.c */
 int		exec_builtins(t_cmd *cmd, char ***envp, int process);
-int		exec_pwd(void);
+int		exec_pwd(int fd);
 int		exec_cd(char *dir, char ***envp);
 int		exec_unset(t_cmd *cmd, char ***envp);
-int		exec_echo(t_cmd *cmd);
+int		exec_echo(t_cmd *cmd, int fd);
 int		exec_exit(int process, char ***envp, char **cmd);
-int		exec_export(char *pathname, char **args, char ***envp);
-int		exec_env(char **envp);
+int		exec_export(char *pathname, char **args, char ***envp, int fd);
+int		exec_env(char **envp, int fd);
 
 /* utils_env */
 void	envp_set_line(char ***envp, char *value, char *name);
@@ -143,7 +143,7 @@ char	*get_name(char *env_line);
 char	*get_value(char *env_line);
 int		is_name_in_line(char *envline, char *name);
 int		is_name_in_envp(char **envp, char *name);
-void	put_envp(char *prefix, char **envp);
+void	put_envp(char *prefix, char **envp, int fd);
 char	*find_path(char *cmd, char **envp);
 
 /* utils error */
