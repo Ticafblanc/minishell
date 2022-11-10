@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/10 11:08:54 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/10 17:34:47 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 
 	ret = 0;
 	fd = cmd->outfile;
-    if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
-        fd = cmd->fd[STDOUT_FILENO];
+	if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
+		fd = cmd->fd[STDOUT_FILENO];
 	manage_args(cmd, *envp);
 	if (!ft_strncmp(cmd->cmd[0], "cd", 2))
 		ret = exec_cd(cmd->cmd[1], envp);

@@ -6,55 +6,24 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/09 11:40:08 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/10 17:58:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO Change name function
-// static int	_child_process(int fd[2])
-// {
-// 	char	*str;
-
-// 	signal(SIGINT, handle_exec);
-// 	close(fd[STDIN_FILENO]);
-// 	str = readline("> ");
-// 	while (!str || !*str)
-// 	{
-// 		if (!str)
-// 			exit(perror_minishell(TOKENERR, "end of file"));
-// 		str = readline("> ");
-// 	}
-// 	ft_putstr_fd(str, fd[STDOUT_FILENO]);
-// 	free(str);
-// 	close(fd[STDOUT_FILENO]);
-// 	exit(EXIT_SUCCESS);
-// }
-
-// static int	check_command(char **command, int *status)
-// {
-// 	char	*str;
-// 	pid_t	pid;
-// 	int		fd[2];
-
-// 	if (pipe(fd) == -1)
-// 		return (perror_minishell(errno, "Fork child_process"));
-// 	pid = fork();
-// 	if (pid == -1)
-// 		return (perror_minishell(errno, "Fork child_process"));
-// 	if (!pid)
-// 		_child_process(fd);
-// 	close(fd[STDOUT_FILENO]);
-// 	waitpid(pid, status, 0);
-// 	if (!*status)
-// 	{
-// 		str = get_next_line(fd[STDIN_FILENO]);
-// 		*command = str;
-// 	}
-// 	close(fd[STDIN_FILENO]);
-// 	return (*status);
-// }
+void	init_link(t_cmd *new)
+{
+	*(new->cmd) = NULL;
+	new->ctrl_op = END;
+	new->path = NULL;
+	new->infile = STDIN_FILENO;
+	new->outfile = STDOUT_FILENO;
+	new->fd[STDIN_FILENO] = STDIN_FILENO;
+	new->fd[STDOUT_FILENO] = STDOUT_FILENO;
+	new->malloced = 0x0;
+	new->next = NULL;
+}
 
 t_cmd	*ft_mlstadd(t_cmd *cmd)
 {
@@ -66,15 +35,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 		new->cmd = (char **)ft_calloc(20, sizeof(char *));
 		if (new->cmd)
 		{
-			*(new->cmd) = NULL;
-			new->ctrl_op = END;
-			new->path = NULL;
-			new->infile = STDIN_FILENO;
-			new->outfile = STDOUT_FILENO;
-			new->fd[STDIN_FILENO] = STDIN_FILENO;
-			new->fd[STDOUT_FILENO] = STDOUT_FILENO;
-			new->malloced = 0x0;
-			new->next = NULL;
+			init_link(new);
 			if (cmd)
 				cmd->next = new;
 			return (new);
@@ -86,7 +47,6 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 	return (NULL);
 }
 
-//TODO Manage signals
 static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 {
 	char	*sequel;
@@ -96,24 +56,17 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	tmp = *save;
 	sequel = readline("> ");
-	//manage if EOF
+	if (!sequel)
+	{
+		dprintf(2, "bash: syntax error: unexpected end of file\n");
+		set_status(258);
+		return ;
+	}
 	*save = ft_strjoin(*save, sequel);
 	free(tmp);
 	parsing_loop(&sequel, cmd, envp, save);
 }
 
-/*
-	// char	*temp;
-	// TODO necessaire?
-	// if (**command == '\0' && !t_cmd->cmd[nb_word - 1])
-	// {
-	// 	// *status = check_command(command, status);
-	// 	printf("HERE\n");
-	// 	temp = ft_strjoin(save, *command);
-	// 	free(save);
-	// 	save = temp;
-	// }
-*/
 void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 {
 	int		nb_word;

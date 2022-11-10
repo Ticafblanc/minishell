@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/10 11:08:07 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 00:44:20 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_cmd
 {
 	int				ctrl_op;
 	pid_t			pid;
-	int 			fd[2];
+	int				fd[2];
 	char			**cmd;
 	char			malloced;
 	char			*path;
@@ -121,6 +121,8 @@ char	*remove_quote(char *command);
 int		execute(char *command, char ***envp);
 int		exec_pipe(t_cmd *cmd, char **envp);
 void	exec_cmd(t_cmd *cmd, char **envp, int options);
+int		interpret_var(char **s, int i, char **envp);
+void	interpret_vars(t_cmd *cmd, int i, int i_cmd, char **envp);
 
 /* utils execute */
 void	switch_streams(int toclose, int oldfd, int newfd);

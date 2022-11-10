@@ -6,14 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/06 18:11:37 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 00:45:17 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // TODO increase when tab > 20.
-// TODO push_after not order add.
 void static	push_tab(char **tab, int i, char (*str)[1024])
 {
 	int	j;
