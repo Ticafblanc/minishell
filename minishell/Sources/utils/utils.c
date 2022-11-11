@@ -20,15 +20,17 @@ t_cmd	*wait_pipe(t_cmd *cmd)
 			close(cmd->fd[STDIN_FILENO]);
 		if (cmd->fd[STDOUT_FILENO] != STDOUT_FILENO)
 			close(cmd->fd[STDOUT_FILENO]);
-		if (cmd->infile != STDIN_FILENO)
-			close(cmd->infile);
-		if (cmd->outfile != STDOUT_FILENO)
-			close(cmd->outfile);
+	//	if (cmd->infile != STDIN_FILENO)
+			// close(cmd->infile);
+		// if (cmd->outfile != STDOUT_FILENO)
+			// close(cmd->outfile);
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
+		free (cmd->cmd);
 		waitpid(cmd->pid, get_status(), 0);
 		cmd = cmd->next;
 	}
+  free(cmd->cmd);
 	return (cmd);
 }
 

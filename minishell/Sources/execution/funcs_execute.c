@@ -27,15 +27,24 @@ static void	child_process(t_cmd *cmd, char **envp)
 		cmd->cmd[0] = ft_strdup("minishell");
 		cmd->cmd[1] = ft_strdup("-c");
 		cmd->cmd[3] = NULL;
+		cmd->malloced |= 0x1;
 	}
 	manage_args(cmd, envp);
 	if (*cmd->cmd[0] == '/' || *cmd->cmd[0] == '.' || *cmd->cmd[0] == '~')
 		cmd->path = cmd->cmd[0];
 	else
+	{
 		cmd->path = find_path(cmd->cmd[0], envp);
+		cmd->malloced |= 0x2;
+	}
 	execve(cmd->path, cmd->cmd, envp);
 	stat = perror_minishell(NCMD, cmd->cmd[0]);
-	free_cmd(cmd);
+	if (cmd->malloced & 0x1)
+		ft_free_pp((void **)cmd->cmd);
+	else
+		free(cmd->cmd);
+	if (cmd->malloced & 0x2)
+		free ( cmd->path);
 	exit(stat);
 }
 
@@ -53,6 +62,11 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 		dup_file(cmd);
 		child_process(cmd, envp);
 	}
+	if (cmd->infile != STDIN_FILENO)
+		close(cmd->infile);
+	if (cmd->outfile != STDOUT_FILENO)
+		close(cmd->outfile);
+	free(cmd->cmd);
 	waitpid(cmd->pid, get_status(), options);
 }
 
@@ -79,15 +93,29 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 	pid = fork();
 	if (pid == -1)
 		exit(perror_minishell(errno, "Fork child_process"));
+	t_cmd = cmd;
 	if (!pid)
 	{
-		t_cmd = cmd;
 		pipe_loop(&cmd, &envp);
 		if (!exec_builtins(cmd, &envp, CHILD))
 			exec_cmd(cmd, envp, 0);
 		wait_cmd(t_cmd, PIPE);
 		exit(*get_status());
 	}
+	while(t_cmd->ctrl_op == PIPE)
+	{
+		if (t_cmd->infile != STDIN_FILENO)
+			close(t_cmd->infile);
+		if (t_cmd->outfile != STDOUT_FILENO)
+			close(t_cmd->outfile);	
+		free(t_cmd->cmd);
+		t_cmd = t_cmd->next;
+	}
+	if (t_cmd->infile != STDIN_FILENO)
+		close(t_cmd->infile);
+	if (t_cmd->outfile != STDOUT_FILENO)
+		close(t_cmd->outfile);
+	free(t_cmd->cmd);
 	waitpid(pid, get_status(), 0);
 	return (1);
 }

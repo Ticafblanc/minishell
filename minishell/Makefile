@@ -67,7 +67,7 @@ CC_FLAGS =  -g -Wall -Wextra -Werror
 CL = rm -rf
 
 LEAK = leaks -atExit --
-LEAKS = valgrind --leak-check=full --track-fds=yes #--trace-children=yes -s -q
+LEAKS = valgrind --leak-check=full --track-fds=yes --trace-children=yes -s -q
 
 #  COLORS STR #
 GREEN = "\x1b[32m""\x1b[M"
@@ -93,7 +93,7 @@ $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
 		@echo $(BLUE) $(notdir $@) is created !!
 
-$(BIN): title libft readline directory $(OBJ) 
+$(BIN): title libft directory $(OBJ) 
 		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
@@ -116,8 +116,9 @@ directory:
 run: re
 		@./Bin/minishell
 
-val: all
-		$(LEAKS) ./Bin/minishell
+val: re
+		@read -p "command : " INP\
+			&& $(LEAKS) ./Bin/minishell -c "$$INP"
 
 
 #  NORMINETTE  #
