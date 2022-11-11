@@ -14,6 +14,7 @@
 
 void	init_link(t_cmd *new)
 {
+	new->pid = -2;
 	*(new->cmd) = NULL;
 	new->ctrl_op = END;
 	new->path = NULL;

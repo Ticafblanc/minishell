@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-t_cmd	*wait_pipe(t_cmd *cmd)
+void wait_pipe(t_cmd *cmd)
 {
 	while (cmd->ctrl_op == PIPE)
 	{
@@ -24,20 +24,19 @@ t_cmd	*wait_pipe(t_cmd *cmd)
 			// close(cmd->infile);
 		// if (cmd->outfile != STDOUT_FILENO)
 			// close(cmd->outfile);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
 		free (cmd->cmd);
-		waitpid(cmd->pid, get_status(), 0);
+		//waitpid(cmd->pid, get_status(), 0);
 		cmd = cmd->next;
 	}
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
   free(cmd->cmd);
-	return (cmd);
 }
 
 void	wait_cmd(t_cmd *cmd, int ctrl_op)
 {
 	if (ctrl_op == PIPE)
-		cmd = wait_pipe(cmd);
+		wait_pipe(cmd);
 	if (ctrl_op == HERE_DOC)
 	{
 		while (cmd)
