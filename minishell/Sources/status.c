@@ -6,20 +6,20 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 01:25:53 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 18:18:41 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 22:53:18 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 static int	*singleton_status(void)
 {
-	int static	status = 0;
+	static int	status = 0;
 
 	return (&status);
 }
 
 int	*last_status(void)
 {
-	int static	status = 0;
+	static int	status = 0;
 
 	return (&status);
 }

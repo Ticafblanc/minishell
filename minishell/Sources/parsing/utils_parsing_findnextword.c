@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:37:03 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 22:52:38 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 23:00:06 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int static	pass_quote(char **command)
+static int	pass_quote(char **command)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ int static	pass_quote(char **command)
 	return (0);
 }
 
-void static	skip_whitespaces(char **s)
+static void	skip_whitespaces(char **s)
 {
 	while (**s && ft_strchr(WHITESPACES, **s))
 	{
@@ -45,7 +45,7 @@ void static	skip_whitespaces(char **s)
 	}
 }
 
-void static	forward_to_end_word(char **s)
+static void	forward_to_end_word(char **s)
 {
 	while (**s != '\0' && !pass_quote(s) && !ft_strchr(WHITESMETA, **s))
 		(*s)++;

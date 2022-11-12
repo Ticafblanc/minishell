@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:10:51 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/10 11:05:23 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 22:53:46 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int static	set_flag(char *flags)
+static int	set_flag(char *flags)
 {
 	int	i;
 

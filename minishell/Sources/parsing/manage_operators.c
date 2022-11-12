@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-int static	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
+static int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 {
 	if (**(*cmd)->cmd != **command)
 	{
@@ -33,7 +33,7 @@ int static	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 	return (perror_minishell(TOKENERR, *command));
 }
 
-int	static	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
+static int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 {
 	if (**(*cmd)->cmd != **command && **command)
 	{

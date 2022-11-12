@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:25:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/26 13:15:29 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 22:57:54 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool static	is_next_operator(char **command)
+static bool	is_next_operator(char **command)
 {
 	while (**command)
 	{
@@ -24,7 +24,7 @@ bool static	is_next_operator(char **command)
 	return (true);
 }
 
-int	static	find_next_brace(char **command, t_cmd **cmd)
+static int	find_next_brace(char **command, t_cmd **cmd)
 {
 	int	amount;
 

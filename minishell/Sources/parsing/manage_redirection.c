@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/21 23:07:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 22:59:16 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int static	check_limiter(int fd[2], char *limiter)
+static int	check_limiter(int fd[2], char *limiter)
 {
 	char	*line;
 
@@ -35,7 +35,7 @@ int static	check_limiter(int fd[2], char *limiter)
 	exit(EXIT_SUCCESS);
 }
 
-int	static	here_doc(t_cmd *cmd, char *limiter)
+static int	here_doc(t_cmd *cmd, char *limiter)
 {
 	int		fd[2];
 
@@ -57,7 +57,7 @@ int	static	here_doc(t_cmd *cmd, char *limiter)
 	return (-1);
 }
 
-int static	get_redir(char **command)
+static int	get_redir(char **command)
 {
 	if (**command == '<')
 	{
@@ -84,7 +84,7 @@ int static	get_redir(char **command)
 	return (-1);
 }
 
-void static	set_redir(int king, char *file, t_cmd *cmd)
+static void	set_redir(int king, char *file, t_cmd *cmd)
 {
 	if (king == INFILE)
 		cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
