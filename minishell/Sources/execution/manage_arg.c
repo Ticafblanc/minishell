@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 17:30:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/11 00:43:02 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/12 17:38:45 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ void	manage_arg(t_cmd *cmd, char **envp, int i_cmd)
 			shift_str(&cmd->cmd[i_cmd], i, &flag, RESET_FLAG);
 		else if (cmd->cmd[i_cmd][i] == '$' && flag != S_QUOTE)
 			interpret_vars(cmd, i, i_cmd, envp);
-		else if (cmd->cmd[i_cmd][i] == '*' && !cmd->cmd[i_cmd][i + 1])
-			search_files(cmd, i_cmd);
+		else if (cmd->cmd[i_cmd][i] == '*' && !flag)
+		{
+			if (!search_files(cmd, i_cmd))
+				i++;
+		}
 		else
 			i++;
 	}

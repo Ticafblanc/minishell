@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/11 13:07:21 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/12 17:37:43 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp);
 int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
 void	manage_args(t_cmd *cmd, char **envp);
 void	manage_wildcard(t_cmd *cmd);
-void	search_files(t_cmd *cmd, int i);
+bool	search_files(t_cmd *cmd, int i_cmd);
 void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save);
 
 /* utils parsing */

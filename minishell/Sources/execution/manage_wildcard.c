@@ -6,18 +6,18 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/12 16:36:10 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/12 17:42:19 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // TODO increase when tab > 20.
-static void	push_tab(char **tab, int i, char (*str)[1024])
+static void	push_tab(char **tab, int i, char *str)
 {
 	int	j;
 
-	if (*str)
+	if (str)
 	{	
 		j = i;
 		while (tab[j])
@@ -28,18 +28,18 @@ static void	push_tab(char **tab, int i, char (*str)[1024])
 			tab[j] = tab[j - 1];
 			j--;
 		}
-		tab[i] = *str;
+		tab[i] = str;
 	}
 }
 
-void	search_files(t_cmd *cmd, int i)
+bool	search_files(t_cmd *cmd, int i_cmd)
 {
 	DIR				*dir;
 	struct dirent	*files;
 	char			flag;
 	char			*pattern;
 
-	pattern = cmd->cmd[i];
+	pattern = cmd->cmd[i_cmd];
 	flag = 0x0;
 	dir = opendir(getcwd(NULL, 0));
 	files = readdir(dir);
@@ -50,14 +50,18 @@ void	search_files(t_cmd *cmd, int i)
 			if (!flag)
 			{
 				flag = 0x1;
-				cmd->cmd[i] = files->d_name;
+				cmd->cmd[i_cmd] = ft_strdup(files->d_name);
 			}
 			else
-				push_tab(cmd->cmd, i, &files->d_name);
+				push_tab(cmd->cmd, i_cmd, ft_strdup(files->d_name));
 		}
 		files = readdir(dir);
 	}
 	closedir(dir);
+	if (!flag)
+		return (false);
+	cmd->malloced |= 0x1;
+	return (true);
 }
 
 void	manage_wildcard(t_cmd *cmd)
