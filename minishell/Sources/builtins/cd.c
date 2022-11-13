@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:08:33 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/08 19:50:17 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/13 12:23:07 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ int	exec_cd(char *dir, char ***envp)
 	}
 	str = getcwd(NULL, 0);
 	if (chdir(dir))
-		return (perror_minishell(errno, "minishell:"));
+		return (perror_minishell(errno, dir));
 	return (exec_cd2(&str, envp));
 }

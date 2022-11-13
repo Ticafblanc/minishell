@@ -5,7 +5,7 @@
 - [x] `< test.txt cat |wc` gestion des redirection a revoir 
 - [ ] brace non fonctionnele avec un pipe 
 - [ ] double retour de prompt suite crash ctrl c ctrl \
-- [ ] erreur de message dans commande cd double ::
+- [x] erreur de message dans commande cd double ::
 - [ ] mv *.txt tes/ ne fonctionne pas 
 - [ ] fd sortie de commande simple
 - [ ] revoir gestion des malloc/free pour les args!
