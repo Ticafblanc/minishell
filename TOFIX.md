@@ -8,3 +8,4 @@
 - [ ] erreur de message dans commande cd double ::
 - [ ] mv *.txt tes/ ne fonctionne pas 
 - [ ] fd sortie de commande simple
+- [ ] revoir gestion des malloc/free pour les args!

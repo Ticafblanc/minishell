@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/10 11:16:07 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/13 12:11:38 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 		close(cmd->infile);
 	if (cmd->outfile != STDOUT_FILENO)
 		close(cmd->outfile);
-	free(cmd->cmd);
+	// free(cmd->cmd);
 	waitpid(cmd->pid, get_status(), options);
 }
 
