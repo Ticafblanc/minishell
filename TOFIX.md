@@ -1,17 +1,10 @@
 # Commands to check/fix
-- [ ] free not allocated `exit|ls`
-- [ ] retour chariot apres crash
-- [ ] variable environemenrt
-- [ ] leaks
-- [ ] valeur de retoutr status
 - [ ] norminette
-- [ ] cat | ls
-- [ ] echo $PATH
-- [ ] echo test>>file
-- [ ] echo test >> file
-
-# Correction
-- [x] exit avec argument
-- [ ] donner une path absolue sans faire cd devant
-- [ ] cat Makefile | wc : reste stuck dans le cat
-- [ ] [bad command] | wc : reste stuck dans le child process
+- [ ] heredoc ne fonctionne pas
+- [ ] `< test.txt cat >test2` ouverture de heredoc non voulu
+- [ ] `< test.txt cat |wc` gestion des redirection a revoir 
+- [ ] brace non fonctionnele avec un pipe 
+- [ ] double retour de prompt suite crash ctrl c ctrl \
+- [ ] erreur de message dans commande cd double ::
+- [ ] mv *.txt tes/ ne fonctionne pas 
+- [ ] fd sortie de commande simple
