@@ -9,3 +9,4 @@
 - [x] mv *.txt tes/ ne fonctionne pas 
 - [ ] fd sortie de commande simple
 - [ ] revoir gestion des malloc/free pour les args!
+- [x] autant de prompt que de minishell sur ctrl-c

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/13 12:44:34 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/13 20:28:33 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	minishell_loop(char ***envp)
 		signal(SIGINT, handle_prompt);
 		signal(SIGQUIT, SIG_IGN);
 		command = readline(PROMPT);
+		signal(SIGINT, SIG_IGN);
 		if (!command)
 			exit(exit_free_envp(envp));
 		if (*command != '\0')
