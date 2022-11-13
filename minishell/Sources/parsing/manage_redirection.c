@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/11 22:59:16 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/13 11:59:17 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 		**command = '\0';
 		set_redir(king, file, cmd);
 		**command = c;
-		(*nb_word)--;
+		if (*nb_word > 0)
+			(*nb_word)--;
 		return (get_value_status());
 	}
 	command[0][1] = '\0';
