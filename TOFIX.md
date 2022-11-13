@@ -1,6 +1,6 @@
 # Commands to check/fix
 - [ ] norminette
-- [ ] heredoc ne fonctionne pas
+- [x] heredoc ne fonctionne pas
 - [x] `< test.txt cat >test2` ouverture de heredoc non voulu
 - [x] `< test.txt cat |wc` gestion des redirection a revoir 
 - [ ] brace non fonctionnele avec un pipe 
@@ -10,3 +10,5 @@
 - [ ] fd sortie de commande simple
 - [ ] revoir gestion des malloc/free pour les args!
 - [x] autant de prompt que de minishell sur ctrl-c
+- [ ] `<<` without args token error to manage
+- [ ] changer cmd.malloced par cmd.flags avec utilisations des bits au besoin (cmd.cmd, cmd.path, heredoc)

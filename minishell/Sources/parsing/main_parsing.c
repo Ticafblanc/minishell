@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/10 17:58:48 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/13 22:08:30 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,19 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 	int		nb_word;
 
 	nb_word = 0;
-	while (!(get_value_status()) && **command != '\0')
+	while (!(get_value_status()))
 	{
 		find_next_word(command, &nb_word, &t_cmd->cmd[nb_word]);
 		if (**command && ft_strchr(REDIR, **command))
 			manage_redir(command, t_cmd, &nb_word);
-		if (**command && ft_strchr(OPERATOR, **command))
+		else if (**command && ft_strchr(OPERATOR, **command))
 			manage_ope(command, &t_cmd, &nb_word, envp);
-		if (**command && ft_strchr(BRACES, **command))
+		else if (**command && ft_strchr(BRACES, **command))
 			manage_braces(command, &t_cmd, &nb_word, envp);
-		if (**command == '\0' && !t_cmd->cmd[0])
+		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->malloced & 0x8))
 			get_sequel(save, t_cmd, envp);
+		else if (**command == '\0')
+			break;
 	}
 }
 
