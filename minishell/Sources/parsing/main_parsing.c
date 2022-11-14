@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/14 18:17:31 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 18:39:31 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_link(t_cmd *new)
 	new->outfile = STDOUT_FILENO;
 	new->fd[STDIN_FILENO] = STDIN_FILENO;
 	new->fd[STDOUT_FILENO] = STDOUT_FILENO;
-	new->malloced = 0x0;
+	new->flag = 0x0;
 	new->next = NULL;
 	new->pid = -2;
 }
@@ -82,7 +82,7 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 			manage_ope(command, &t_cmd, &nb_word, envp);
 		else if (**command && ft_strchr(BRACES, **command))
 			manage_braces(command, &t_cmd, &nb_word, envp);
-		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->malloced & 0x8))
+		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & FLAG_HEREDOC))
 			get_sequel(save, t_cmd, envp);
 		else if (**command == '\0')
 			break;

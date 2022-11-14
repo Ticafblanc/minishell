@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/12 17:37:43 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 18:39:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define REDIR "<>"
 # define OPERATOR "|&"
 # define BRACES "()"
+# define FLAG_HEREDOC 0x1
 
 enum	e_status
 {
@@ -79,7 +80,7 @@ typedef struct s_cmd
 	pid_t			pid;
 	int				fd[2];
 	char			**cmd;
-	char			malloced;
+	char			flag;
 	char			*path;
 	int				infile;
 	int				outfile;

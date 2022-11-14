@@ -12,4 +12,4 @@
 - [ ] free il reste un petit leak a trouver!
 - [x] autant de prompt que de minishell sur ctrl-c
 - [ ] `<<` without args token error to manage
-- [ ] changer cmd.malloced par cmd.flags avec utilisations des bits au besoin (cmd.cmd, cmd.path, heredoc)
+- [x] changer cmd.malloced par cmd.flags avec utilisations des bits au besoin (heredoc)

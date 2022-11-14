@@ -6,24 +6,11 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:02:06 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/11 00:43:33 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 18:37:01 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	malloc_cmds(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	cmd->malloced = 0x1;
-	while (cmd->cmd[i])
-	{
-		cmd->cmd[i] = ft_strdup(cmd->cmd[i]);
-		i++;
-	}
-}
 
 static int	interpret_var(char **s, int i, char **envp)
 {
@@ -67,8 +54,6 @@ static int	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
 
 void	interpret_vars(t_cmd *cmd, int i, int i_cmd, char **envp)
 {
-	if (!cmd->malloced)
-		malloc_cmds(cmd);
 	if (cmd->cmd[i_cmd][i + 1] == '?')
 		i = interpret_status(cmd, envp, i_cmd, i);
 	else
