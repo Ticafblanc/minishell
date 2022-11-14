@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/12 17:42:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 09:39:34 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ bool	search_files(t_cmd *cmd, int i_cmd)
 	struct dirent	*files;
 	char			flag;
 	char			*pattern;
+	char			*tmp;
 
 	pattern = cmd->cmd[i_cmd];
 	flag = 0x0;
@@ -49,8 +50,10 @@ bool	search_files(t_cmd *cmd, int i_cmd)
 		{
 			if (!flag)
 			{
+				tmp = cmd->cmd[i_cmd];
 				flag = 0x1;
 				cmd->cmd[i_cmd] = ft_strdup(files->d_name);
+				free_null(tmp);
 			}
 			else
 				push_tab(cmd->cmd, i_cmd, ft_strdup(files->d_name));
@@ -60,7 +63,6 @@ bool	search_files(t_cmd *cmd, int i_cmd)
 	closedir(dir);
 	if (!flag)
 		return (false);
-	cmd->malloced |= 0x1;
 	return (true);
 }
 

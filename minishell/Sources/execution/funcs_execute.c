@@ -6,13 +6,49 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/13 12:11:38 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 18:29:16 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	manage_args(t_cmd *cmd, char **envp);
+void	free_next_cmds(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+	
+	if (!cmd->cmd)
+	{
+		if (cmd->infile != STDIN_FILENO)
+			close(cmd->infile);
+		if (cmd->outfile != STDOUT_FILENO)
+			close(cmd->outfile);
+		tmp = cmd;
+		cmd = tmp->next;
+		free_null(tmp);
+	}
+	while(cmd && (cmd->ctrl_op == PIPE || !cmd->next))
+	{
+		if (cmd->infile != STDIN_FILENO)
+			close(cmd->infile);
+		if (cmd->outfile != STDOUT_FILENO)
+			close(cmd->outfile);	
+		free(cmd->cmd);
+		tmp = cmd;
+		cmd = cmd->next;
+		free_null(tmp);
+	}
+}
+
+
+void	free_current_cmd_next(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	free_null(cmd);
+	cmd = cmd->next;
+	free_null(tmp);
+}
 
 static void	child_process(t_cmd *cmd, char **envp)
 {
@@ -27,26 +63,23 @@ static void	child_process(t_cmd *cmd, char **envp)
 		cmd->cmd[0] = ft_strdup("minishell");
 		cmd->cmd[1] = ft_strdup("-c");
 		cmd->cmd[3] = NULL;
-		cmd->malloced |= 0x1;
 	}
-	manage_args(cmd, envp);
-	if (*cmd->cmd[0] == '/' || *cmd->cmd[0] == '.' || *cmd->cmd[0] == '~')
-		cmd->path = cmd->cmd[0];
 	else
-	{
+		manage_args(cmd, envp);
+	if (*cmd->cmd[0] == '/' || *cmd->cmd[0] == '.' || *cmd->cmd[0] == '~')
+		cmd->path = ft_strdup(cmd->cmd[0]);
+	else
 		cmd->path = find_path(cmd->cmd[0], envp);
-		cmd->malloced |= 0x2;
-	}
 	execve(cmd->path, cmd->cmd, envp);
 	stat = perror_minishell(NCMD, cmd->cmd[0]);
-	if (cmd->malloced & 0x1)
-		ft_free_pp((void **)cmd->cmd);
-	else
-		free(cmd->cmd);
-	if (cmd->malloced & 0x2)
-		free ( cmd->path);
+	ft_free_pp((void **)cmd->cmd);
+	free_null(cmd->path);
+	cmd->cmd = NULL;
+	free_next_cmds(cmd);
 	exit(stat);
 }
+
+
 
 void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
@@ -61,12 +94,12 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 			switch_streams(cmd->fd[0], cmd->fd[1], STDOUT_FILENO);
 		dup_file(cmd);
 		child_process(cmd, envp);
+		// EXIT in child process
 	}
 	if (cmd->infile != STDIN_FILENO)
 		close(cmd->infile);
 	if (cmd->outfile != STDOUT_FILENO)
 		close(cmd->outfile);
-	// free(cmd->cmd);
 	waitpid(cmd->pid, get_status(), options);
 }
 
@@ -99,23 +132,9 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 		pipe_loop(&cmd, &envp);
 		if (!exec_builtins(cmd, &envp, CHILD))
 			exec_cmd(cmd, envp, 0);
-		wait_cmd(t_cmd, PIPE);
+		free_next_cmds(t_cmd);
 		exit(*get_status());
 	}
-	while(t_cmd->ctrl_op == PIPE)
-	{
-		if (t_cmd->infile != STDIN_FILENO)
-			close(t_cmd->infile);
-		if (t_cmd->outfile != STDOUT_FILENO)
-			close(t_cmd->outfile);	
-		free(t_cmd->cmd);
-		t_cmd = t_cmd->next;
-	}
-	if (t_cmd->infile != STDIN_FILENO)
-		close(t_cmd->infile);
-	if (t_cmd->outfile != STDOUT_FILENO)
-		close(t_cmd->outfile);
-	free(t_cmd->cmd);
 	waitpid(pid, get_status(), 0);
 	return (1);
 }

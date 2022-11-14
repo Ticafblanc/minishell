@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/13 22:08:30 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 18:17:31 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_link(t_cmd *new)
 	new->fd[STDOUT_FILENO] = STDOUT_FILENO;
 	new->malloced = 0x0;
 	new->next = NULL;
+	new->pid = -2;
 }
 
 t_cmd	*ft_mlstadd(t_cmd *cmd)

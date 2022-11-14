@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 17:30:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/12 17:38:45 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 12:59:54 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	manage_args(t_cmd *cmd, char **envp)
 	i_cmd = 0;
 	while (cmd->cmd[i_cmd])
 	{
+		cmd->cmd[i_cmd] = ft_strdup(cmd->cmd[i_cmd]);
 		manage_arg(cmd, envp, i_cmd);
 		i_cmd++;
 	}

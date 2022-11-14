@@ -8,7 +8,8 @@
 - [x] erreur de message dans commande cd double ::
 - [x] mv *.txt tes/ ne fonctionne pas 
 - [ ] fd sortie de commande simple
-- [ ] revoir gestion des malloc/free pour les args!
+- [x] revoir gestion des malloc
+- [ ] free il reste un petit leak a trouver!
 - [x] autant de prompt que de minishell sur ctrl-c
 - [ ] `<<` without args token error to manage
 - [ ] changer cmd.malloced par cmd.flags avec utilisations des bits au besoin (cmd.cmd, cmd.path, heredoc)
