@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/14 18:29:16 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 23:03:58 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_next_cmds(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 	
-	if (!cmd->cmd)
+	if (cmd && !cmd->cmd)
 	{
 		if (cmd->infile != STDIN_FILENO)
 			close(cmd->infile);
@@ -83,6 +83,13 @@ static void	child_process(t_cmd *cmd, char **envp)
 
 void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
+	if (cmd->flag & 0x2)
+	{
+		switch_streams(cmd->fd[0], cmd->fd[1], STDOUT_FILENO);
+		dup_file(cmd);
+		printf("$$ %s\n", *cmd->cmd);
+		return ;
+	}
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		exit(perror_minishell(errno, "Fork child_process"));
@@ -107,6 +114,7 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 {
 	while ((*cmd)->ctrl_op == PIPE)
 	{
+		print_cmd(*cmd);
 		if (pipe((*cmd)->fd) == -1)
 			exit(perror_minishell(errno, "Pipe"));
 		if (!exec_builtins(*cmd, envp, CHILD))
@@ -130,6 +138,7 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 	if (!pid)
 	{
 		pipe_loop(&cmd, &envp);
+		print_cmd(cmd);
 		if (!exec_builtins(cmd, &envp, CHILD))
 			exec_cmd(cmd, envp, 0);
 		free_next_cmds(t_cmd);

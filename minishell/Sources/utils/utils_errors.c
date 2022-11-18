@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 02:32:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/02 09:18:01 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 21:57:35 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #define ERRNO_PRINT "minishell: %s: %s \n"
 #define NCMD_PRINT "minishell: %s: command not found\n"
 #define QNC_PRINT "minishell: syntax error `%c' not close\n"
-#define TOKERR_PRINT "minishell: syntax error near unexpected token `%s'\n"
+#define TOKERR_PRINT "minishell: syntax error near unexpected token `%c'\n"
 
 int	perror_minishell(int status, char *command)
 {
@@ -31,6 +31,6 @@ int	perror_minishell(int status, char *command)
 	else if (status == QNC)
 		dprintf (2, QNC_PRINT, *command);
 	else if (status == TOKENERR)
-		dprintf (2, TOKERR_PRINT, command);
+		dprintf (2, TOKERR_PRINT, *command);
 	return (status);
 }

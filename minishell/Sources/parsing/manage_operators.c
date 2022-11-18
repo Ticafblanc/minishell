@@ -35,7 +35,7 @@ static int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 
 static int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 {
-	if (**(*cmd)->cmd != **command && **command)
+	if (((*cmd)->flag & 0x2 || **(*cmd)->cmd != **command) && **command)
 	{
 		(*cmd)->ctrl_op = PIPE;
 		check_metacharacter(command, R_METACHARACTER);

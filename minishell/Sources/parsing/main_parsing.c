@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/14 18:39:31 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/14 22:58:02 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 		if (new->cmd)
 		{
 			init_link(new);
+			set_status(0);
 			if (cmd)
 				cmd->next = new;
 			return (new);
@@ -73,7 +74,7 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 	int		nb_word;
 
 	nb_word = 0;
-	while (!(get_value_status()))
+	while (!(get_value_status()) || t_cmd->flag & 0x2)
 	{
 		find_next_word(command, &nb_word, &t_cmd->cmd[nb_word]);
 		if (**command && ft_strchr(REDIR, **command))
@@ -97,9 +98,15 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 	save = ft_strdup(command);
 	parsing_loop(&command, *cmd, envp, &save);
 	wait_cmd(*cmd, HERE_DOC);
+	// print_cmds(*cmd);
 	add_history(save);
 	free(save);
 	if (get_value_status())
-		return (NULL);
+	{
+		free((*cmd)->cmd);
+		(*cmd)->cmd = NULL;
+		free((*cmd));
+		(*cmd) = NULL;
+	}	
 	return (*cmd);
 }
