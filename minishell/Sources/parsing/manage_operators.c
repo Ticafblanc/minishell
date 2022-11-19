@@ -40,9 +40,7 @@ static int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 		command[0][1] = '\0';
 		return (perror_minishell(TOKENERR, *command));
 	}
-	printf("word = %d \n", *nb_word);
 	(*cmd)->ctrl_op = PIPE;
-	printf("ctrl = %d \n", (*cmd)->ctrl_op);
 	check_metacharacter(command, R_METACHARACTER);
 	(*cmd) = ft_mlstadd(*cmd);
 	(*nb_word) = 0;
@@ -51,7 +49,6 @@ static int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 
 int	manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
-	printf("command %s\n", *command);
 	(void) envp;
 	if (**command == '\0')
 		return (0);
