@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/19 08:54:01 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:21:36 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 	if (!sequel)
 	{
 		dprintf(2, "bash: syntax error: unexpected end of file\n");
-		set_status(258);
+		set_status(TOKENERR);
 		return ;
 	}
 	*save = ft_strjoin(*save, sequel);

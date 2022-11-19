@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 08:53:36 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:47:27 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,11 @@ int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 	king = get_redir(command);
 	file = find_next_word_redir(command);
 	if (!file)
-		return (0);
+	{
+		if (king == HERE_DOC)
+			set_status(perror_minishell(TOKENERR, *command));
+		return (get_value_status());
+	}
 	if (*file != **command)
 	{
 		c = **command;

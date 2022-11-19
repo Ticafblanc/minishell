@@ -11,5 +11,5 @@
 - [x] revoir gestion des malloc
 - [x] free il reste un petit leak a trouver!
 - [x] autant de prompt que de minishell sur ctrl-c
-- [ ] `<<` without args token error to manage
+- [x] `<<` without args token error to manage
 - [x] changer cmd.malloced par cmd.flags avec utilisations des bits au besoin (heredoc)
