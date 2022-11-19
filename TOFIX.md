@@ -9,7 +9,7 @@
 - [x] mv *.txt tes/ ne fonctionne pas 
 - [ ] fd sortie de commande simple
 - [x] revoir gestion des malloc
-- [ ] free il reste un petit leak a trouver!
+- [x] free il reste un petit leak a trouver!
 - [x] autant de prompt que de minishell sur ctrl-c
 - [ ] `<<` without args token error to manage
 - [x] changer cmd.malloced par cmd.flags avec utilisations des bits au besoin (heredoc)

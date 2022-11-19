@@ -3,15 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/14 18:41:38 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 08:46:37 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	is_builtin(char *s)
+{
+	int			i;
+	static char	list[8][8]
+		= {"cd", "pwd", "env", "echo", "export", "unset", "exit"};
+
+	i = 0;
+	while (i < 7)
+	{
+		if (!strncmp(s, list[i], ft_str_len(list[i])))
+			return (true);
+		i++;
+	}
+	return (false);
+}
 
 //TODO Manage malloc -> strdup all tab at the begin of the manage_arg for
 // easier management of free
@@ -20,6 +35,8 @@ int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 	int	ret;
 	int	fd;
 
+	if (!is_builtin(cmd->cmd[0]))
+		return (0);
 	ret = 0;
 	fd = cmd->outfile;
 	if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
