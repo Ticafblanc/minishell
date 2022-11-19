@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 09:38:43 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:05:56 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_next_cmds(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 
-	if (!cmd->cmd)
+	if (cmd && !cmd->cmd)
 	{
 		if (cmd->infile != STDIN_FILENO)
 			close(cmd->infile);
