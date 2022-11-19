@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/14 09:39:34 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 09:33:41 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	search_files(t_cmd *cmd, int i_cmd)
 	char			*pattern;
 	char			*tmp;
 
-	pattern = cmd->cmd[i_cmd];
+	pattern = ft_strdup(cmd->cmd[i_cmd]);
 	flag = 0x0;
 	dir = opendir(getcwd(NULL, 0));
 	files = readdir(dir);
@@ -61,6 +61,7 @@ bool	search_files(t_cmd *cmd, int i_cmd)
 		files = readdir(dir);
 	}
 	closedir(dir);
+	free(pattern);
 	if (!flag)
 		return (false);
 	return (true);
