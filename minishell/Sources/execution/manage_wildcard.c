@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 16:54:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/19 09:33:41 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/19 09:36:39 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,27 @@ static void	push_tab(char **tab, int i, char *str)
 	}
 }
 
+void	add_file(char *flag, t_cmd *cmd, int i_cmd, struct dirent **files)
+{
+	char	*tmp;
+
+	if (!*flag)
+	{
+		tmp = cmd->cmd[i_cmd];
+		*flag = 0x1;
+		cmd->cmd[i_cmd] = ft_strdup((*files)->d_name);
+		free_null(tmp);
+	}
+	else
+		push_tab(cmd->cmd, i_cmd, ft_strdup((*files)->d_name));
+}
+
 bool	search_files(t_cmd *cmd, int i_cmd)
 {
 	DIR				*dir;
 	struct dirent	*files;
 	char			flag;
 	char			*pattern;
-	char			*tmp;
 
 	pattern = ft_strdup(cmd->cmd[i_cmd]);
 	flag = 0x0;
@@ -47,17 +61,7 @@ bool	search_files(t_cmd *cmd, int i_cmd)
 	while (files)
 	{
 		if (strmatch(files->d_name, pattern))
-		{
-			if (!flag)
-			{
-				tmp = cmd->cmd[i_cmd];
-				flag = 0x1;
-				cmd->cmd[i_cmd] = ft_strdup(files->d_name);
-				free_null(tmp);
-			}
-			else
-				push_tab(cmd->cmd, i_cmd, ft_strdup(files->d_name));
-		}
+			add_file(&flag, cmd, i_cmd, &files);
 		files = readdir(dir);
 	}
 	closedir(dir);

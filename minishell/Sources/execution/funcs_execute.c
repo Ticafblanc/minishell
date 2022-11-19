@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funcs_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/14 18:29:16 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 09:38:43 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_next_cmds(t_cmd *cmd)
 {
 	t_cmd	*tmp;
-	
+
 	if (!cmd->cmd)
 	{
 		if (cmd->infile != STDIN_FILENO)
@@ -26,28 +26,17 @@ void	free_next_cmds(t_cmd *cmd)
 		cmd = tmp->next;
 		free_null(tmp);
 	}
-	while(cmd && (cmd->ctrl_op == PIPE || !cmd->next))
+	while (cmd && (cmd->ctrl_op == PIPE || !cmd->next))
 	{
 		if (cmd->infile != STDIN_FILENO)
 			close(cmd->infile);
 		if (cmd->outfile != STDOUT_FILENO)
-			close(cmd->outfile);	
+			close(cmd->outfile);
 		free(cmd->cmd);
 		tmp = cmd;
 		cmd = cmd->next;
 		free_null(tmp);
 	}
-}
-
-
-void	free_current_cmd_next(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	tmp = cmd;
-	free_null(cmd);
-	cmd = cmd->next;
-	free_null(tmp);
 }
 
 static void	child_process(t_cmd *cmd, char **envp)
@@ -79,8 +68,6 @@ static void	child_process(t_cmd *cmd, char **envp)
 	exit(stat);
 }
 
-
-
 void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
 	cmd->pid = fork();
@@ -94,7 +81,6 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 			switch_streams(cmd->fd[0], cmd->fd[1], STDOUT_FILENO);
 		dup_file(cmd);
 		child_process(cmd, envp);
-		// EXIT in child process
 	}
 	if (cmd->infile != STDIN_FILENO)
 		close(cmd->infile);

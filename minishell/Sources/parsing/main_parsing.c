@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/14 18:39:31 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 08:54:01 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 			manage_ope(command, &t_cmd, &nb_word, envp);
 		else if (**command && ft_strchr(BRACES, **command))
 			manage_braces(command, &t_cmd, &nb_word, envp);
-		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & FLAG_HEREDOC))
+		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD))
 			get_sequel(save, t_cmd, envp);
 		else if (**command == '\0')
-			break;
+			break ;
 	}
 }
 
