@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/13 20:28:33 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 12:12:57 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ static void	minishell_loop(char ***envp)
 	}
 }
 
-/*
-TOTALK : this line never happens!
-if (init(&envp))
-	exit(perror_minishell(errno, "minishell:"));
-*/
 int	main(int argc, char **argv, char **envp)
 {
 	if (!envp || !(*envp))
@@ -45,12 +40,9 @@ int	main(int argc, char **argv, char **envp)
 		printf("minshell: minishell can't be launch without environement\n");
 		return (EXIT_SUCCESS);
 	}
+	init(&envp);
 	if (argc == 1)
-	{
-		if (init(&envp))
-			exit(perror_minishell(errno, "minishell:"));
 		minishell_loop(&envp);
-	}
 	else if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)
 		exit(execute(argv[2], &envp));
 	dprintf(2, "minshell: %s: invalid option\n"
