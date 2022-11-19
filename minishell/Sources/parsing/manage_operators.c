@@ -35,22 +35,23 @@ static int	parsing_and_or(char **command, t_cmd **cmd, int *nb_word)
 
 static int	parsing_pipe(char **command, t_cmd **cmd, int *nb_word)
 {
-	if (**(*cmd)->cmd != **command && **command)
+	if (*nb_word && **(*cmd)->cmd == **command && **command)
 	{
-		(*cmd)->ctrl_op = PIPE;
-		check_metacharacter(command, R_METACHARACTER);
-		(*cmd) = ft_mlstadd(*cmd);
-		(*nb_word) = 0;
-		return (0);
+		command[0][1] = '\0';
+		return (perror_minishell(TOKENERR, *command));
 	}
-	command[0][1] = '\0';
-	return (perror_minishell(TOKENERR, *command));
+	printf("word = %d \n", *nb_word);
+	(*cmd)->ctrl_op = PIPE;
+	printf("ctrl = %d \n", (*cmd)->ctrl_op);
+	check_metacharacter(command, R_METACHARACTER);
+	(*cmd) = ft_mlstadd(*cmd);
+	(*nb_word) = 0;
+	return (0);
 }
 
-// command[0][1] = '\0'; // TODO? why? if & alone?
-// 	if (ft_strncmp(*command, "||", 2) || ft_strncmp(*command, "&&", 2)) ???
 int	manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp)
 {
+	printf("command %s\n", *command);
 	(void) envp;
 	if (**command == '\0')
 		return (0);

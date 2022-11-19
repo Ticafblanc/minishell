@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/14 17:19:26 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 14:53:45 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	execute(char *command, char ***envp)
 	r_cmd = parsing(command, &cmd, *envp);
 	while (cmd)
 	{
-		if (ft_strlen(*cmd->cmd) && exec_pipe(cmd, *envp))
+		if (exec_pipe(cmd, *envp))
 			while (cmd->ctrl_op == PIPE)
 				cmd = cmd->next;
 		else if (_continue(cmd, envp, ctrl))
