@@ -33,9 +33,9 @@
 - [x] signal ne fonctionne pas non plus manage sequel
 - [x] mettre manage sequel similaire au heredoc (en child process)
 - [x] `unset /dasa`
+- [x] `cd` without arguments back to home
 
 ### Builtins
-- [ ] `cd` without arguments back to home
 
 ### Generalités
 - [ ] gestion error redirection a revoir 
