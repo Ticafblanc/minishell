@@ -29,9 +29,6 @@ void	free_next_cmds(t_cmd *cmd)
 		cmd = cmd->next;
 		free_null(tmp);
 	}
-	// close(STDIN_FILENO);
-	// close(STDOUT_FILENO);
-	// waitpid(cmd->pid, get_status(), 0);
 }
 
 static void	child_process(t_cmd *cmd, char **envp)
@@ -73,7 +70,6 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 			exit(perror_minishell(errno, "Fork child_process"));
 		if (!cmd->pid)
 		{
-			print_cmd(cmd);
 			if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
 				switch_streams(cmd->fd[0], cmd->fd[1], STDOUT_FILENO);
 			dup_file(cmd);
@@ -115,7 +111,8 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 	{
 		pipe_loop(&cmd, &envp);
 		if (!exec_builtins(cmd, &envp, CHILD))
-			exec_cmd(cmd, envp, 0);
+			exec_cmd(cmd, envp, WNOHANG);
+		wait_pipe(t_cmd);
 		free_next_cmds(t_cmd);
 		exit(*get_status());
 	}

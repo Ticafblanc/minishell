@@ -1,7 +1,12 @@
-s = Makefile
-str = cat 
-str = cat Makefile
-str = cat Makefile
+
+Command to execute: minishell -c cat Makefile
+(null)
+	ctrl_op: 1
+	pid: 0
+	infile: 0
+	outfile: 3
+	path: /Users/mdoquocb/Desktop/minishell/minishell/Bin/minishell
+
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -241,4 +246,3 @@ ifeq ($(VERBOSE),TRUE)
 else
     HIDE = @
 endif
-coucouc

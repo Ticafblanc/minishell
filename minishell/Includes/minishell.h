@@ -142,6 +142,7 @@ int		exec_export(char *pathname, char **args, char ***envp, int fd);
 int		exec_env(char **envp, int fd);
 
 /* utils_env */
+void	wait_pipe(t_cmd *cmd);
 void	envp_set_line(char ***envp, char *value, char *name);
 char	*get_name(char *env_line);
 char	*get_value(char *env_line);
