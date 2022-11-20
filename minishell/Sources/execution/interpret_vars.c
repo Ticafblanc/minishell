@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:02:06 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/14 18:37:01 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/20 06:56:48 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
 	(void)envp;
 	cmd->cmd[i][i_s] = '\0';
 	tmp1 = ft_strjoin(cmd->cmd[i], ft_itoa(*last_status()));
-	cmd->cmd[i] = ft_strjoin(tmp1, &cmd->cmd[i][i_s]);
+	cmd->cmd[i] = ft_strjoin(tmp1, &cmd->cmd[i][i_s + 2]);
 	free_null(tmp1);
 	return (EXIT_SUCCESS);
 }

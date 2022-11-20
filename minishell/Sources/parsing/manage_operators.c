@@ -54,10 +54,10 @@ int	manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp)
 		return (0);
 	if (check_metacharacter(command, R_INVISIBLE))
 		return (0);
-	if ((command[0][0] == '|' && command[0][1] == '|')
-		|| (command[0][0] == '&' && command[0][1] == '&'))
+	if (((command[0][0] == '|' && command[0][1] == '|')
+		|| (command[0][0] == '&' && command[0][1] == '&')) && *nb_word)
 		return (parsing_and_or(command, cmd, nb_word));
-	else if (**command == '|')
+	else if (**command == '|' && *nb_word)
 		return (parsing_pipe(command, cmd, nb_word));
 	else
 		command[0][1] = '\0';
