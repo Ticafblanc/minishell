@@ -17,6 +17,8 @@
 - [x] <<e cat >te ne fonctionne pas quitte ...
 - [x] prend les commande vide .
 - [x] $?+$? ne fonctione pas 
+- [x] `|` ouverture heredoc >>error 
+- [x] `||` segfault
 
 ### Builtins
 - [ ] unset une fausse variable segfault
@@ -25,8 +27,6 @@
 ### Generalités
 - [ ] <> error 
 - [ ] gestion error redirection a revoir 
-- [ ] `|` ouverture heredoc >>error 
-- [ ] `||` segfault
 - [ ] env disparait au fur et a mesure de l'utilisation
 - [x] ' single qoute lance une commande 
 - [ ] norminette
