@@ -25,6 +25,7 @@
 - [x] cd "" error
 - [x] unset une fausse variable segfault
 - [x] env disparait au fur et a mesure de l'utilisation
+- [x] brace non fonctionnel (ls)&&ls 
 
 ### Builtins
 
@@ -34,7 +35,6 @@
 
 ## BONUS
 - [ ] brace non fonctionnele avec un pipe
-- [ ] brace non fonctionnel (ls)&&ls 
 
 ## EXTRA
 - [ ] fd open manage sequel
