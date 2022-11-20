@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/21 23:09:00 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 08:53:48 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define REDIR "<>"
 # define OPERATOR "|&"
 # define BRACES "()"
+# define F_HD 0x1
 
 enum	e_status
 {
@@ -77,8 +78,9 @@ typedef struct s_cmd
 {
 	int				ctrl_op;
 	pid_t			pid;
-	int 			fd[2];
+	int				fd[2];
 	char			**cmd;
+	char			flag;
 	char			*path;
 	int				infile;
 	int				outfile;
@@ -97,6 +99,7 @@ int		*last_status(void);
 /* handle_signals */
 void	handle_prompt(int signum);
 void	handle_exec(int sig_num);
+void	handle_exe(int sig_num);
 
 /* parsing */
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp);
@@ -104,8 +107,10 @@ t_cmd	*ft_mlstadd(t_cmd *cmd);
 int		manage_redir(char **command, t_cmd *cmd, int *nb_word);
 int		manage_ope(char **command, t_cmd **cmd, int *nb_word, char **envp);
 int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
-char	**manage_var(t_cmd *cmd, char **envp);
+void	manage_args(t_cmd *cmd, char **envp);
 void	manage_wildcard(t_cmd *cmd);
+bool	search_files(t_cmd *cmd, int i_cmd);
+void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save);
 
 /* utils parsing */
 bool	strmatch(char *str, char *pattern);
@@ -118,6 +123,7 @@ char	*remove_quote(char *command);
 int		execute(char *command, char ***envp);
 int		exec_pipe(t_cmd *cmd, char **envp);
 void	exec_cmd(t_cmd *cmd, char **envp, int options);
+void	interpret_vars(t_cmd *cmd, int i, int i_cmd, char **envp);
 
 /* utils execute */
 void	switch_streams(int toclose, int oldfd, int newfd);
@@ -126,21 +132,22 @@ void	wait_cmd(t_cmd *cmd, int ctrl_op);
 
 /* builtins.c */
 int		exec_builtins(t_cmd *cmd, char ***envp, int process);
-int		exec_pwd(void);
+int		exec_pwd(int fd);
 int		exec_cd(char *dir, char ***envp);
 int		exec_unset(t_cmd *cmd, char ***envp);
-int		exec_echo(t_cmd *cmd);
-void	exec_exit(int process, char ***envp);
-int		exec_export(char *pathname, char **args, char ***envp);
-int		exec_env(char **envp);
+int		exec_echo(t_cmd *cmd, int fd);
+int		exec_exit(int process, char ***envp, char **cmd);
+int		exec_export(char *pathname, char **args, char ***envp, int fd);
+int		exec_env(char **envp, int fd);
 
 /* utils_env */
+void	wait_pipe(t_cmd *cmd);
 void	envp_set_line(char ***envp, char *value, char *name);
 char	*get_name(char *env_line);
 char	*get_value(char *env_line);
 int		is_name_in_line(char *envline, char *name);
 int		is_name_in_envp(char **envp, char *name);
-void	put_envp(char *prefix, char **envp);
+void	put_envp(char *prefix, char **envp, int fd);
 char	*find_path(char *cmd, char **envp);
 
 /* utils error */

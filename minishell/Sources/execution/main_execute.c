@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 22:04:44 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 14:53:45 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 /*
 	ls|wc|cat Makefile|wc>fileer|ls
 */
+
+void	free_next_cmds(t_cmd *cmd);
+
 int	execute(char *command, char ***envp)
 {
 	t_cmd	*cmd;
@@ -34,9 +37,9 @@ int	execute(char *command, char ***envp)
 	ctrl = END;
 	set_status(0);
 	r_cmd = parsing(command, &cmd, *envp);
-	while (r_cmd && cmd)
+	while (cmd)
 	{
-		if (ft_strlen(*cmd->cmd) && exec_pipe(cmd, *envp))
+		if (exec_pipe(cmd, *envp))
 			while (cmd->ctrl_op == PIPE)
 				cmd = cmd->next;
 		else if (_continue(cmd, envp, ctrl))
@@ -44,8 +47,6 @@ int	execute(char *command, char ***envp)
 		ctrl = cmd->ctrl_op;
 		cmd = cmd->next;
 	}
-	if (r_cmd)
-		cmd = r_cmd;
-	free_cmd(cmd);
+	free_next_cmds(r_cmd);
 	return (get_value_status());
 }

@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:10:51 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 23:16:50 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 22:53:46 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int static	set_flag(char *flags)
+static int	set_flag(char *flags)
 {
 	int	i;
 
@@ -27,24 +27,24 @@ int static	set_flag(char *flags)
 	return (0);
 }
 
-int	exec_echo(t_cmd *cmd)
+int	exec_echo(t_cmd *cmd, int fd)
 {
 	int		flag_n;
 	int		i;
 
 	i = 0;
 	flag_n = 1;
-	if (cmd->cmd[1][i] == '-')
+	if (cmd->cmd[1] && cmd->cmd[1][i] == '-')
 		flag_n = set_flag(cmd->cmd[1]);
 	i++;
 	if (!flag_n)
 		i++;
 	while (cmd->cmd[i])
 	{
-		write(1, remove_quote(cmd->cmd[i]), ft_str_len(cmd->cmd[i]));
+		write(fd, cmd->cmd[i], ft_str_len(cmd->cmd[i]));
 		if (cmd->cmd[++i])
-			write(1, " ", 1);
+			write(fd, " ", 1);
 	}
-	write(1, "\n", flag_n);
+	write(fd, "\n", flag_n);
 	return (1);
 }

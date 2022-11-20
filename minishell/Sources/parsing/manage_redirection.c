@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   manage_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/10/21 23:07:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/19 12:59:16 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int static	check_limiter(int fd[2], char *limiter)
+static int	check_limiter(int fd[2], char *limiter)
 {
 	char	*line;
 
@@ -35,7 +35,7 @@ int static	check_limiter(int fd[2], char *limiter)
 	exit(EXIT_SUCCESS);
 }
 
-int	static	here_doc(t_cmd *cmd, char *limiter)
+static int	here_doc(t_cmd *cmd, char *limiter)
 {
 	int		fd[2];
 
@@ -57,7 +57,7 @@ int	static	here_doc(t_cmd *cmd, char *limiter)
 	return (-1);
 }
 
-int static	get_redir(char **command)
+static int	get_redir(char **command)
 {
 	if (**command == '<')
 	{
@@ -84,8 +84,12 @@ int static	get_redir(char **command)
 	return (-1);
 }
 
-void static	set_redir(int king, char *file, t_cmd *cmd)
+static void	set_redir(int king, char *file, t_cmd *cmd, char **command)
 {
+	char	c;
+
+	c = **command;
+	**command = '\0';
 	if (king == INFILE)
 		cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
 	else if (king == OUTFILE)
@@ -98,25 +102,28 @@ void static	set_redir(int king, char *file, t_cmd *cmd)
 		cmd->infile = here_doc(cmd, remove_quote(file));
 	if (cmd->infile == -1 || cmd->outfile == -1)
 		set_status(perror_minishell(errno, file));
+	**command = c;
 }
 
 int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 {
 	int		king;
 	char	*file;
-	char	c;
 
 	king = get_redir(command);
 	file = find_next_word_redir(command);
 	if (!file)
-		return (0);
+	{
+		if (king == HERE_DOC)
+			set_status(perror_minishell(TOKENERR, *command));
+		return (get_value_status());
+	}
 	if (*file != **command)
 	{
-		c = **command;
-		**command = '\0';
-		set_redir(king, file, cmd);
-		**command = c;
-		(*nb_word)--;
+		set_redir(king, file, cmd, command);
+		if (*nb_word > 0)
+			(*nb_word)--;
+		cmd->flag |= F_HD;
 		return (get_value_status());
 	}
 	command[0][1] = '\0';

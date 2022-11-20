@@ -6,13 +6,13 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 16:33:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/22 19:11:02 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/11 22:54:49 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int static	**init_matrix_tab(int len_str, int len_pat)
+static int	**init_matrix_tab(int len_str, int len_pat)
 {
 	int	i_str;
 	int	i_pat;
@@ -33,7 +33,7 @@ int static	**init_matrix_tab(int len_str, int len_pat)
 	return (tab);
 }
 
-void static	set_first_line(int len_str, int len_pat, char *pattern, int **tab)
+static void	set_first_line(int len_str, int len_pat, char *pattern, int **tab)
 {
 	int	i;
 
@@ -46,7 +46,7 @@ void static	set_first_line(int len_str, int len_pat, char *pattern, int **tab)
 	}
 }
 
-void static	set_all_tab(char *pattern, char *str, int **tab)
+static void	set_all_tab(char *pattern, char *str, int **tab)
 {
 	int	c;
 	int	r;
@@ -75,7 +75,7 @@ void static	set_all_tab(char *pattern, char *str, int **tab)
 	}
 }
 
-void static	free_tab_int(int **tab, int len)
+static void	free_tab_int(int **tab, int len)
 {
 	while (len)
 		free(tab[--len]);
@@ -91,7 +91,6 @@ bool	strmatch(char *str, char *pattern)
 	int		len_pat;
 	int		**tab;
 	bool	ret;
-//	int		i;
 
 	if (str[0] == '.' && pattern[0] != '.')
 		return (false);

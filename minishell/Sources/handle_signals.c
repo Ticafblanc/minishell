@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:26:31 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/14 16:27:13 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/02 19:22:09 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ void	handle_prompt(int sig_num)
 void	handle_exec(int sig_num)
 {
 	if (sig_num == SIGINT)
-		exit(EXIT_FAILURE);
+	close(STDOUT_FILENO);
+	close(STDIN_FILENO);
+	exit(EXIT_FAILURE);
+}
+
+void	handle_exe(int sig_num)
+{
+  if(sig_num == SIGINT)
+	  printf("\n");
+	else
+	  printf("Quit: 3\n");
 }
 

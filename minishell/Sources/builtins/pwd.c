@@ -6,18 +6,18 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:07:38 by tonted            #+#    #+#             */
-/*   Updated: 2022/09/11 09:08:17 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/10 11:03:21 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_pwd(void)
+int	exec_pwd(int fd)
 {
 	char	*buf;
 
 	buf = getcwd(NULL, 0);
-	printf("%s\n", buf);
+	dprintf(fd, "%s\n", buf);
 	free(buf);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:50:45 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/09 04:51:26 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/10 11:07:25 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	is_name_in_envp(char **envp, char *name)
 	return (-1);
 }
 
-void	put_envp(char *prefix, char **envp)
+void	put_envp(char *prefix, char **envp, int fd)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
-		printf("%s%s\n", prefix, envp[i++]);
+		dprintf(fd, "%s%s\n", prefix, envp[i++]);
 }
 
 // TODO si PATH n'existes pas?
