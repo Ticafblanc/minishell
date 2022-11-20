@@ -6,35 +6,16 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 15:04:22 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 12:22:23 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	free_next_cmds(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	if (cmd && !cmd->cmd)
-	{
-		tmp = cmd;
-		cmd = tmp->next;
-		free_null(tmp);
-	}
-	while (cmd && (cmd->ctrl_op == PIPE || !cmd->next))
-	{
-		free(cmd->cmd);
-		tmp = cmd;
-		cmd = cmd->next;
-		free_null(tmp);
-	}
-}
-
 static void	child_process(t_cmd *cmd, char **envp)
 {
 	int	stat;
-	
+
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		if (cmd->ctrl_op == PIPE)
@@ -101,7 +82,7 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 {
 	t_cmd	*t_cmd;
 	pid_t	pid;
-	
+
 	if (cmd->ctrl_op != PIPE)
 		return (0);
 	pid = fork();
@@ -117,7 +98,7 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 		exit(*get_status());
 	}
 	waitpid(pid, get_status(), 0);
-	while(t_cmd->ctrl_op == PIPE)
+	while (t_cmd->ctrl_op == PIPE)
 	{
 		if (cmd->infile != STDIN_FILENO)
 			close(cmd->infile);
