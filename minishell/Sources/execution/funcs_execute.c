@@ -34,6 +34,7 @@ void	free_next_cmds(t_cmd *cmd)
 static void	child_process(t_cmd *cmd, char **envp)
 {
 	int	stat;
+	
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		if (cmd->ctrl_op == PIPE)
@@ -100,7 +101,7 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 {
 	t_cmd	*t_cmd;
 	pid_t	pid;
-
+	
 	if (cmd->ctrl_op != PIPE)
 		return (0);
 	pid = fork();
@@ -111,11 +112,22 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 	{
 		pipe_loop(&cmd, &envp);
 		if (!exec_builtins(cmd, &envp, CHILD))
-			exec_cmd(cmd, envp, WNOHANG);
-		wait_pipe(t_cmd);
+			exec_cmd(cmd, envp, 0);
 		free_next_cmds(t_cmd);
 		exit(*get_status());
 	}
 	waitpid(pid, get_status(), 0);
+	while(t_cmd->ctrl_op == PIPE)
+	{
+		if (cmd->infile != STDIN_FILENO)
+			close(cmd->infile);
+		if (cmd->outfile != STDOUT_FILENO)
+			close(cmd->outfile);
+		t_cmd = t_cmd->next;
+	}
+	if (cmd->infile != STDIN_FILENO)
+		close(cmd->infile);
+	if (cmd->outfile != STDOUT_FILENO)
+		close(cmd->outfile);
 	return (1);
 }

@@ -1,3 +1,12 @@
+
+Command to execute: minishell -c cat Makefile
+(null)
+	ctrl_op: 1
+	pid: 0
+	infile: 0
+	outfile: 3
+	path: /Users/mdoquocb/Desktop/minishell/minishell/Bin/minishell
+
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -114,11 +123,11 @@ directory:
 
 #   LAUNCH	#
 run: re
-		@ $(LEAKS) ./Bin/minishell
+		@./Bin/minishell
 
 val: re
 		@read -p "command : " INP\
-			&& $(LEAKS) ./Bin/minishell -c "$$INP"
+			&& ./Bin/minishell -c "$$INP"
 
 
 #  NORMINETTE  #

@@ -26,8 +26,6 @@ static void	minishell_loop(char ***envp)
 		signal(SIGINT, SIG_IGN);
 		if (*command != '\0')
 			execute(command, envp);
-		else
-			add_history(command);
 		free_null((void *)command);
 		*last_status() = get_value_status();
 	}

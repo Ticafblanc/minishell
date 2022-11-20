@@ -14,25 +14,24 @@
 
 void	free_next_cmds(t_cmd *cmd);
 
-void	wait_pipe(t_cmd *cmd)
-{
-	while (cmd->ctrl_op == PIPE)
-	{
-	  printf("cmd = %s\n", *cmd->cmd);
-		if (cmd->fd[STDIN_FILENO] != STDIN_FILENO)
-			close(cmd->fd[STDIN_FILENO]);
-		if (cmd->fd[STDOUT_FILENO] != STDOUT_FILENO)
-			close(cmd->fd[STDOUT_FILENO]);
-	  //close(STDIN_FILENO);
-	  //close(STDOUT_FILENO);
-	  printf("cmd = %s\n", *cmd->cmd);
-		cmd = cmd->next;
-	}
-	//close(STDIN_FILENO);
-	//close(STDOUT_FILENO);
-	printf("cmd = %s\n", *cmd->cmd);
-	waitpid(cmd->pid, get_status(), 0);
-}
+// void	wait_pipe(t_cmd *cmd)
+// {
+//   // int status;
+//
+//   // close(STDOUT_FILENO);
+// 	while (cmd->ctrl_op == PIPE)
+// 	{
+//     // close(STDIN_FILENO);
+// 	  // printf("cmd = %s\n", *cmd->cmd);
+// 	  // close(cmd->fd[0]);
+// 	  // waitpid(cmd->pid, &status, 0);
+// 	  // if (WIFEXITED(status) == false)
+// 	  //   kill(cmd->pid, SIGKILL);
+// 		cmd = cmd->next;
+// 	}
+// 	printf("cmd = %s\n", *cmd->cmd);
+// 	// waitpid(cmd->pid, get_status(), 0);
+// }
 
 void	wait_cmd(t_cmd *cmd, int ctrl_op)
 {
