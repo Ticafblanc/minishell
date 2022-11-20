@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:09:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 12:35:38 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 12:51:04 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	envp_remove_line(char ***envp, char *name)
 	int		i_new;
 	char	**new;
 
-	if (is_name_inew((*envp), name) >= 0)
+	if (is_name_in_envp((*envp), name) >= 0)
 	{
 		new = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)(*envp))));
 		if (!new)
