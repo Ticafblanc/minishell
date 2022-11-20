@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:09:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 12:51:04 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 13:48:52 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,14 @@ int	exec_unset(t_cmd *cmd, char ***envp)
 	i_arg = 1;
 	while (cmd->cmd[i_arg])
 	{
-		envp_remove_line(envp, cmd->cmd[i_arg]);
+		if (!ft_isalnum(cmd->cmd[i_arg][0]))
+		{
+			dprintf(2, "minishell: export: `%c': not a valid identifier\n",
+				cmd->cmd[i_arg][0]);
+			set_status(TOKENERR);
+		}
+		else
+			envp_remove_line(envp, cmd->cmd[i_arg]);
 		i_arg++;
 	}
 	return (1);

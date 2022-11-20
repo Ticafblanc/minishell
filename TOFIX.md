@@ -29,9 +29,13 @@
 - [x] HERE doc with first set write equal limeter close heredoc if string is long
 - [x] brace non fonctionnele avec un pipe
 - [x] export test = test
+- [x] fd open manage sequel
+- [x] signal ne fonctionne pas non plus manage sequel
+- [x] mettre manage sequel similaire au heredoc (en child process)
+- [x] `unset /dasa`
 
 ### Builtins
-- [ ] `unset /dasa`
+- [ ] `cd` without arguments back to home
 
 ### Generalités
 - [ ] gestion error redirection a revoir 
@@ -40,9 +44,6 @@
 ## BONUS
 
 ## EXTRA
-- [ ] fd open manage sequel
-- [ ] signal ne fonctionne pas non plus manage sequel
-- [ ] mettre manage sequel similaire au heredoc (en child process)
 
 ## TOTALK
 
