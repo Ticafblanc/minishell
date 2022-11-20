@@ -19,7 +19,7 @@
 - [ ] fd open manage sequel
 - [ ] signal ne fonctionne pas non plus manage sequel
 - [ ] mettre manage sequel similaire au heredoc (en child process)
-- [ ] $?+$? ne fonctione pas 
+- [x] $?+$? ne fonctione pas 
 - [ ] cat Makefile '|ls lance une commande au lieu de la skip error tok quote not close 
 - [ ] ' single qoute lance une commande 
 - [ ] unset une fausse variable segfault
