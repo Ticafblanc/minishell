@@ -26,6 +26,7 @@
 - [x] unset une fausse variable segfault
 - [x] env disparait au fur et a mesure de l'utilisation
 - [x] brace non fonctionnel (ls)&&ls 
+- [x] HERE doc with first set write equal limeter close heredoc if string is long
 
 ### Builtins
 
