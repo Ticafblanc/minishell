@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env_line.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 07:10:34 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/11 23:00:37 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/20 12:49:52 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ char	*get_name(char *env_line)
 	while (env_line[i])
 	{
 		if (env_line[i] == '=')
+		{
 			env_line[i] = '\0';
+			return (env_line);
+		}
 		i++;
 	}
-	return (env_line);
+	return (NULL);
 }
 
 char	*get_value(char *env_line)
@@ -65,6 +68,8 @@ void	envp_set_line(char ***envp, char *value, char *name)
 	int		i_name;
 
 	(void) envp;
+	if (!name)
+		return ;
 	line = build_envp_line(name, value);
 	i_name = is_name_in_envp(*envp, name);
 	if (i_name == -1)

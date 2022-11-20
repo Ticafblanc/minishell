@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 12:30:50 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 13:02:21 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 	sequel = readline("> ");
 	if (!sequel)
 	{
-		dprintf(2, "bash: syntax error: unexpected end of file\n");
+		dprintf(2, "minishell: syntax error: unexpected end of file\n");
 		set_status(TOKENERR);
 		return ;
 	}

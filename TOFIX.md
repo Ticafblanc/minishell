@@ -27,15 +27,17 @@
 - [x] env disparait au fur et a mesure de l'utilisation
 - [x] brace non fonctionnel (ls)&&ls 
 - [x] HERE doc with first set write equal limeter close heredoc if string is long
+- [x] brace non fonctionnele avec un pipe
+- [x] export test = test
 
 ### Builtins
+- [ ] `unset /dasa`
 
 ### Generalités
 - [ ] gestion error redirection a revoir 
 - [ ] norminette
 
 ## BONUS
-- [ ] brace non fonctionnele avec un pipe
 
 ## EXTRA
 - [ ] fd open manage sequel
