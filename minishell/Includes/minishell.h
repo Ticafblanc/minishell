@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/20 12:22:52 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 14:48:54 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define OPERATOR "|&"
 # define BRACES "()"
 # define F_HD 0x1
+# define F_FIRST 0x2
 
 enum	e_status
 {

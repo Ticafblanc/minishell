@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/20 12:04:11 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 14:20:31 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ static int	here_doc(t_cmd *cmd, char *limiter)
 				signal(SIGINT, handle_exec);
 				close(fd[STDIN_FILENO]);
 				check_limiter(fd, limiter);
+				exit(EXIT_SUCCESS);
 			}
 		}
 		close(fd[STDOUT_FILENO]);
+		waitpid(cmd->pid, get_status(), 0);
 		return (fd[STDIN_FILENO]);
 	}
 	return (-1);

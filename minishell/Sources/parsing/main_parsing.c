@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 13:44:25 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 14:52:36 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 			manage_ope(command, &t_cmd, &nb_word, envp);
 		else if (**command && ft_strchr(BRACES, **command))
 			manage_braces(command, &t_cmd, &nb_word, envp);
-		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD))
+		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD) && !(t_cmd->flag & F_FIRST))
 			get_sequel(save, t_cmd, envp);
 		else if (**command == '\0')
 			break ;
@@ -84,7 +84,6 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 	*cmd = ft_mlstadd((*cmd));
 	save = ft_strdup(command);
 	parsing_loop(&command, *cmd, envp, &save);
-	wait_cmd(*cmd, HERE_DOC);
 	add_history(save);
 	free(save);
 	if (get_value_status())
