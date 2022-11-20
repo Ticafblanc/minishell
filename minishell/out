@@ -114,7 +114,7 @@ directory:
 
 #   LAUNCH	#
 run: re
-		@ $(LEAKS) ./Bin/minishell
+		@./Bin/minishell
 
 val: re
 		@read -p "command : " INP\

@@ -114,11 +114,11 @@ directory:
 
 #   LAUNCH	#
 run: re
-		@ $(LEAKS) ./Bin/minishell
+		@./Bin/minishell
 
 val: re
 		@read -p "command : " INP\
-			&& $(LEAKS) ./Bin/minishell -c "$$INP"
+			&& ./Bin/minishell -c "$$INP"
 
 
 #  NORMINETTE  #

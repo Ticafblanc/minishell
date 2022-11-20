@@ -99,6 +99,7 @@ int		*last_status(void);
 /* handle_signals */
 void	handle_prompt(int signum);
 void	handle_exec(int sig_num);
+void	handle_exe(int sig_num);
 
 /* parsing */
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp);
@@ -140,6 +141,7 @@ int		exec_export(char *pathname, char **args, char ***envp, int fd);
 int		exec_env(char **envp, int fd);
 
 /* utils_env */
+void	wait_pipe(t_cmd *cmd);
 void	envp_set_line(char ***envp, char *value, char *name);
 char	*get_name(char *env_line);
 char	*get_value(char *env_line);

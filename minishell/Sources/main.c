@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 11:41:53 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/20 06:33:40 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ static void	minishell_loop(char ***envp)
 		signal(SIGINT, handle_prompt);
 		signal(SIGQUIT, SIG_IGN);
 		command = readline(PROMPT);
-		signal(SIGINT, SIG_IGN);
 		if (!command)
 			exit(exit_free_envp(envp));
+		signal(SIGINT, SIG_IGN);
 		if (*command != '\0')
 			execute(command, envp);
-		else
-			add_history(command);
 		free_null((void *)command);
 		*last_status() = get_value_status();
 	}
@@ -40,6 +38,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("minshell: minishell can't be launch without environement\n");
 		return (EXIT_SUCCESS);
 	}
+	init(&envp);
 	if (argc == 1)
 		minishell_loop(&envp);
 	else if (argc > 1 && ft_strncmp(argv[1], "-c", 2) == 0)

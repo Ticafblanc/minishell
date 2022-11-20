@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 08:53:36 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:59:16 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,12 @@ static int	get_redir(char **command)
 	return (-1);
 }
 
-static void	set_redir(int king, char *file, t_cmd *cmd)
+static void	set_redir(int king, char *file, t_cmd *cmd, char **command)
 {
+	char	c;
+
+	c = **command;
+	**command = '\0';
 	if (king == INFILE)
 		cmd->infile = open(remove_quote(file), O_RDONLY, 0777);
 	else if (king == OUTFILE)
@@ -98,24 +102,25 @@ static void	set_redir(int king, char *file, t_cmd *cmd)
 		cmd->infile = here_doc(cmd, remove_quote(file));
 	if (cmd->infile == -1 || cmd->outfile == -1)
 		set_status(perror_minishell(errno, file));
+	**command = c;
 }
 
 int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 {
 	int		king;
 	char	*file;
-	char	c;
 
 	king = get_redir(command);
 	file = find_next_word_redir(command);
 	if (!file)
-		return (0);
+	{
+		if (king == HERE_DOC)
+			set_status(perror_minishell(TOKENERR, *command));
+		return (get_value_status());
+	}
 	if (*file != **command)
 	{
-		c = **command;
-		**command = '\0';
-		set_redir(king, file, cmd);
-		**command = c;
+		set_redir(king, file, cmd, command);
 		if (*nb_word > 0)
 			(*nb_word)--;
 		cmd->flag |= F_HD;

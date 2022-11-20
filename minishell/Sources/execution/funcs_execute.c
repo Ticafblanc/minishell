@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 09:38:43 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/19 15:04:22 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,14 @@ void	free_next_cmds(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 
-	if (!cmd->cmd)
+	if (cmd && !cmd->cmd)
 	{
-		if (cmd->infile != STDIN_FILENO)
-			close(cmd->infile);
-		if (cmd->outfile != STDOUT_FILENO)
-			close(cmd->outfile);
 		tmp = cmd;
 		cmd = tmp->next;
 		free_null(tmp);
 	}
 	while (cmd && (cmd->ctrl_op == PIPE || !cmd->next))
 	{
-		if (cmd->infile != STDIN_FILENO)
-			close(cmd->infile);
-		if (cmd->outfile != STDOUT_FILENO)
-			close(cmd->outfile);
 		free(cmd->cmd);
 		tmp = cmd;
 		cmd = cmd->next;
@@ -42,7 +34,7 @@ void	free_next_cmds(t_cmd *cmd)
 static void	child_process(t_cmd *cmd, char **envp)
 {
 	int	stat;
-
+	
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		if (cmd->ctrl_op == PIPE)
@@ -70,23 +62,26 @@ static void	child_process(t_cmd *cmd, char **envp)
 
 void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
-	cmd->pid = fork();
-	if (cmd->pid == -1)
-		exit(perror_minishell(errno, "Fork child_process"));
-	if (!cmd->pid)
+	signal(SIGINT, handle_exe);
+	signal(SIGQUIT, handle_exe);
+	if (*cmd->cmd)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
-			switch_streams(cmd->fd[0], cmd->fd[1], STDOUT_FILENO);
-		dup_file(cmd);
-		child_process(cmd, envp);
+		cmd->pid = fork();
+		if (cmd->pid == -1)
+			exit(perror_minishell(errno, "Fork child_process"));
+		if (!cmd->pid)
+		{
+			if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
+				switch_streams(cmd->fd[0], cmd->fd[1], STDOUT_FILENO);
+			dup_file(cmd);
+			child_process(cmd, envp);
+		}
+		waitpid(cmd->pid, get_status(), options);
 	}
 	if (cmd->infile != STDIN_FILENO)
 		close(cmd->infile);
 	if (cmd->outfile != STDOUT_FILENO)
 		close(cmd->outfile);
-	waitpid(cmd->pid, get_status(), options);
 }
 
 static void	pipe_loop(t_cmd **cmd, char ***envp)
@@ -106,7 +101,7 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 {
 	t_cmd	*t_cmd;
 	pid_t	pid;
-
+	
 	if (cmd->ctrl_op != PIPE)
 		return (0);
 	pid = fork();
@@ -122,5 +117,17 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 		exit(*get_status());
 	}
 	waitpid(pid, get_status(), 0);
+	while(t_cmd->ctrl_op == PIPE)
+	{
+		if (cmd->infile != STDIN_FILENO)
+			close(cmd->infile);
+		if (cmd->outfile != STDOUT_FILENO)
+			close(cmd->outfile);
+		t_cmd = t_cmd->next;
+	}
+	if (cmd->infile != STDIN_FILENO)
+		close(cmd->infile);
+	if (cmd->outfile != STDOUT_FILENO)
+		close(cmd->outfile);
 	return (1);
 }
