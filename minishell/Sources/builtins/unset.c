@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:09:50 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 11:01:11 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 12:35:38 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,26 @@ void	envp_remove_line(char ***envp, char *name)
 {
 	int		i_old;
 	int		i_new;
-	char	**n_envp;
-	
-	if (is_name_in_envp((*envp), name) >= 0)
+	char	**new;
+
+	if (is_name_inew((*envp), name) >= 0)
 	{
-		n_envp = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)(*envp))));
-		if (!n_envp)
+		new = (char **)malloc(sizeof(char *) * (ft_len_pp((void **)(*envp))));
+		if (!new)
 			return ;
 		i_old = 0;
 		i_new = 0;
 		while ((*envp)[i_old])
 		{
 			if (!is_name_in_line((*envp)[i_old], name))
-				n_envp[i_new++] = (*envp)[i_old];
+				new[i_new++] = (*envp)[i_old];
 			else
-			{
-				free((*envp)[i_old]);
-				(*envp)[i_old] = NULL;
-			}
+				free_null((*envp)[i_old]);
 			i_old++;
 		}
-		n_envp[i_new] = NULL;
+		new[i_new] = NULL;
 		free((*envp));
-		(*envp) = n_envp;
+		(*envp) = new;
 	}
 }
 

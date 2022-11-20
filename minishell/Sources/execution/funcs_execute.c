@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/20 12:22:23 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 12:28:13 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,22 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 	}
 }
 
+void	close_pipe_fd(t_cmd *cmd, t_cmd *t_cmd)
+{
+	while (t_cmd->ctrl_op == PIPE)
+	{
+		if (cmd->infile != STDIN_FILENO)
+			close(cmd->infile);
+		if (cmd->outfile != STDOUT_FILENO)
+			close(cmd->outfile);
+		t_cmd = t_cmd->next;
+	}
+	if (cmd->infile != STDIN_FILENO)
+		close(cmd->infile);
+	if (cmd->outfile != STDOUT_FILENO)
+		close(cmd->outfile);
+}
+
 int	exec_pipe(t_cmd *cmd, char **envp)
 {
 	t_cmd	*t_cmd;
@@ -98,17 +114,6 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 		exit(*get_status());
 	}
 	waitpid(pid, get_status(), 0);
-	while (t_cmd->ctrl_op == PIPE)
-	{
-		if (cmd->infile != STDIN_FILENO)
-			close(cmd->infile);
-		if (cmd->outfile != STDOUT_FILENO)
-			close(cmd->outfile);
-		t_cmd = t_cmd->next;
-	}
-	if (cmd->infile != STDIN_FILENO)
-		close(cmd->infile);
-	if (cmd->outfile != STDOUT_FILENO)
-		close(cmd->outfile);
+	close_pipe_fd(cmd, t_cmd);
 	return (1);
 }
