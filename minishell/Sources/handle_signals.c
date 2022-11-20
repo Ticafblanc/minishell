@@ -25,5 +25,16 @@ void	handle_prompt(int sig_num)
 void	handle_exec(int sig_num)
 {
 	if (sig_num == SIGINT)
-		exit(EXIT_FAILURE);
+	close(STDOUT_FILENO);
+	close(STDIN_FILENO);
+	exit(EXIT_FAILURE);
 }
+
+void	handle_exe(int sig_num)
+{
+  if(sig_num == SIGINT)
+	  printf("\n");
+	else
+	  printf("Quit: 3\n");
+}
+

@@ -1,3 +1,7 @@
+s = Makefile
+str = cat 
+str = cat Makefile
+str = cat Makefile
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -237,3 +241,4 @@ ifeq ($(VERBOSE),TRUE)
 else
     HIDE = @
 endif
+coucouc

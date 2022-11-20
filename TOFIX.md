@@ -4,7 +4,7 @@
 - [x] `< test.txt cat >test2` ouverture de heredoc non voulu
 - [x] `< test.txt cat |wc` gestion des redirection a revoir 
 - [ ] brace non fonctionnele avec un pipe 
-- [ ] double retour de prompt suite crash ctrl c ctrl \
+- [x] double retour de prompt suite crash ctrl c ctrl \
 - [x] erreur de message dans commande cd double ::
 - [x] mv *.txt tes/ ne fonctionne pas 
 - [ ] fd sortie de commande simple

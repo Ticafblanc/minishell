@@ -92,7 +92,8 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 {
 	char	*save;
-
+	
+	printf("coucouc\n");
 	*cmd = ft_mlstadd((*cmd));
 	save = ft_strdup(command);
 	parsing_loop(&command, *cmd, envp, &save);

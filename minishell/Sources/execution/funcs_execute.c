@@ -29,12 +29,14 @@ void	free_next_cmds(t_cmd *cmd)
 		cmd = cmd->next;
 		free_null(tmp);
 	}
+	// close(STDIN_FILENO);
+	// close(STDOUT_FILENO);
+	// waitpid(cmd->pid, get_status(), 0);
 }
 
 static void	child_process(t_cmd *cmd, char **envp)
 {
 	int	stat;
-
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		if (cmd->ctrl_op == PIPE)
@@ -62,6 +64,8 @@ static void	child_process(t_cmd *cmd, char **envp)
 
 void	exec_cmd(t_cmd *cmd, char **envp, int options)
 {
+	signal(SIGINT, handle_exe);
+	signal(SIGQUIT, handle_exe);
 	if (*cmd->cmd)
 	{
 		cmd->pid = fork();
@@ -69,8 +73,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 			exit(perror_minishell(errno, "Fork child_process"));
 		if (!cmd->pid)
 		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
+			print_cmd(cmd);
 			if (cmd->ctrl_op == PIPE && cmd->outfile == STDOUT_FILENO)
 				switch_streams(cmd->fd[0], cmd->fd[1], STDOUT_FILENO);
 			dup_file(cmd);

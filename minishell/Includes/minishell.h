@@ -98,7 +98,9 @@ int		*last_status(void);
 
 /* handle_signals */
 void	handle_prompt(int signum);
+void	handle_promp(int sig_num, siginfo_t *info, void *context);
 void	handle_exec(int sig_num);
+void	handle_exe(int sig_num);
 
 /* parsing */
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp);

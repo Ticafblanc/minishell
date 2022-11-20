@@ -118,7 +118,7 @@ run: re
 
 val: re
 		@read -p "command : " INP\
-			&& ./Bin/minishell -c "$$INP"
+			&& $(LEAKS) ./Bin/minishell -c "$$INP"
 
 
 #  NORMINETTE  #
