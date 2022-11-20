@@ -50,23 +50,58 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 
 static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 {
+	int		fd[2];
 	char	*sequel;
 	char	*tmp;
+	pid_t pid;
+	
 
-	signal(SIGINT, handle_prompt);
-	signal(SIGQUIT, SIG_IGN);
 	tmp = *save;
-	sequel = readline("> ");
-	if (!sequel)
+	if (pipe(fd) != -1)
 	{
-		dprintf(2, "bash: syntax error: unexpected end of file\n");
-		set_status(TOKENERR);
-		return ;
+		pid = fork();
+		if (pid != -1)
+		{
+			if (!pid)
+			{
+				signal(SIGINT, handle_exec);
+				close(fd[STDIN_FILENO]);
+				sequel = readline("> ");
+				if (!sequel)
+				{
+					dprintf(2, "bash: syntax error: unexpected end of file\n");
+					exit(TOKENERR);
+				}
+				ft_putstr_fd(sequel, fd[STDOUT_FILENO]);	
+			}
+			waitpid(pid, get_status(), 0);
+		}
+		close(fd[STDOUT_FILENO]);
+		sequel = get_next_line(fd[STDIN_FILENO]);
+		*save = ft_strjoin(*save, sequel);
+		free(tmp);
+		parsing_loop(&sequel, cmd, envp, save);
 	}
-	*save = ft_strjoin(*save, sequel);
-	free(tmp);
-	parsing_loop(&sequel, cmd, envp, save);
 }
+// static void	get_sequel(char **save, t_cmd *cmd, char **envp)
+// {
+// 	char	*sequel;
+// 	char	*tmp;
+//
+// 	signal(SIGINT, handle_prompt);
+// 	signal(SIGQUIT, SIG_IGN);
+// 	tmp = *save;
+// 	sequel = readline("> ");
+// 	if (!sequel)
+// 	{
+// 		dprintf(2, "bash: syntax error: unexpected end of file\n");
+// 		set_status(TOKENERR);
+// 		return ;
+// 	}
+// 	*save = ft_strjoin(*save, sequel);
+// 	free(tmp);
+// 	parsing_loop(&sequel, cmd, envp, save);
+// }
 
 void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 {
