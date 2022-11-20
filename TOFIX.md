@@ -17,18 +17,19 @@
 - [x] <<e cat >te ne fonctionne pas quitte ...
 - [x] prend les commande vide .
 - [x] $?+$? ne fonctione pas 
+- [x] ' single qoute lance une commande 
+- [x]  lance une commande au lieu de la skip error tok quote not close
 - [x] `|` ouverture heredoc >>error 
 - [x] `||` segfault
+- [x] <> error 
 
 ### Builtins
 - [ ] unset une fausse variable segfault
 - [ ] cd "" error
 
 ### Generalités
-- [ ] <> error 
 - [ ] gestion error redirection a revoir 
 - [ ] env disparait au fur et a mesure de l'utilisation
-- [x] ' single qoute lance une commande 
 - [ ] norminette
 
 ## BONUS
@@ -41,7 +42,6 @@
 - [ ] mettre manage sequel similaire au heredoc (en child process)
 
 ## TOTALK
-- [x]  lance une commande au lieu de la skip error tok quote not close 
 
 
 
