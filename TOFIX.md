@@ -23,13 +23,13 @@
 - [x] `||` segfault
 - [x] <> error 
 - [x] cd "" error
+- [x] unset une fausse variable segfault
+- [x] env disparait au fur et a mesure de l'utilisation
 
 ### Builtins
-- [ ] unset une fausse variable segfault
 
 ### Generalités
 - [ ] gestion error redirection a revoir 
-- [ ] env disparait au fur et a mesure de l'utilisation
 - [ ] norminette
 
 ## BONUS
