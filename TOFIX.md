@@ -21,13 +21,14 @@
 ### Builtins
 - [ ] unset une fausse variable segfault
 - [ ] cd "" error
-- [ ] <> error 
-- [ ] | ouverture heredoc >>error || segfault
 
 ### Generalités
+- [ ] <> error 
 - [ ] gestion error redirection a revoir 
+- [ ] `|` ouverture heredoc >>error 
+- [ ] `||` segfault
 - [ ] env disparait au fur et a mesure de l'utilisation
-- [ ] ' single qoute lance une commande 
+- [x] ' single qoute lance une commande 
 - [ ] norminette
 
 ## BONUS
@@ -40,7 +41,7 @@
 - [ ] mettre manage sequel similaire au heredoc (en child process)
 
 ## TOTALK
-- [ ] cat Makefile '|ls lance une commande au lieu de la skip error tok quote not close 
+- [x]  lance une commande au lieu de la skip error tok quote not close 
 
 
 
