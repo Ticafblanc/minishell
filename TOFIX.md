@@ -22,10 +22,10 @@
 - [x] `|` ouverture heredoc >>error 
 - [x] `||` segfault
 - [x] <> error 
+- [x] cd "" error
 
 ### Builtins
 - [ ] unset une fausse variable segfault
-- [ ] cd "" error
 
 ### Generalités
 - [ ] gestion error redirection a revoir 
