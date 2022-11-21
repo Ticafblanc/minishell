@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 08:53:48 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 14:48:54 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define OPERATOR "|&"
 # define BRACES "()"
 # define F_HD 0x1
+# define F_FIRST 0x2
 
 enum	e_status
 {
@@ -155,9 +156,9 @@ int		perror_minishell(int status, char *command);
 
 /* utils_free */
 void	ft_freetabstr(char **tab);
-void	free_cmd(t_cmd *cmd);
 void	free_null(void *ptr);
 int		exit_free_envp(char ***envp);
+void	free_next_cmds(t_cmd *cmd);
 
 /* utils_libc */
 int		ft_strcmp(const char *s1, const char *s2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_braces.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:25:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/11 22:57:54 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/20 12:31:07 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static bool	is_next_operator(char **command)
 			return (true);
 		if (!ft_strchr(WHITESPACES, **command))
 			return (false);
+		(*command)++;
 	}
 	return (true);
 }
@@ -55,7 +56,8 @@ int	manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp)
 	if (**command == '(' && !*(*cmd)->cmd)
 	{
 		(*cmd)->ctrl_op = BRACE;
-		if (!find_next_brace(command, cmd) && is_next_operator(command))
+		if (!find_next_brace(command, cmd) && is_next_operator(command)
+			&& ++(*nb_word))
 			return (get_value_status());
 	}
 	set_status(perror_minishell(TOKENERR, *command));

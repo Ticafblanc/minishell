@@ -3,38 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   funcs_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 15:04:22 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/21 12:09:01 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	free_next_cmds(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	if (cmd && !cmd->cmd)
-	{
-		tmp = cmd;
-		cmd = tmp->next;
-		free_null(tmp);
-	}
-	while (cmd && (cmd->ctrl_op == PIPE || !cmd->next))
-	{
-		free(cmd->cmd);
-		tmp = cmd;
-		cmd = cmd->next;
-		free_null(tmp);
-	}
-}
-
 static void	child_process(t_cmd *cmd, char **envp)
 {
 	int	stat;
-	
+
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		if (cmd->ctrl_op == PIPE)
@@ -86,6 +67,8 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 
 static void	pipe_loop(t_cmd **cmd, char ***envp)
 {
+	t_cmd	*tmp;
+
 	while ((*cmd)->ctrl_op == PIPE)
 	{
 		if (pipe((*cmd)->fd) == -1)
@@ -93,41 +76,47 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 		if (!exec_builtins(*cmd, envp, CHILD))
 			exec_cmd(*cmd, *envp, WNOHANG);
 		switch_streams((*cmd)->fd[1], (*cmd)->fd[0], STDIN_FILENO);
+		tmp = (*cmd);
 		(*cmd) = (*cmd)->next;
+		free_null(tmp->cmd);
+		free_null(tmp);
 	}
 }
 
-int	exec_pipe(t_cmd *cmd, char **envp)
+void	close_pipe_fd(t_cmd *cmd)
 {
-	t_cmd	*t_cmd;
-	pid_t	pid;
-	
-	if (cmd->ctrl_op != PIPE)
-		return (0);
-	pid = fork();
-	if (pid == -1)
-		exit(perror_minishell(errno, "Fork child_process"));
-	t_cmd = cmd;
-	if (!pid)
-	{
-		pipe_loop(&cmd, &envp);
-		if (!exec_builtins(cmd, &envp, CHILD))
-			exec_cmd(cmd, envp, 0);
-		free_next_cmds(t_cmd);
-		exit(*get_status());
-	}
-	waitpid(pid, get_status(), 0);
-	while(t_cmd->ctrl_op == PIPE)
+	while (cmd->ctrl_op == PIPE)
 	{
 		if (cmd->infile != STDIN_FILENO)
 			close(cmd->infile);
 		if (cmd->outfile != STDOUT_FILENO)
 			close(cmd->outfile);
-		t_cmd = t_cmd->next;
+		cmd = cmd->next;
 	}
 	if (cmd->infile != STDIN_FILENO)
 		close(cmd->infile);
 	if (cmd->outfile != STDOUT_FILENO)
 		close(cmd->outfile);
+}
+
+int	exec_pipe(t_cmd *cmd, char **envp)
+{
+	pid_t	pid;
+
+	if (cmd->ctrl_op != PIPE)
+		return (0);
+	pid = fork();
+	if (pid == -1)
+		exit(perror_minishell(errno, "Fork child_process"));
+	if (!pid)
+	{
+		pipe_loop(&cmd, &envp);
+		if (!exec_builtins(cmd, &envp, CHILD))
+			exec_cmd(cmd, envp, 0);
+		free_next_cmds(cmd);
+		exit(*get_status());
+	}
+	waitpid(pid, get_status(), 0);
+	close_pipe_fd(cmd);
 	return (1);
 }

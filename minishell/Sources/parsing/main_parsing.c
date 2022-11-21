@@ -6,46 +6,28 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/19 12:21:36 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 15:19:32 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_link(t_cmd *new)
+static void	sequel_child(int fd[2])
 {
-	*(new->cmd) = NULL;
-	new->ctrl_op = END;
-	new->path = NULL;
-	new->infile = STDIN_FILENO;
-	new->outfile = STDOUT_FILENO;
-	new->fd[STDIN_FILENO] = STDIN_FILENO;
-	new->fd[STDOUT_FILENO] = STDOUT_FILENO;
-	new->flag = 0x0;
-	new->next = NULL;
-	new->pid = -2;
-}
+	char	*sequel;
 
-t_cmd	*ft_mlstadd(t_cmd *cmd)
-{
-	t_cmd	*new;
-
-	new = (t_cmd *)malloc(sizeof(t_cmd));
-	if (new)
+	signal(SIGINT, handle_exec);
+	close(fd[0]);
+	sequel = readline("> ");
+	if (!sequel)
 	{
-		new->cmd = (char **)ft_calloc(20, sizeof(char *));
-		if (new->cmd)
-		{
-			init_link(new);
-			if (cmd)
-				cmd->next = new;
-			return (new);
-		}
-		free(new);
+		dprintf(2, "minishell: syntax error: unexpected end of file\n");
+		exit (TOKENERR);
 	}
-	set_status(errno);
-	perror("minishell:");
-	return (NULL);
+	ft_putstr_fd(sequel, fd[1]);
+	free_null(sequel);
+	close (fd[1]);
+	exit (EXIT_SUCCESS);
 }
 
 static void	get_sequel(char **save, t_cmd *cmd, char **envp)
@@ -53,8 +35,12 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 	int		fd[2];
 	char	*sequel;
 	char	*tmp;
+<<<<<<< HEAD
 	pid_t pid;
 	
+=======
+	pid_t	pid;
+>>>>>>> ours🧸
 
 	tmp = *save;
 	if (pipe(fd) != -1)
@@ -63,6 +49,7 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 		if (pid != -1)
 		{
 			if (!pid)
+<<<<<<< HEAD
 			{
 				signal(SIGINT, handle_exec);
 				close(fd[STDIN_FILENO]);
@@ -78,6 +65,14 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 		}
 		close(fd[STDOUT_FILENO]);
 		sequel = get_next_line(fd[STDIN_FILENO]);
+=======
+				sequel_child(fd);
+			waitpid(pid, get_status(), 0);
+		}
+		close(fd[1]);
+		sequel = get_next_line(fd[STDIN_FILENO]);
+		close(fd[0]);
+>>>>>>> ours🧸
 		*save = ft_strjoin(*save, sequel);
 		free(tmp);
 		parsing_loop(&sequel, cmd, envp, save);
@@ -117,7 +112,8 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 			manage_ope(command, &t_cmd, &nb_word, envp);
 		else if (**command && ft_strchr(BRACES, **command))
 			manage_braces(command, &t_cmd, &nb_word, envp);
-		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD))
+		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD)
+			&& !(t_cmd->flag & F_FIRST))
 			get_sequel(save, t_cmd, envp);
 		else if (**command == '\0')
 			break ;
@@ -127,11 +123,10 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 {
 	char	*save;
-	
+
 	*cmd = ft_mlstadd((*cmd));
 	save = ft_strdup(command);
 	parsing_loop(&command, *cmd, envp, &save);
-	wait_cmd(*cmd, HERE_DOC);
 	add_history(save);
 	free(save);
 	if (get_value_status())

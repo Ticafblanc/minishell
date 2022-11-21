@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/20 10:18:29 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/20 14:20:31 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_limiter(int fd[2], char *limiter)
 	line = readline("> ");
 	while (line)
 	{
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (ft_strncmp(line, limiter, ft_strlen(line)) == 0)
 		{
 			close(fd[STDOUT_FILENO]);
 			free(line);
@@ -49,9 +49,11 @@ static int	here_doc(t_cmd *cmd, char *limiter)
 				signal(SIGINT, handle_exec);
 				close(fd[STDIN_FILENO]);
 				check_limiter(fd, limiter);
+				exit(EXIT_SUCCESS);
 			}
 		}
 		close(fd[STDOUT_FILENO]);
+		waitpid(cmd->pid, get_status(), 0);
 		return (fd[STDIN_FILENO]);
 	}
 	return (-1);

@@ -25,6 +25,15 @@
 - [x] cd "" error
 - [x] unset une fausse variable segfault
 - [x] env disparait au fur et a mesure de l'utilisation
+- [x] brace non fonctionnel (ls)&&ls 
+- [x] HERE doc with first set write equal limeter close heredoc if string is long
+- [x] brace non fonctionnele avec un pipe
+- [x] export test = test
+- [x] fd open manage sequel
+- [x] signal ne fonctionne pas non plus manage sequel
+- [x] mettre manage sequel similaire au heredoc (en child process)
+- [x] `unset /dasa`
+- [x] `cd` without arguments back to home
 
 ### Builtins
 
@@ -33,13 +42,8 @@
 - [ ] norminette
 
 ## BONUS
-- [ ] brace non fonctionnele avec un pipe
-- [ ] brace non fonctionnel (ls)&&ls 
 
 ## EXTRA
-- [ ] fd open manage sequel
-- [ ] signal ne fonctionne pas non plus manage sequel
-- [ ] mettre manage sequel similaire au heredoc (en child process)
 
 ## TOTALK
 

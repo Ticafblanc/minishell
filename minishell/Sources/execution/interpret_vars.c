@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:02:06 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 06:56:48 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/21 12:09:36 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	interpret_var(char **s, int i, char **envp)
 	tmp1 = ft_strjoin(tmp2, &(*s)[i_end]);
 	i = ft_strlen(tmp2);
 	free(tmp2);
+	free(*s);
 	(*s) = tmp1;
 	return (i);
 }
