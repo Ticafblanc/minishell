@@ -6,7 +6,7 @@
 #    By: tonted <tonted@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/11 10:09:10 by mdoquocb          #+#    #+#              #
-#    Updated: 2022/11/02 19:22:54 by tonted           ###   ########.fr        #
+#    Updated: 2022/11/21 14:15:06 by tonted           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,8 +54,9 @@ SRCDIRS	= $(foreach dir, $(DIRS), $(addprefix $(SRC_PATH)/, $(dir)))
 OBJDIRS = $(foreach dir, $(DIRS), $(addprefix $(OBJ_PATH)/, $(dir)))
 
 #  SOURCES  #
-SRC = $(wildcard $(SRC_PATH)/*.c)
-SRC += $(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.c))
+# SRC = $(wildcard $(SRC_PATH)/*.c)
+# SRC += $(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.c))
+SRC = Sources/handle_signals.c Sources/init.c Sources/main.c Sources/status.c Sources/utils/development.c Sources/utils/utils.c Sources/utils/utils_env.c Sources/utils/utils_env_line.c Sources/utils/utils_errors.c Sources/utils/utils_free.c Sources/utils/utils_libc.c Sources/utils/utils_tabstr.c Sources/builtins/builtins.c Sources/builtins/cd.c Sources/builtins/echo.c Sources/builtins/env.c Sources/builtins/exit.c Sources/builtins/export.c Sources/builtins/pwd.c Sources/builtins/unset.c Sources/execution/funcs_execute.c Sources/execution/interpret_vars.c Sources/execution/main_execute.c Sources/execution/manage_arg.c Sources/execution/manage_wildcard.c Sources/execution/strmatch.c Sources/execution/utils_execute.c Sources/parsing/main_parsing.c Sources/parsing/manage_braces.c Sources/parsing/manage_operators.c Sources/parsing/manage_redirection.c Sources/parsing/utils_parsing.c Sources/parsing/utils_parsing_findnextword.c
 
 #  OBJECTS  #
 OBJ = $(patsubst $(SRC_PATH)/%.c, $(OBJ_PATH)/%.o, $(SRC))
@@ -220,6 +221,10 @@ printdir:
 
 buildrepo	:
 	$(HIDE)$(call make-repo)
+
+print	:
+	@echo $(DIRS)
+	@echo $(SRC)
 
 .PHONY :	all clean fclean finish re directory title
 
