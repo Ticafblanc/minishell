@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 15:19:32 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:47:42 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,31 @@ static void	sequel_child(int fd[2])
 	exit (EXIT_SUCCESS);
 }
 
+static char	*sequel_parent(int fd[2], char **save)
+{
+	char	*sequel;
+	char	*tmp;
+
+	tmp = *save;
+	close(fd[1]);
+	sequel = get_next_line(fd[STDIN_FILENO]);
+	close(fd[0]);
+	if (sequel)
+	{
+		*save = ft_strjoin(*save, sequel);
+		free(tmp);
+	}
+	else
+		sequel = &(*save)[ft_str_len(*save)];
+	return (sequel);
+}
+
 static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 {
 	int		fd[2];
 	char	*sequel;
-	char	*tmp;
 	pid_t	pid;
 
-	tmp = *save;
 	if (pipe(fd) != -1)
 	{
 		pid = fork();
@@ -47,11 +64,7 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 				sequel_child(fd);
 			waitpid(pid, get_status(), 0);
 		}
-		close(fd[1]);
-		sequel = get_next_line(fd[STDIN_FILENO]);
-		close(fd[0]);
-		*save = ft_strjoin(*save, sequel);
-		free(tmp);
+		sequel = sequel_parent(fd, save);
 		parsing_loop(&sequel, cmd, envp, save);
 	}
 }
