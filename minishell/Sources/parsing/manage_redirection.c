@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/20 14:20:31 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/22 07:09:25 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_limiter(int fd[2], char *limiter)
 	line = readline("> ");
 	while (line)
 	{
-		if (ft_strncmp(line, limiter, ft_strlen(line)) == 0)
+		if (ft_strncmp(line, limiter, ft_strlen(line) + 1) == 0)
 		{
 			close(fd[STDOUT_FILENO]);
 			free(line);
