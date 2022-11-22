@@ -35,12 +35,7 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 	int		fd[2];
 	char	*sequel;
 	char	*tmp;
-<<<<<<< HEAD
-	pid_t pid;
-	
-=======
 	pid_t	pid;
->>>>>>> ours🧸
 
 	tmp = *save;
 	if (pipe(fd) != -1)
@@ -49,30 +44,12 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 		if (pid != -1)
 		{
 			if (!pid)
-<<<<<<< HEAD
-			{
-				signal(SIGINT, handle_exec);
-				close(fd[STDIN_FILENO]);
-				sequel = readline("> ");
-				if (!sequel)
-				{
-					dprintf(2, "bash: syntax error: unexpected end of file\n");
-					exit(TOKENERR);
-				}
-				ft_putstr_fd(sequel, fd[STDOUT_FILENO]);	
-			}
-			waitpid(pid, get_status(), 0);
-		}
-		close(fd[STDOUT_FILENO]);
-		sequel = get_next_line(fd[STDIN_FILENO]);
-=======
 				sequel_child(fd);
 			waitpid(pid, get_status(), 0);
 		}
 		close(fd[1]);
 		sequel = get_next_line(fd[STDIN_FILENO]);
 		close(fd[0]);
->>>>>>> ours🧸
 		*save = ft_strjoin(*save, sequel);
 		free(tmp);
 		parsing_loop(&sequel, cmd, envp, save);
@@ -127,6 +104,7 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 	*cmd = ft_mlstadd((*cmd));
 	save = ft_strdup(command);
 	parsing_loop(&command, *cmd, envp, &save);
+	 //if (save)
 	add_history(save);
 	free(save);
 	if (get_value_status())
