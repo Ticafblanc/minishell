@@ -6,76 +6,67 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 14:08:22 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 16:53:54 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	sequel_child(int fd[2])
+void	check_command_child(int fd[2])
 {
-	char	*sequel;
+	char	*str;
 
 	signal(SIGINT, handle_exec);
-	close(fd[0]);
-	sequel = readline("> ");
-	if (!sequel)
+	close(fd[STDIN_FILENO]);
+	str = readline("> ");
+	while (!str || !*str)
 	{
-		dprintf(2, "minishell: syntax error: unexpected end of file\n");
-		exit (TOKENERR);
+		if (!str)
+			exit(perror_minishell(TOKENERR, "end of file"));
+		str = readline("> ");
 	}
-	ft_putstr_fd(sequel, fd[1]);
-	free_null(sequel);
-	close (fd[1]);
-	exit (EXIT_SUCCESS);
+	ft_putstr_fd(str, fd[STDOUT_FILENO]);
+	free(str);
+	close(fd[STDOUT_FILENO]);
+	exit(EXIT_SUCCESS);
 }
 
-static char	*sequel_parent(int fd[2], char **save)
+static int	check_command(char **command, char **save)
 {
-	char	*sequel;
+	char	*str;
+	pid_t	pid;
+	int		fd[2];
 	char	*tmp;
-
-	tmp = *save;
-	close(fd[1]);
-	sequel = get_next_line(fd[STDIN_FILENO]);
-	close(fd[0]);
-	if (sequel)
+		
+	if (pipe(fd) == -1)
+        	return(perror_minishell(errno, "Fork child_process"));
+	pid = fork();
+	if (pid == -1)
+    	return(perror_minishell(errno, "Fork child_process"));
+	if (!pid)
+		check_command_child(fd);
+	close(fd[STDOUT_FILENO]);
+	waitpid(pid, get_status(), 0);
+	str = get_next_line(fd[STDIN_FILENO]);
+	if (str)
 	{
-		*save = ft_strjoin(*save, sequel);
+		*command = str;
+		tmp = *save;
+		*save = ft_strjoin(*save, str);
 		free(tmp);
 	}
-	else
-		sequel = ft_strdup("");
-	return (sequel);
-}
-
-static int	get_sequel(char **save, t_cmd *cmd, char **envp)
-{
-	int		fd[2];
-	char	*sequel;
-	pid_t	pid;
-	
-	signal(SIGINT, handle_exe);
-	if (pipe(fd) != -1)
-	{
-		pid = fork();
-		if (pid != -1)
-		{
-			if (!pid)
-				sequel_child(fd);
-			waitpid(pid, get_status(), 0);
-		}
-		sequel = sequel_parent(fd, save);
-		parsing_loop(sequel, cmd, envp, save);
-		return (get_value_status());
-	}
+	close(fd[STDIN_FILENO]);
+	return (get_value_status());
 }
 
 void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 {
 	int		nb_word;
 	int		status;
+	char	*tmp;
 
+	(void)envp;
+	tmp = command;
 	nb_word = 0;
 	status = 0;
 	while (42)
@@ -91,7 +82,7 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 			manage_braces(&command, &t_cmd, &nb_word, envp);
 		else if (*command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD)
 			&& !(t_cmd->flag & F_FIRST))
-			status = get_sequel(save, t_cmd, envp);
+			status = check_command(&command, save);
 		else if (*command == '\0')
 			break ;
 		if (status > 0)
