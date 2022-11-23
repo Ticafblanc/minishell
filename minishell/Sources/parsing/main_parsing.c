@@ -6,7 +6,7 @@
 /*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/22 06:47:42 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/22 19:05:17 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*sequel_parent(int fd[2], char **save)
 		free(tmp);
 	}
 	else
-		sequel = &(*save)[ft_str_len(*save)];
+		sequel = ft_strdup("");
 	return (sequel);
 }
 
