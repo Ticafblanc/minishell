@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funcs_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/21 12:09:01 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 10:17:52 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,16 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 
 static void	pipe_loop(t_cmd **cmd, char ***envp)
 {
-	t_cmd	*tmp;
-
 	while ((*cmd)->ctrl_op == PIPE)
 	{
 		if (pipe((*cmd)->fd) == -1)
 			exit(perror_minishell(errno, "Pipe"));
 		if (!exec_builtins(*cmd, envp, CHILD))
 			exec_cmd(*cmd, *envp, WNOHANG);
-		switch_streams((*cmd)->fd[1], (*cmd)->fd[0], STDIN_FILENO);
-		tmp = (*cmd);
+		close((*cmd)->fd[1]);
+		if ((*cmd)->next->infile == STDIN_FILENO)
+			(*cmd)->next->infile = (*cmd)->fd[0];
 		(*cmd) = (*cmd)->next;
-		free_null(tmp->cmd);
-		free_null(tmp);
 	}
 }
 
@@ -102,6 +99,7 @@ void	close_pipe_fd(t_cmd *cmd)
 int	exec_pipe(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
+	t_cmd	*tmp;
 
 	if (cmd->ctrl_op != PIPE)
 		return (0);
@@ -110,10 +108,11 @@ int	exec_pipe(t_cmd *cmd, char **envp)
 		exit(perror_minishell(errno, "Fork child_process"));
 	if (!pid)
 	{
+		tmp = cmd;
 		pipe_loop(&cmd, &envp);
 		if (!exec_builtins(cmd, &envp, CHILD))
 			exec_cmd(cmd, envp, 0);
-		free_next_cmds(cmd);
+		wait_next_cmds(tmp);
 		exit(*get_status());
 	}
 	waitpid(pid, get_status(), 0);

@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/20 14:48:54 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 10:18:18 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void	ft_freetabstr(char **tab);
 void	free_null(void *ptr);
 int		exit_free_envp(char ***envp);
 void	free_next_cmds(t_cmd *cmd);
+void	wait_next_cmds(t_cmd *cmd);
 
 /* utils_libc */
 int		ft_strcmp(const char *s1, const char *s2);
