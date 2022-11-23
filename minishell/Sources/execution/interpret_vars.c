@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret_vars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:02:06 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/21 12:09:36 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 11:35:05 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,18 @@ static int	interpret_var(char **s, int i, char **envp)
 static int	interpret_status(t_cmd *cmd, char **envp, int i, int i_s)
 {
 	char	*tmp1;
+	char	*tmp2;
+	char	*tmp_itoa;
 
 	(void)envp;
+	tmp2 = cmd->cmd[i];
 	cmd->cmd[i][i_s] = '\0';
-	tmp1 = ft_strjoin(cmd->cmd[i], ft_itoa(*last_status()));
+	tmp_itoa = ft_itoa(*last_status());
+	tmp1 = ft_strjoin(cmd->cmd[i], tmp_itoa);
 	cmd->cmd[i] = ft_strjoin(tmp1, &cmd->cmd[i][i_s + 2]);
 	free_null(tmp1);
+	free_null(tmp2);
+	free_null(tmp_itoa);
 	return (EXIT_SUCCESS);
 }
 
