@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 21:21:15 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 10:18:31 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 17:15:03 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_next_cmds(t_cmd *cmd)
 	while (cmd)
 	{
 		if (cmd->cmd)
-			free_null(cmd->cmd);
+			ft_free_pp((void **)cmd->cmd);
 		tmp = cmd;
 		cmd = cmd->next;
 		free_null(tmp);
@@ -62,9 +62,10 @@ void	wait_next_cmds(t_cmd *cmd)
 
 	while (cmd)
 	{
-		waitpid(cmd->pid, get_status(), 0);
+		if (cmd->ctrl_op == PIPE)
+			waitpid(cmd->pid, get_status(), 0);
 		if (cmd->cmd)
-			free_null(cmd->cmd);
+			ft_free_pp((void **)cmd->cmd);
 		tmp = cmd;
 		cmd = cmd->next;
 		free_null(tmp);

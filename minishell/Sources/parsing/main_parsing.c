@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 16:53:54 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 17:16:49 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ void	check_command_child(int fd[2])
 	exit(EXIT_SUCCESS);
 }
 
-static int	check_command(char **command, char **save)
+static int	check_command(char **command, char **save, char **tmp_c)
 {
-	char	*str;
 	pid_t	pid;
 	int		fd[2];
 	char	*tmp;
 		
 	if (pipe(fd) == -1)
         	return(perror_minishell(errno, "Fork child_process"));
+	// free(*tmp_c);
 	pid = fork();
 	if (pid == -1)
     	return(perror_minishell(errno, "Fork child_process"));
@@ -47,12 +47,12 @@ static int	check_command(char **command, char **save)
 		check_command_child(fd);
 	close(fd[STDOUT_FILENO]);
 	waitpid(pid, get_status(), 0);
-	str = get_next_line(fd[STDIN_FILENO]);
-	if (str)
+	*command = get_next_line(fd[STDIN_FILENO]);
+	if (*command )
 	{
-		*command = str;
+		*tmp_c = *command;
 		tmp = *save;
-		*save = ft_strjoin(*save, str);
+		*save = ft_strjoin(*save, *command);
 		free(tmp);
 	}
 	close(fd[STDIN_FILENO]);
@@ -82,7 +82,7 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 			manage_braces(&command, &t_cmd, &nb_word, envp);
 		else if (*command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD)
 			&& !(t_cmd->flag & F_FIRST))
-			status = check_command(&command, save);
+			status = check_command(&command, save, &tmp);
 		else if (*command == '\0')
 			break ;
 		if (status > 0)
