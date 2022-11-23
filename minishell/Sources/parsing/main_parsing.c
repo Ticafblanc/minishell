@@ -49,12 +49,13 @@ static char	*sequel_parent(int fd[2], char **save)
 	return (sequel);
 }
 
-static void	get_sequel(char **save, t_cmd *cmd, char **envp)
+static int	get_sequel(char **save, t_cmd *cmd, char **envp)
 {
 	int		fd[2];
 	char	*sequel;
 	pid_t	pid;
-
+	
+	signal(SIGINT, handle_exe);
 	if (pipe(fd) != -1)
 	{
 		pid = fork();
@@ -66,6 +67,7 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 		}
 		sequel = sequel_parent(fd, save);
 		parsing_loop(sequel, cmd, envp, save);
+		return (get_value_status());
 	}
 }
 
@@ -89,8 +91,10 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 			manage_braces(&command, &t_cmd, &nb_word, envp);
 		else if (*command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD)
 			&& !(t_cmd->flag & F_FIRST))
-			get_sequel(save, t_cmd, envp);
-		else if (*command == '\0' || status)
+			status = get_sequel(save, t_cmd, envp);
+		else if (*command == '\0')
+			break ;
+		if (status > 0)
 			break ;
 	}
 }
