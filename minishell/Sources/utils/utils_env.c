@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:50:45 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 10:37:18 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 13:12:44 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	put_envp(char *prefix, char **envp, int fd)
 		dprintf(fd, "%s%s\n", prefix, envp[i++]);
 }
 
-// TODO si PATH n'existes pas?
 char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -64,7 +63,7 @@ char	*find_path(char *cmd, char **envp)
 	ft_free_pp((void **)paths);
 	return (NULL);
 }
-// TODO si PATH n'existes pas?
+
 char	*find_path_child(char *cmd, char **envp)
 {
 	char	**paths;
@@ -89,7 +88,6 @@ char	*find_path_child(char *cmd, char **envp)
 		free_null((void *)path);
 		i++;
 	}
-	// free_null((void *)cmd);
 	ft_free_pp((void **)paths);
 	return (cmd);
 }

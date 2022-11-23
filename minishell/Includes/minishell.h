@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 10:32:24 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 13:18:27 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_cmd
 	int				infile;
 	int				outfile;
 	struct s_cmd	*next;
+	char			*command;
 }				t_cmd;
 
 /* initialization */
@@ -111,7 +112,7 @@ int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
 void	manage_args(t_cmd *cmd, char **envp);
 void	manage_wildcard(t_cmd *cmd);
 bool	search_files(t_cmd *cmd, int i_cmd);
-void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save);
+void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save);
 
 /* utils parsing */
 bool	strmatch(char *str, char *pattern);
@@ -130,6 +131,7 @@ void	interpret_vars(t_cmd *cmd, int i, int i_cmd, char **envp);
 void	switch_streams(int toclose, int oldfd, int newfd);
 void	dup_file(t_cmd *cmd);
 void	wait_cmd(t_cmd *cmd, int ctrl_op);
+void	close_pipe_fd(t_cmd *cmd);
 
 /* builtins.c */
 int		exec_builtins(t_cmd *cmd, char ***envp, int process);

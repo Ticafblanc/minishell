@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/22 19:05:17 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 12:56:39 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,28 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 			waitpid(pid, get_status(), 0);
 		}
 		sequel = sequel_parent(fd, save);
-		parsing_loop(&sequel, cmd, envp, save);
+		parsing_loop(sequel, cmd, envp, save);
 	}
 }
 
-void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
+void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 {
 	int		nb_word;
 
 	nb_word = 0;
 	while (!(get_value_status()))
 	{
-		find_next_word(command, &nb_word, &t_cmd->cmd[nb_word]);
-		if (**command && ft_strchr(REDIR, **command))
-			manage_redir(command, t_cmd, &nb_word);
-		else if (**command && ft_strchr(OPERATOR, **command))
-			manage_ope(command, &t_cmd, &nb_word, envp);
-		else if (**command && ft_strchr(BRACES, **command))
-			manage_braces(command, &t_cmd, &nb_word, envp);
-		else if (**command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD)
+		find_next_word(&command, &nb_word, &t_cmd->cmd[nb_word]);
+		if (*command && ft_strchr(REDIR, *command))
+			manage_redir(&command, t_cmd, &nb_word);
+		else if (*command && ft_strchr(OPERATOR, *command))
+			manage_ope(&command, &t_cmd, &nb_word, envp);
+		else if (*command && ft_strchr(BRACES, *command))
+			manage_braces(&command, &t_cmd, &nb_word, envp);
+		else if (*command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD)
 			&& !(t_cmd->flag & F_FIRST))
 			get_sequel(save, t_cmd, envp);
-		else if (**command == '\0')
+		else if (*command == '\0')
 			break ;
 	}
 }
@@ -94,10 +94,17 @@ void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save)
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 {
 	char	*save;
+	t_cmd	*tmp;
 
 	*cmd = ft_mlstadd((*cmd));
 	save = ft_strdup(command);
-	parsing_loop(&command, *cmd, envp, &save);
+	parsing_loop(command, *cmd, envp, &save);
+	tmp = *cmd;
+	while (tmp)
+	{
+		tmp->command = command;
+		tmp = tmp->next;
+	}
 	add_history(save);
 	free(save);
 	if (get_value_status())

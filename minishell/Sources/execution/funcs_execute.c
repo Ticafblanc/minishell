@@ -6,16 +6,26 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 10:36:26 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 13:19:25 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	child_process(t_cmd *cmd, char **envp)
+void	manage_error_execve(t_cmd *cmd)
 {
 	int	stat;
 
+	stat = perror_minishell(NCMD, cmd->cmd[0]);
+	ft_free_pp((void **)cmd->cmd);
+	free_null(cmd->path);
+	cmd->cmd = NULL;
+	free_next_cmds(cmd);
+	exit(stat);
+}
+
+static void	child_process(t_cmd *cmd, char **envp)
+{
 	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
 	{
 		if (cmd->ctrl_op == PIPE)
@@ -33,12 +43,7 @@ static void	child_process(t_cmd *cmd, char **envp)
 	else
 		cmd->path = find_path_child(cmd->cmd[0], envp);
 	execve(cmd->path, cmd->cmd, envp);
-	stat = perror_minishell(NCMD, cmd->cmd[0]);
-	ft_free_pp((void **)cmd->cmd);
-	free_null(cmd->path);
-	cmd->cmd = NULL;
-	free_next_cmds(cmd);
-	exit(stat);
+	manage_error_execve(cmd);
 }
 
 void	exec_cmd(t_cmd *cmd, char **envp, int options)
@@ -57,7 +62,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 			dup_file(cmd);
 			child_process(cmd, envp);
 		}
-		waitpid(cmd->pid, get_status(), options);
+		waitpid (cmd->pid, get_status(), options);
 	}
 	if (cmd->infile != STDIN_FILENO)
 		close(cmd->infile);
@@ -78,22 +83,6 @@ static void	pipe_loop(t_cmd **cmd, char ***envp)
 			(*cmd)->next->infile = (*cmd)->fd[0];
 		(*cmd) = (*cmd)->next;
 	}
-}
-
-void	close_pipe_fd(t_cmd *cmd)
-{
-	while (cmd->ctrl_op == PIPE)
-	{
-		if (cmd->infile != STDIN_FILENO)
-			close(cmd->infile);
-		if (cmd->outfile != STDOUT_FILENO)
-			close(cmd->outfile);
-		cmd = cmd->next;
-	}
-	if (cmd->infile != STDIN_FILENO)
-		close(cmd->infile);
-	if (cmd->outfile != STDOUT_FILENO)
-		close(cmd->outfile);
 }
 
 int	exec_pipe(t_cmd *cmd, char **envp)
