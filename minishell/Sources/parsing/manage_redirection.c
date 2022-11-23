@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_redirection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/22 07:09:25 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 13:51:50 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 		set_redir(king, file, cmd, command);
 		if (*nb_word > 0)
 			(*nb_word)--;
-		cmd->flag |= F_HD;
-		return (get_value_status());
+		cmd->flag |= F_HD | NOT_EMPTY;
+		return (0);
 	}
 	command[0][1] = '\0';
 	set_status(perror_minishell(TOKENERR, *command));

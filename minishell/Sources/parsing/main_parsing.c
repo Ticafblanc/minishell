@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 12:56:39 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 14:08:22 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,25 @@ static void	get_sequel(char **save, t_cmd *cmd, char **envp)
 void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 {
 	int		nb_word;
+	int		status;
 
 	nb_word = 0;
-	while (!(get_value_status()))
+	status = 0;
+	while (42)
 	{
-		find_next_word(&command, &nb_word, &t_cmd->cmd[nb_word]);
+		status = find_next_word(&command, &nb_word, &t_cmd->cmd[nb_word]);
+		if (nb_word > 0)
+			t_cmd->flag |= NOT_EMPTY;
 		if (*command && ft_strchr(REDIR, *command))
 			manage_redir(&command, t_cmd, &nb_word);
 		else if (*command && ft_strchr(OPERATOR, *command))
-			manage_ope(&command, &t_cmd, &nb_word, envp);
+			status = manage_ope(&command, &t_cmd, &nb_word, envp);
 		else if (*command && ft_strchr(BRACES, *command))
 			manage_braces(&command, &t_cmd, &nb_word, envp);
 		else if (*command == '\0' && !t_cmd->cmd[0] && !(t_cmd->flag & F_HD)
 			&& !(t_cmd->flag & F_FIRST))
 			get_sequel(save, t_cmd, envp);
-		else if (*command == '\0')
+		else if (*command == '\0' || status)
 			break ;
 	}
 }

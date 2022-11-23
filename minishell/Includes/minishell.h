@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 13:18:27 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 14:04:27 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define BRACES "()"
 # define F_HD 0x1
 # define F_FIRST 0x2
+# define NOT_EMPTY 0x4
 
 enum	e_status
 {
@@ -116,7 +117,7 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save);
 
 /* utils parsing */
 bool	strmatch(char *str, char *pattern);
-void	find_next_word(char **command, int *nb_word, char **cmd);
+int		find_next_word(char **command, int *nb_word, char **cmd);
 char	*find_next_word_redir(char **command);
 char	check_metacharacter(char **command, int king);
 char	*remove_quote(char *command);

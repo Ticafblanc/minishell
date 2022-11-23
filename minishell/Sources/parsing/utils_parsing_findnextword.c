@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing_findnextword.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 16:37:03 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/11 23:00:06 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 14:10:01 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static int	pass_quote(char **command)
+static int	pass_quote(char **command, int *status)
 {
 	int	i;
 
@@ -24,6 +24,7 @@ static int	pass_quote(char **command)
 			if (command[0][i] == '\0')
 			{
 				set_status(perror_minishell(QNC, *command));
+				*status = 1;
 				return (get_value_status());
 			}
 			if (**command == command[0][i])
@@ -45,28 +46,33 @@ static void	skip_whitespaces(char **s)
 	}
 }
 
-static void	forward_to_end_word(char **s)
+static int	forward_to_end_word(char **s)
 {
-	while (**s != '\0' && !pass_quote(s) && !ft_strchr(WHITESMETA, **s))
+	int	ret;
+
+	ret = 0;
+	while (**s != '\0' && !pass_quote(s, &ret) && !ft_strchr(WHITESMETA, **s))
 		(*s)++;
+	return (ret);
 }
 
-void	find_next_word(char **command, int *nb_word, char **cmd)
+int	find_next_word(char **command, int *nb_word, char **cmd)
 {
 	char	*str;
+	int		status;
 
 	skip_whitespaces(command);
 	str = *command;
-	forward_to_end_word(command);
+	status = forward_to_end_word(command);
 	if (ft_str_len(str) && !ft_strchr(METACHARS, *str))
 	{
 		*cmd = str;
 		(*nb_word)++;
 	}
 	skip_whitespaces(command);
+	return (status);
 }
 
-//TODO si str == NULL il faudrait retourner une erreur
 char	*find_next_word_redir(char **command)
 {
 	char	*str;
