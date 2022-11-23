@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 10:17:52 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 10:36:26 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	child_process(t_cmd *cmd, char **envp)
 	if (*cmd->cmd[0] == '/' || *cmd->cmd[0] == '.' || *cmd->cmd[0] == '~')
 		cmd->path = ft_strdup(cmd->cmd[0]);
 	else
-		cmd->path = find_path(cmd->cmd[0], envp);
+		cmd->path = find_path_child(cmd->cmd[0], envp);
 	execve(cmd->path, cmd->cmd, envp);
 	stat = perror_minishell(NCMD, cmd->cmd[0]);
 	ft_free_pp((void **)cmd->cmd);

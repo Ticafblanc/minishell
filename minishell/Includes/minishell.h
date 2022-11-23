@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 10:18:18 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 10:32:24 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int		is_name_in_line(char *envline, char *name);
 int		is_name_in_envp(char **envp, char *name);
 void	put_envp(char *prefix, char **envp, int fd);
 char	*find_path(char *cmd, char **envp);
+char	*find_path_child(char *cmd, char **envp);
 
 /* utils error */
 int		perror_minishell(int status, char *command);
