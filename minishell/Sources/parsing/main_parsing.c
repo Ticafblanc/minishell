@@ -23,6 +23,7 @@ void	check_command_child(int fd[2])
 	{
 		if (!str)
 			exit(perror_minishell(TOKENERR, "end of file"));
+		free_null(str);
 		str = readline("> ");
 	}
 	ft_putstr_fd(str, fd[STDOUT_FILENO]);
@@ -39,7 +40,6 @@ static int	check_command(char **command, char **save, char **tmp_c)
 		
 	if (pipe(fd) == -1)
         	return(perror_minishell(errno, "Fork child_process"));
-	// free(*tmp_c);
 	pid = fork();
 	if (pid == -1)
     	return(perror_minishell(errno, "Fork child_process"));
@@ -50,6 +50,7 @@ static int	check_command(char **command, char **save, char **tmp_c)
 	*command = get_next_line(fd[STDIN_FILENO]);
 	if (*command )
 	{
+		free(*tmp_c);
 		*tmp_c = *command;
 		tmp = *save;
 		*save = ft_strjoin(*save, *command);
@@ -64,6 +65,7 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 	int		nb_word;
 	int		status;
 	char	*tmp;
+	int 	i;
 
 	(void)envp;
 	tmp = command;
@@ -88,6 +90,14 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 		if (status > 0)
 			break ;
 	}
+	i= 0;
+	while (t_cmd->cmd[i])
+	{
+
+		t_cmd->cmd[i] = ft_strdup(t_cmd->cmd[i]);
+		i++;
+	}
+	free(tmp);
 }
 
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
@@ -106,7 +116,8 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 	}
 	add_history(save);
 	free(save);
-	if (get_value_status())
-		return (NULL);
+	// if (get_value_status())
+		// return (NULL);
+	print_cmds(*cmd);
 	return (*cmd);
 }

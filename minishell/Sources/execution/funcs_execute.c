@@ -17,9 +17,7 @@ void	manage_error_execve(t_cmd *cmd)
 	int	stat;
 
 	stat = perror_minishell(NCMD, cmd->cmd[0]);
-	ft_free_pp((void **)cmd->cmd);
 	free_null(cmd->path);
-	cmd->cmd = NULL;
 	free_next_cmds(cmd);
 	exit(stat);
 }

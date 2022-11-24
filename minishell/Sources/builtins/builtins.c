@@ -72,6 +72,6 @@ int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 		fd = cmd->fd[STDOUT_FILENO];
 	manage_args(cmd, *envp);
 	ret = manage_builtins(cmd, envp, process, fd);
-	free_args(cmd->cmd);
+	//free_args(cmd->cmd);
 	return (ret);
 }

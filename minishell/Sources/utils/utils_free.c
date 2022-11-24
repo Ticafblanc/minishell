@@ -49,7 +49,7 @@ void	free_next_cmds(t_cmd *cmd)
 	while (cmd)
 	{
 		if (cmd->cmd)
-			ft_free_pp((void **)cmd->cmd);
+	    ft_free_pp((void **)cmd->cmd);
 		tmp = cmd;
 		cmd = cmd->next;
 		free_null(tmp);
@@ -65,7 +65,7 @@ void	wait_next_cmds(t_cmd *cmd)
 		if (cmd->ctrl_op == PIPE)
 			waitpid(cmd->pid, get_status(), 0);
 		if (cmd->cmd)
-			ft_free_pp((void **)cmd->cmd);
+		  ft_free_pp((void **)cmd->cmd);
 		tmp = cmd;
 		cmd = cmd->next;
 		free_null(tmp);
