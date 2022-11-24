@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:50:45 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 13:12:44 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 22:08:47 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
+	if (is_name_in_envp(envp, "PATH") == -1)
+		return (NULL);
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
@@ -71,6 +73,8 @@ char	*find_path_child(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
+	if (is_name_in_envp(envp, "PATH") == -1)
+		return (ft_strdup(cmd));
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');

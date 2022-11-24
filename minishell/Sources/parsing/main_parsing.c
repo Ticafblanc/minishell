@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 20:48:30 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 22:12:58 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	dup_cmds(t_cmd *t_cmd, char *tmp)
 		t_cmd->cmd[i] = ft_strdup(t_cmd->cmd[i]);
 		i++;
 	}
-	free(tmp);
+	free_null(tmp);
 }
 
 void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
@@ -88,7 +88,7 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 		if (nb_word > 0)
 			t_cmd->flag |= NOT_EMPTY;
 		if (*command && ft_strchr(REDIR, *command))
-			manage_redir(&command, t_cmd, &nb_word);
+			status = manage_redir(&command, t_cmd, &nb_word);
 		else if (*command && ft_strchr(OPERATOR, *command))
 			status = manage_ope(&command, &t_cmd, &nb_word, envp);
 		else if (*command && ft_strchr(BRACES, *command))

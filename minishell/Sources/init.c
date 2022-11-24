@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:58:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 20:48:47 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 21:08:28 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static void	init_link(t_cmd *new, t_cmd *cmd)
 			i++;
 		}
 		new->command = cmd->command;
+		new->begin = cmd->begin;
 	}
 }
 
@@ -102,7 +103,10 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 			if (cmd)
 				cmd->next = new;
 			else
+			{
 				new->flag |= F_FIRST;
+				new->begin = new;
+			}
 			return (new);
 		}
 		free(new);

@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 20:35:13 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 22:25:00 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ int	execute(char *command, char ***envp)
 				cmd = cmd->next;
 		else if (_continue(cmd, envp, ctrl))
 			exec_cmd(cmd, *envp, 0);
+		else
+		{
+			if (cmd->infile != STDIN_FILENO)
+				close(cmd->infile);
+			if (cmd->outfile != STDOUT_FILENO)
+				close(cmd->outfile);
+		}
 		ctrl = cmd->ctrl_op;
 		cmd = cmd->next;
 	}

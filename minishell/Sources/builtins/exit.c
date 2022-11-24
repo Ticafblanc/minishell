@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:11:19 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 15:19:00 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 21:13:46 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,35 @@ static bool	is_number(char *s)
 	return (true);
 }
 
-int	exec_exit(int process, char ***envp, char **cmd)
+int	exec_exit(int process, char ***envp, t_cmd *cmd)
 {
+	int	status;
+
 	if (process == MAIN)
 		printf("exit\n");
-	if (cmd[1] && !is_number(cmd[1]))
+	if (cmd->cmd[1] && !is_number(cmd->cmd[1]))
 	{
-		dprintf (2, "minishell: exit: %s: numeric argument required\n", cmd[1]);
+		dprintf (2, "minishell: exit: %s: numeric argument required\n",
+			cmd->cmd[1]);
 		ft_free_pp((void **)*envp);
+		free_next_cmds(cmd->begin);
 		exit(EXIT_FAILURE);
 	}
-	if (cmd[1] && cmd[2])
+	if (cmd->cmd[1] && cmd->cmd[2])
 	{
 		dprintf (2, "minishell: exit: too many arguments\n");
 		set_status(1);
 		return (EXIT_FAILURE);
 	}
-	if (cmd[1])
+	if (cmd->cmd[1])
 	{
+		status = ft_atoi(cmd->cmd[1]);
 		ft_free_pp((void **)*envp);
-		exit(ft_atoi(cmd[1]));
+		free_next_cmds(cmd->begin);
+		exit(status);
 	}
+	ft_free_pp((void **)*envp);
+	free_next_cmds(cmd->begin);
 	exit(EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }

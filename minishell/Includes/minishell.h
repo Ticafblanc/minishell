@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 20:02:01 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 22:52:13 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ enum	e_control_operator
 	AND = 3,
 };
 
+typedef struct s_cmd	t_cmd;
+
 typedef struct s_cmd
 {
 	int				ctrl_op;
@@ -88,6 +90,7 @@ typedef struct s_cmd
 	int				outfile;
 	struct s_cmd	*next;
 	char			*command;
+	t_cmd			*begin;
 }				t_cmd;
 
 /* initialization */
@@ -140,7 +143,7 @@ int		exec_pwd(int fd);
 int		exec_cd(char *dir, char ***envp);
 int		exec_unset(t_cmd *cmd, char ***envp);
 int		exec_echo(t_cmd *cmd, int fd);
-int		exec_exit(int process, char ***envp, char **cmd);
+int		exec_exit(int process, char ***envp, t_cmd *cmd);
 int		exec_export(char *pathname, char **args, char ***envp, int fd);
 int		exec_env(char **envp, int fd);
 

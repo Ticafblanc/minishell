@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 20:34:59 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 21:04:31 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	manage_builtins(t_cmd *cmd, char ***envp, int process, int fd)
 	else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
 		return (exec_unset(cmd, envp));
 	else if (!ft_strncmp(cmd->cmd[0], "exit", 4))
-		return (exec_exit(process, envp, cmd->cmd));
+		return (exec_exit(process, envp, cmd));
 	return (0);
 }
 
