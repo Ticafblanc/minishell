@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 22:12:58 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/24 00:37:13 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,6 @@ static int	check_command(char **command, char **save, char **tmp_c)
 	close(fd[STDIN_FILENO]);
 	return (get_value_status());
 }
-// static void	get_sequel(char **save, t_cmd *cmd, char **envp)
-// {
-// 	char	*sequel;
-// 	char	*tmp;
-//
-// 	signal(SIGINT, handle_prompt);
-// 	signal(SIGQUIT, SIG_IGN);
-// 	tmp = *save;
-// 	sequel = readline("> ");
-// 	if (!sequel)
-// 	{
-// 		dprintf(2, "bash: syntax error: unexpected end of file\n");
-// 		set_status(TOKENERR);
-// 		return ;
-// 	}
-// 	*save = ft_strjoin(*save, sequel);
-// 	free(tmp);
-// 	parsing_loop(&sequel, cmd, envp, save);
-// }
 
 static void	dup_cmds(t_cmd *t_cmd, char *tmp)
 {
