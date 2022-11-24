@@ -59,6 +59,25 @@ static int	check_command(char **command, char **save, char **tmp_c)
 	close(fd[STDIN_FILENO]);
 	return (get_value_status());
 }
+// static void	get_sequel(char **save, t_cmd *cmd, char **envp)
+// {
+// 	char	*sequel;
+// 	char	*tmp;
+//
+// 	signal(SIGINT, handle_prompt);
+// 	signal(SIGQUIT, SIG_IGN);
+// 	tmp = *save;
+// 	sequel = readline("> ");
+// 	if (!sequel)
+// 	{
+// 		dprintf(2, "bash: syntax error: unexpected end of file\n");
+// 		set_status(TOKENERR);
+// 		return ;
+// 	}
+// 	*save = ft_strjoin(*save, sequel);
+// 	free(tmp);
+// 	parsing_loop(&sequel, cmd, envp, save);
+// }
 
 static void	dup_cmds(t_cmd *t_cmd, char *tmp)
 {
