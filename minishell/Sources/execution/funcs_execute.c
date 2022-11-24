@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   funcs_execute.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 22:16:58 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/24 00:36:10 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, int options)
 		}
 		waitpid (cmd->pid, get_status(), options);
 	}
-	if (cmd->infile != STDIN_FILENO)
-		close(cmd->infile);
-	if (cmd->outfile != STDOUT_FILENO)
-		close(cmd->outfile);
+	close_fd_cmd(cmd);
 }
 
 static void	pipe_loop(t_cmd **cmd, char ***envp)

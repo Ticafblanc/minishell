@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 22:25:00 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/24 00:36:26 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,7 @@ int	execute(char *command, char ***envp)
 		else if (_continue(cmd, envp, ctrl))
 			exec_cmd(cmd, *envp, 0);
 		else
-		{
-			if (cmd->infile != STDIN_FILENO)
-				close(cmd->infile);
-			if (cmd->outfile != STDOUT_FILENO)
-				close(cmd->outfile);
-		}
+			close_fd_cmd(cmd);
 		ctrl = cmd->ctrl_op;
 		cmd = cmd->next;
 	}
