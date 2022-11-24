@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 13:19:25 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 20:32:13 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,9 @@ void	manage_error_execve(t_cmd *cmd)
 
 static void	child_process(t_cmd *cmd, char **envp)
 {
-	if (cmd->ctrl_op == PIPE || cmd->ctrl_op == BRACE)
+	if (cmd->ctrl_op == PIPE || cmd->flag & F_BRACE)
 	{
-		if (cmd->ctrl_op == PIPE)
-			cmd->cmd[2] = ft_rev_split((const char **)cmd->cmd, 32);
-		else
-			cmd->cmd[2] = cmd->cmd[0];
+		cmd->cmd[2] = ft_rev_split((const char **)cmd->cmd, 32);
 		cmd->cmd[0] = ft_strdup("minishell");
 		cmd->cmd[1] = ft_strdup("-c");
 		cmd->cmd[3] = NULL;

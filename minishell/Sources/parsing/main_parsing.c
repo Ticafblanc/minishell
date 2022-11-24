@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:37:46 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 17:16:49 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 20:48:30 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ static int	check_command(char **command, char **save, char **tmp_c)
 	pid_t	pid;
 	int		fd[2];
 	char	*tmp;
-		
+
 	if (pipe(fd) == -1)
-        	return(perror_minishell(errno, "Fork child_process"));
+		return (perror_minishell(errno, "Fork child_process"));
 	pid = fork();
 	if (pid == -1)
-    	return(perror_minishell(errno, "Fork child_process"));
+		return (perror_minishell(errno, "Fork child_process"));
 	if (!pid)
 		check_command_child(fd);
 	close(fd[STDOUT_FILENO]);
 	waitpid(pid, get_status(), 0);
 	*command = get_next_line(fd[STDIN_FILENO]);
-	if (*command )
+	if (*command)
 	{
 		free(*tmp_c);
 		*tmp_c = *command;
@@ -60,18 +60,29 @@ static int	check_command(char **command, char **save, char **tmp_c)
 	return (get_value_status());
 }
 
+static void	dup_cmds(t_cmd *t_cmd, char *tmp)
+{
+	int		i;
+
+	i = 0;
+	while (t_cmd->cmd[i])
+	{
+		t_cmd->cmd[i] = ft_strdup(t_cmd->cmd[i]);
+		i++;
+	}
+	free(tmp);
+}
+
 void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 {
 	int		nb_word;
 	int		status;
 	char	*tmp;
-	int 	i;
 
-	(void)envp;
 	tmp = command;
 	nb_word = 0;
 	status = 0;
-	while (42)
+	while (status <= 0)
 	{
 		status = find_next_word(&command, &nb_word, &t_cmd->cmd[nb_word]);
 		if (nb_word > 0)
@@ -87,17 +98,8 @@ void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save)
 			status = check_command(&command, save, &tmp);
 		else if (*command == '\0')
 			break ;
-		if (status > 0)
-			break ;
 	}
-	i= 0;
-	while (t_cmd->cmd[i])
-	{
-
-		t_cmd->cmd[i] = ft_strdup(t_cmd->cmd[i]);
-		i++;
-	}
-	free(tmp);
+	dup_cmds(t_cmd, tmp);
 }
 
 t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
@@ -116,8 +118,5 @@ t_cmd	*parsing(char *command, t_cmd **cmd, char **envp)
 	}
 	add_history(save);
 	free(save);
-	// if (get_value_status())
-		// return (NULL);
-	print_cmds(*cmd);
 	return (*cmd);
 }

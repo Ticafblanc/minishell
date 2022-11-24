@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:58:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 17:07:04 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 20:48:47 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ int	init(char ***envp)
 	return (EXIT_SUCCESS);
 }
 
-static void	init_link(t_cmd *new)
+static void	init_link(t_cmd *new, t_cmd *cmd)
 {
+	int	i;
+
 	*(new->cmd) = NULL;
 	new->ctrl_op = END;
 	new->path = NULL;
@@ -74,6 +76,16 @@ static void	init_link(t_cmd *new)
 	new->flag = 0x0;
 	new->next = NULL;
 	new->pid = -2;
+	if (cmd)
+	{
+		i = 0;
+		while (cmd->cmd[i])
+		{
+			cmd->cmd[i] = ft_strdup(cmd->cmd[i]);
+			i++;
+		}
+		new->command = cmd->command;
+	}
 }
 
 t_cmd	*ft_mlstadd(t_cmd *cmd)
@@ -83,21 +95,12 @@ t_cmd	*ft_mlstadd(t_cmd *cmd)
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (new)
 	{
-		new->cmd = (char **)ft_calloc(20, sizeof(char *));
+		new->cmd = (char **)ft_calloc(128, sizeof(char *));
 		if (new->cmd)
 		{
-			init_link(new);
+			init_link(new, cmd);
 			if (cmd)
-			{
-				int i = 0;
-				while (cmd->cmd[i])
-				{
-					cmd->cmd[i] = ft_strdup(cmd->cmd[i]);
-					i++;
-				}
-				new->command = cmd->command;
 				cmd->next = new;
-			}
 			else
 				new->flag |= F_FIRST;
 			return (new);

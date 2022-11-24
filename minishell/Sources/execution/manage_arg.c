@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 17:30:56 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/23 17:08:18 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 20:41:15 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	manage_args(t_cmd *cmd, char **envp)
 	i_cmd = 0;
 	while (cmd->cmd[i_cmd])
 	{
-		// cmd->cmd[i_cmd] = ft_strdup(cmd->cmd[i_cmd]);
 		manage_arg(cmd, envp, i_cmd);
 		i_cmd++;
 	}

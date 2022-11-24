@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/20 06:33:40 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 20:41:00 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	minishell_loop(char ***envp)
 		signal(SIGINT, SIG_IGN);
 		if (*command != '\0')
 			execute(command, envp);
-		// free_null((void *)command);
 		*last_status() = get_value_status();
 	}
 }

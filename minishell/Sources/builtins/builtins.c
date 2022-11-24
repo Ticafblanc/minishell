@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:02:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/21 14:09:26 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 20:34:59 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 	int	ret;
 	int	fd;
 
-	if (!cmd->cmd[0] || !is_builtin(cmd->cmd[0]))
+	if (!cmd->cmd[0] || cmd->flag & F_BRACE || !is_builtin(cmd->cmd[0]))
 		return (0);
 	ret = 0;
 	fd = cmd->outfile;
@@ -72,6 +72,5 @@ int	exec_builtins(t_cmd *cmd, char ***envp, int process)
 		fd = cmd->fd[STDOUT_FILENO];
 	manage_args(cmd, *envp);
 	ret = manage_builtins(cmd, envp, process, fd);
-	//free_args(cmd->cmd);
 	return (ret);
 }

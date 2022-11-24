@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 14:04:27 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 20:02:01 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define F_HD 0x1
 # define F_FIRST 0x2
 # define NOT_EMPTY 0x4
+# define F_BRACE 0x8
 
 enum	e_status
 {
@@ -73,7 +74,6 @@ enum	e_control_operator
 	PIPE = 1,
 	OR = 2,
 	AND = 3,
-	BRACE = 4,
 };
 
 typedef struct s_cmd

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 09:28:09 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 20:35:13 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO rename function
 static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 {
 	return (ft_strlen(*cmd->cmd) && !exec_builtins(cmd, envp, MAIN)
@@ -20,12 +19,6 @@ static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 			|| ((ctrl == AND && !get_value_status())
 				|| (ctrl == OR && get_value_status()))));
 }
-
-/*
-	ls|wc|cat Makefile|wc>fileer|ls
-*/
-
-void	free_next_cmds(t_cmd *cmd);
 
 int	execute(char *command, char ***envp)
 {

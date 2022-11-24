@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:25:28 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/20 12:31:07 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 20:26:44 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ int	manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp)
 	(void) envp;
 	if (**command == '(' && !*(*cmd)->cmd)
 	{
-		(*cmd)->ctrl_op = BRACE;
 		if (!find_next_brace(command, cmd) && is_next_operator(command)
 			&& ++(*nb_word))
+		{
+			(*cmd)->flag |= F_BRACE;
 			return (get_value_status());
+		}
 	}
 	set_status(perror_minishell(TOKENERR, *command));
 	return (get_value_status());
