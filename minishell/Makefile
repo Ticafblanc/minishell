@@ -6,7 +6,7 @@
 #    By: tonted <tonted@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/11 10:09:10 by mdoquocb          #+#    #+#              #
-#    Updated: 2022/11/20 04:45:11 by mdoquocb         ###   ########.ca        #
+#    Updated: 2022/11/24 01:44:30 by tonted           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,7 @@ $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 		@$(CC) $(CC_FLAGS) $(INC_FLAGS) -c $< -o $@
 		@echo $(BLUE) $(notdir $@) is created !!
 
-$(BIN): title libft directory $(OBJ) 
+$(BIN): title libft readline directory $(OBJ) 
 		@$(CC) $(OBJ) $(LIB_FLAGS) -o $(BIN) 
 		@echo $(BLUE) $(notdir $(BIN)) is created !!
 
@@ -106,8 +106,9 @@ libft:
 		@$(MAKE) -C ../libft > /dev/null 2>&1 || true
 
 readline:
-		@cd ../readline; ./configure > /dev/null 2>&1 || true
-		@$(MAKE) -C ../readline > /dev/null 2>&1 || true
+		@test -f ../readline/libreadline.a \
+		|| cd ../readline; ./configure > /dev/null 2>&1 || true; \
+		$(MAKE) -C ../readline > /dev/null 2>&1 || true
 
 directory: 	
 		@mkdir -p $(OBJ_PATH) > /dev/null 2>&1 || true
@@ -122,6 +123,7 @@ val: re
 			&& $(LEAK) ./Bin/minishell -c "$$INP"
 
 
+
 #  NORMINETTE  #
 norm:
 		@printf "\n${GRN}****************${YEL} NORMINETTE ${GRN}****************${ENDCOL}\n"
@@ -132,71 +134,6 @@ norm:
 		@norminette $(INC_PATH)
 		@norminette $(SRC_PATH)
 		@printf "${NOCOL}"
-
-#  TESTER  #
-	all_test: test1 test2 test3 test4
-			
-	test1: 
-			@
-
-	test2: 
-			@
-
-	test3: 
-			@
-
-	test4: 
-			@
-
-#  GIT  #
-	clone_repo:
-			@git clone --recurse-submodules git@github.com:Ticafblanc/minishell.git
-
-	update_repo:
-			@cd ../; git fetch
-
-	pull_repo:
-			@cd ../; git pull
-
-	push:
-			@cd ../; git add .
-			@read -p "name of commit: " INP \
-			&& cd ../; git commit -m "$${INP}"
-			@cd ../; git push
-
-	add_remote_42:
-			@cd ../; git remote add 42 git@vogsphere.42quebec.com:vogsphere/intra-uuid-ce31cfe3-ce34-4011-892f-c1e9fb9c73c1-4171290-mdoquocb
-
-	add_remote_matthis:
-			@cd ../; git remote add Matthis https://github.com/Ticafblanc/minishell.git
-
-	add_remote_Siham:
-			@cd ../; git remote add Siham https://github.com/Siham42/Minishell.git
-
-	remove_remote_42:
-			@git remote rm 42
-
-	remove_remote_Matthis:
-			@git remote rm Matthis
-
-	remove_remote_Siham:
-			@git remote rm Siham
-			
-	add_submodule:
-			@cd  ../; git submodule add git@github.com:Ticafblanc/libft.git
-
-	pull_submodule:
-			@cd ../; git submodule update --init --recursive
-
-	update_submodule:
-			@cd ../libft; git fetch
-
-	push_upgrade_submodule:
-			@cd ../; git submodule update --remote --merge
-
-	remove_submodule:
-			@cd ../; git submodule deinit libft
-			@cd ../; git rm libft
 
 clean: 
 		@$(CL) $(OBJ_PATH)
@@ -217,14 +154,9 @@ re:	fclean all
 
 printdir:
 	@echo $(SRC)
-	@echo $(OBJ)
 
 buildrepo	:
 	$(HIDE)$(call make-repo)
-
-print	:
-	@echo $(DIRS)
-	@echo $(SRC)
 
 .PHONY :	all clean fclean finish re directory title
 
