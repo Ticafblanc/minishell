@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/23 22:52:13 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/24 00:35:41 by tonted           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ void	interpret_vars(t_cmd *cmd, int i, int i_cmd, char **envp);
 /* utils execute */
 void	switch_streams(int toclose, int oldfd, int newfd);
 void	dup_file(t_cmd *cmd);
-void	wait_cmd(t_cmd *cmd, int ctrl_op);
 void	close_pipe_fd(t_cmd *cmd);
+void	close_fd_cmd(t_cmd *cmd);
 
 /* builtins.c */
 int		exec_builtins(t_cmd *cmd, char ***envp, int process);
