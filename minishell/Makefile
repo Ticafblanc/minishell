@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tonted <tonted@student.42.fr>              +#+  +:+       +#+         #
+#    By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/11 10:09:10 by mdoquocb          #+#    #+#              #
-#    Updated: 2022/11/24 01:44:30 by tonted           ###   ########.fr        #
+#    Updated: 2022/11/24 14:23:28 by tblanco          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,6 +116,9 @@ directory:
 
 #   LAUNCH	#
 run: re
+		@./Bin/minishell
+
+runval: re
 		@$(LEAKS) ./Bin/minishell
 
 val: re
