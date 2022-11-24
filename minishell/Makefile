@@ -116,11 +116,11 @@ directory:
 
 #   LAUNCH	#
 run: re
-		@ $(LEAKS) ./Bin/minishell
+		@$(LEAKS) ./Bin/minishell
 
 val: re
 		@read -p "command : " INP\
-			&& $(LEAK) ./Bin/minishell -c "$$INP"
+			&& $(LEAKS) ./Bin/minishell -c "$$INP"
 
 
 

@@ -86,5 +86,5 @@ char	*find_path_child(char *cmd, char **envp)
 	path = get_path(cmd, i_env, envp);
 	if (path)
 		return (path);
-	return (cmd);
+	return (ft_strdup(cmd));
 }
