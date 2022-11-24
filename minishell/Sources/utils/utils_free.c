@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 21:21:15 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/13 18:16:26 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 20:43:56 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,6 @@ void	ft_freetabstr(char **tab)
 	}
 }
 
-void	free_cmd(t_cmd *cmd)
-{
-	t_cmd	*t_cmd;
-
-	while (cmd)
-	{
-		t_cmd = cmd;
-		if (cmd)
-			free(cmd);
-		cmd = t_cmd->next;
-	}
-}
-
 void	free_null(void *ptr)
 {
 	if (ptr)
@@ -53,4 +40,34 @@ int	exit_free_envp(char ***envp)
 	ft_free_pp((void **)*envp);
 	printf("exit\n");
 	return (EXIT_SUCCESS);
+}
+
+void	free_next_cmds(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	while (cmd)
+	{
+		if (cmd->cmd)
+			ft_free_pp((void **)cmd->cmd);
+		tmp = cmd;
+		cmd = cmd->next;
+		free_null(tmp);
+	}
+}
+
+void	wait_next_cmds(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	while (cmd)
+	{
+		if (cmd->ctrl_op == PIPE)
+			waitpid(cmd->pid, get_status(), 0);
+		if (cmd->cmd)
+			ft_free_pp((void **)cmd->cmd);
+		tmp = cmd;
+		cmd = cmd->next;
+		free_null(tmp);
+	}
 }

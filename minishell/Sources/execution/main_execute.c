@@ -6,13 +6,12 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 21:35:20 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/19 14:53:45 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 22:25:00 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO rename function
 static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 {
 	return (ft_strlen(*cmd->cmd) && !exec_builtins(cmd, envp, MAIN)
@@ -20,12 +19,6 @@ static bool	_continue(t_cmd *cmd, char ***envp, int ctrl)
 			|| ((ctrl == AND && !get_value_status())
 				|| (ctrl == OR && get_value_status()))));
 }
-
-/*
-	ls|wc|cat Makefile|wc>fileer|ls
-*/
-
-void	free_next_cmds(t_cmd *cmd);
 
 int	execute(char *command, char ***envp)
 {
@@ -37,13 +30,20 @@ int	execute(char *command, char ***envp)
 	ctrl = END;
 	set_status(0);
 	r_cmd = parsing(command, &cmd, *envp);
-	while (cmd)
+	while (cmd && get_value_status() != QNC)
 	{
 		if (exec_pipe(cmd, *envp))
 			while (cmd->ctrl_op == PIPE)
 				cmd = cmd->next;
 		else if (_continue(cmd, envp, ctrl))
 			exec_cmd(cmd, *envp, 0);
+		else
+		{
+			if (cmd->infile != STDIN_FILENO)
+				close(cmd->infile);
+			if (cmd->outfile != STDOUT_FILENO)
+				close(cmd->outfile);
+		}
 		ctrl = cmd->ctrl_op;
 		cmd = cmd->next;
 	}

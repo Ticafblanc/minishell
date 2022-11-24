@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:58:35 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/21 22:15:19 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 21:08:28 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,58 @@ int	init(char ***envp)
 	free_null(own_path);
 	free_null(tmp);
 	return (EXIT_SUCCESS);
+}
+
+static void	init_link(t_cmd *new, t_cmd *cmd)
+{
+	int	i;
+
+	*(new->cmd) = NULL;
+	new->ctrl_op = END;
+	new->path = NULL;
+	new->infile = STDIN_FILENO;
+	new->outfile = STDOUT_FILENO;
+	new->fd[STDIN_FILENO] = STDIN_FILENO;
+	new->fd[STDOUT_FILENO] = STDOUT_FILENO;
+	new->flag = 0x0;
+	new->next = NULL;
+	new->pid = -2;
+	if (cmd)
+	{
+		i = 0;
+		while (cmd->cmd[i])
+		{
+			cmd->cmd[i] = ft_strdup(cmd->cmd[i]);
+			i++;
+		}
+		new->command = cmd->command;
+		new->begin = cmd->begin;
+	}
+}
+
+t_cmd	*ft_mlstadd(t_cmd *cmd)
+{
+	t_cmd	*new;
+
+	new = (t_cmd *)malloc(sizeof(t_cmd));
+	if (new)
+	{
+		new->cmd = (char **)ft_calloc(128, sizeof(char *));
+		if (new->cmd)
+		{
+			init_link(new, cmd);
+			if (cmd)
+				cmd->next = new;
+			else
+			{
+				new->flag |= F_FIRST;
+				new->begin = new;
+			}
+			return (new);
+		}
+		free(new);
+	}
+	set_status(errno);
+	perror("minishell:");
+	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 09:08:33 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/13 12:23:07 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/20 14:03:11 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	exec_cd(char *dir, char ***envp)
 	int		i;
 
 	i = 0;
+	if (dir && !*dir)
+		return (1);
 	if (!dir)
 	{
 		while (envp[0][i] && ft_strncmp(envp[0][i], "HOME=", 5) != 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 06:50:45 by tonted            #+#    #+#             */
-/*   Updated: 2022/11/10 11:07:25 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 22:08:47 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	put_envp(char *prefix, char **envp, int fd)
 		dprintf(fd, "%s%s\n", prefix, envp[i++]);
 }
 
-// TODO si PATH n'existes pas?
 char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -43,6 +42,8 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
+	if (is_name_in_envp(envp, "PATH") == -1)
+		return (NULL);
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
@@ -63,4 +64,34 @@ char	*find_path(char *cmd, char **envp)
 	free_null((void *)cmd);
 	ft_free_pp((void **)paths);
 	return (NULL);
+}
+
+char	*find_path_child(char *cmd, char **envp)
+{
+	char	**paths;
+	char	*path;
+	int		i;
+
+	i = 0;
+	if (is_name_in_envp(envp, "PATH") == -1)
+		return (ft_strdup(cmd));
+	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	cmd = ft_strjoin("/", cmd);
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], cmd);
+		if (access(path, X_OK) == 0)
+		{
+			free_null((void *)cmd);
+			ft_free_pp((void **)paths);
+			return (path);
+		}
+		free_null((void *)path);
+		i++;
+	}
+	ft_free_pp((void **)paths);
+	return (cmd);
 }

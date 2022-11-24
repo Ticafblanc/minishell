@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   development.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tonted <tonted@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 08:54:18 by tonted            #+#    #+#             */
-/*   Updated: 2022/10/17 08:52:39 by tonted           ###   ########.fr       */
+/*   Updated: 2022/11/23 20:35:42 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ void	print_cmd(t_cmd *cmd)
 	i = 0;
 	printf("\nCommand to execute:");
 	while (cmd->cmd[i])
-		printf(" %s", cmd->cmd[i++]);
+		printf(" %s<<<", cmd->cmd[i++]);
 	printf("\n%s", cmd->cmd[i]);
 	printf("\n\tctrl_op: %d", cmd->ctrl_op);
 	printf("\n\tpid: %d", cmd->pid);
 	printf("\n\tinfile: %d", cmd->infile);
 	printf("\n\toutfile: %d", cmd->outfile);
-	printf("\n\tpath: %s\n\n", cmd->path);
+	printf("\n\tpath: %s", cmd->path);
+	printf("\n\tflag brace: %d\n\n", cmd->flag & F_BRACE);
 }
 
 void	print_cmds(t_cmd *cmd)

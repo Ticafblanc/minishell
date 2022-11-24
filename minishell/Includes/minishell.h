@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:35:40 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 08:53:48 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 22:52:13 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 # define OPERATOR "|&"
 # define BRACES "()"
 # define F_HD 0x1
+# define F_FIRST 0x2
+# define NOT_EMPTY 0x4
+# define F_BRACE 0x8
 
 enum	e_status
 {
@@ -71,8 +74,9 @@ enum	e_control_operator
 	PIPE = 1,
 	OR = 2,
 	AND = 3,
-	BRACE = 4,
 };
+
+typedef struct s_cmd	t_cmd;
 
 typedef struct s_cmd
 {
@@ -85,6 +89,8 @@ typedef struct s_cmd
 	int				infile;
 	int				outfile;
 	struct s_cmd	*next;
+	char			*command;
+	t_cmd			*begin;
 }				t_cmd;
 
 /* initialization */
@@ -110,11 +116,11 @@ int		manage_braces(char **command, t_cmd **cmd, int *nb_word, char **envp);
 void	manage_args(t_cmd *cmd, char **envp);
 void	manage_wildcard(t_cmd *cmd);
 bool	search_files(t_cmd *cmd, int i_cmd);
-void	parsing_loop(char **command, t_cmd *t_cmd, char **envp, char **save);
+void	parsing_loop(char *command, t_cmd *t_cmd, char **envp, char **save);
 
 /* utils parsing */
 bool	strmatch(char *str, char *pattern);
-void	find_next_word(char **command, int *nb_word, char **cmd);
+int		find_next_word(char **command, int *nb_word, char **cmd);
 char	*find_next_word_redir(char **command);
 char	check_metacharacter(char **command, int king);
 char	*remove_quote(char *command);
@@ -129,6 +135,7 @@ void	interpret_vars(t_cmd *cmd, int i, int i_cmd, char **envp);
 void	switch_streams(int toclose, int oldfd, int newfd);
 void	dup_file(t_cmd *cmd);
 void	wait_cmd(t_cmd *cmd, int ctrl_op);
+void	close_pipe_fd(t_cmd *cmd);
 
 /* builtins.c */
 int		exec_builtins(t_cmd *cmd, char ***envp, int process);
@@ -136,7 +143,7 @@ int		exec_pwd(int fd);
 int		exec_cd(char *dir, char ***envp);
 int		exec_unset(t_cmd *cmd, char ***envp);
 int		exec_echo(t_cmd *cmd, int fd);
-int		exec_exit(int process, char ***envp, char **cmd);
+int		exec_exit(int process, char ***envp, t_cmd *cmd);
 int		exec_export(char *pathname, char **args, char ***envp, int fd);
 int		exec_env(char **envp, int fd);
 
@@ -149,15 +156,17 @@ int		is_name_in_line(char *envline, char *name);
 int		is_name_in_envp(char **envp, char *name);
 void	put_envp(char *prefix, char **envp, int fd);
 char	*find_path(char *cmd, char **envp);
+char	*find_path_child(char *cmd, char **envp);
 
 /* utils error */
 int		perror_minishell(int status, char *command);
 
 /* utils_free */
 void	ft_freetabstr(char **tab);
-void	free_cmd(t_cmd *cmd);
 void	free_null(void *ptr);
 int		exit_free_envp(char ***envp);
+void	free_next_cmds(t_cmd *cmd);
+void	wait_next_cmds(t_cmd *cmd);
 
 /* utils_libc */
 int		ft_strcmp(const char *s1, const char *s2);

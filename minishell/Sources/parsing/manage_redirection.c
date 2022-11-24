@@ -6,7 +6,7 @@
 /*   By: tblanco <tblanco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 18:29:46 by mdoquocb          #+#    #+#             */
-/*   Updated: 2022/11/19 12:59:16 by tblanco          ###   ########.fr       */
+/*   Updated: 2022/11/23 22:11:43 by tblanco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_limiter(int fd[2], char *limiter)
 	line = readline("> ");
 	while (line)
 	{
-		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		if (ft_strncmp(line, limiter, ft_strlen(line) + 1) == 0)
 		{
 			close(fd[STDOUT_FILENO]);
 			free(line);
@@ -49,9 +49,11 @@ static int	here_doc(t_cmd *cmd, char *limiter)
 				signal(SIGINT, handle_exec);
 				close(fd[STDIN_FILENO]);
 				check_limiter(fd, limiter);
+				exit(EXIT_SUCCESS);
 			}
 		}
 		close(fd[STDOUT_FILENO]);
+		waitpid(cmd->pid, get_status(), 0);
 		return (fd[STDIN_FILENO]);
 	}
 	return (-1);
@@ -114,7 +116,7 @@ int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 	file = find_next_word_redir(command);
 	if (!file)
 	{
-		if (king == HERE_DOC)
+		if (king == HERE_DOC || ft_strchr(REDIR, **command))
 			set_status(perror_minishell(TOKENERR, *command));
 		return (get_value_status());
 	}
@@ -123,8 +125,8 @@ int	manage_redir(char **command, t_cmd *cmd, int *nb_word)
 		set_redir(king, file, cmd, command);
 		if (*nb_word > 0)
 			(*nb_word)--;
-		cmd->flag |= F_HD;
-		return (get_value_status());
+		cmd->flag |= F_HD | NOT_EMPTY;
+		return (0);
 	}
 	command[0][1] = '\0';
 	set_status(perror_minishell(TOKENERR, *command));
